@@ -13,12 +13,9 @@ Cluster-level model
   Survey effect: yes
 ----------------------------------
 Fixed Effects
-                       mean    sd 0.025quant 0.5quant 0.975quant   mode
-age.intercept0:urban -3.805 0.051     -3.906   -3.804     -3.707 -3.803
-age.intercept0:rural -3.558 0.036     -3.630   -3.558     -3.486 -3.559
-                     kld
-age.intercept0:urban   0
-age.intercept0:rural   0
+                       mean    sd 0.025quant 0.5quant 0.975quant   mode kld
+age.intercept0:urban -3.805 0.051     -3.906   -3.805     -3.707 -3.804   0
+age.intercept0:rural -3.558 0.037     -3.630   -3.558     -3.486 -3.558   0
 ----------------------------------
 Random Effects
            Name          Model
@@ -30,31 +27,23 @@ Random Effects
 6     survey.id      IID model
 ----------------------------------
 Model hyperparameters
-                                                      mean         sd
-overdispersion for the betabinomial observations     0.019      0.002
-Precision for time.struct                         2523.153   8772.146
-Precision for time.unstruct                       4027.944  15672.600
-Precision for region.struct                         68.986     35.403
-Phi for region.struct                                0.372      0.233
-Precision for time.area                          13256.057 118701.408
-Precision for st.slope.id                         1324.008  24115.322
-                                                 0.025quant 0.5quant
-overdispersion for the betabinomial observations      0.015    0.019
-Precision for time.struct                            50.717  740.947
-Precision for time.unstruct                         129.471 1140.142
-Precision for region.struct                          25.387   60.860
-Phi for region.struct                                 0.042    0.333
-Precision for time.area                             112.929 1675.643
-Precision for st.slope.id                             2.737   69.840
-                                                 0.975quant    mode
-overdispersion for the betabinomial observations      0.024   0.019
-Precision for time.struct                         16109.783 114.528
-Precision for time.unstruct                       25720.244 290.988
-Precision for region.struct                         160.359  48.075
-Phi for region.struct                                 0.862   0.140
-Precision for time.area                           87453.290 241.408
-Precision for st.slope.id                          7561.642   5.150
+                                                     mean        sd 0.025quant 0.5quant 0.975quant
+overdispersion for the betabinomial observations    0.019     0.002      0.015    0.019      0.024
+Precision for time.struct                        2651.532  9757.829     53.276  749.064  17078.274
+Precision for time.unstruct                      4003.943 15418.952    131.383 1143.753  25515.956
+Precision for region.struct                        69.231    36.250     25.506   60.675    163.307
+Phi for region.struct                               0.379     0.236      0.041    0.343      0.868
+Precision for time.area                          9027.132 65461.675    100.085 1424.749  60569.660
+Precision for st.slope.id                        1002.097 15526.197      2.656   66.339   6052.204
+                                                    mode
+overdispersion for the betabinomial observations   0.020
+Precision for time.struct                        121.170
+Precision for time.unstruct                      294.987
+Precision for region.struct                       47.512
+Phi for region.struct                              0.140
+Precision for time.area                          218.422
+Precision for st.slope.id                          5.023
 NULL
                                            [,1]
 log marginal-likelihood (integration) -10712.96
-log marginal-likelihood (Gaussian)    -10708.34
+log marginal-likelihood (Gaussian)    -10708.32

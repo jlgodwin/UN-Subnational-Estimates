@@ -1,0 +1,42 @@
+----------------------------------
+Cluster-level model
+  Main temporal model:        ar1
+  Additional linear trends:   stratum-age-specific
+  Interaction random slopes:  yes
+  Number of age groups: 6
+  Stratification: no, strata variable not in the input
+  Survey effect: yes
+----------------------------------
+Fixed Effects
+                      mean    sd 0.025quant 0.5quant 0.975quant   mode kld
+time.slope.group1   -0.631 0.124     -0.874   -0.633     -0.375 -0.637   0
+time.slope.group2   -1.302 0.134     -1.578   -1.300     -1.041 -1.296   0
+time.slope.group3   -2.205 0.133     -2.491   -2.199     -1.955 -2.191   0
+age.intercept0:     -3.547 0.020     -3.585   -3.547     -3.507 -3.547   0
+age.intercept1-11:  -6.367 0.024     -6.414   -6.367     -6.320 -6.367   0
+age.intercept12-23: -7.201 0.028     -7.257   -7.201     -7.145 -7.201   0
+age.intercept24-35: -7.316 0.030     -7.374   -7.316     -7.257 -7.315   0
+age.intercept36-47: -7.654 0.034     -7.721   -7.654     -7.588 -7.654   0
+age.intercept48-59: -8.105 0.041     -8.186   -8.105     -8.025 -8.105   0
+----------------------------------
+Random Effects
+           Name       Model
+1   time.struct AR(p) model
+2 time.unstruct   IID model
+3     survey.id   IID model
+----------------------------------
+Model hyperparameters
+                                                      mean         sd 0.025quant  0.5quant 0.975quant
+overdispersion for the betabinomial observations     0.001      0.000      0.001     0.001      0.001
+Precision for time.struct                          249.420    146.508     61.974   218.185    618.921
+PACF1 for time.struct                                0.663      0.191      0.200     0.698      0.929
+Precision for time.unstruct                      82648.605 785487.632    841.650 10098.928 550430.031
+                                                     mode
+overdispersion for the betabinomial observations    0.001
+Precision for time.struct                         156.178
+PACF1 for time.struct                               0.791
+Precision for time.unstruct                      1742.494
+NULL
+                                           [,1]
+log marginal-likelihood (integration) -54872.08
+log marginal-likelihood (Gaussian)    -54870.04

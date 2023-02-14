@@ -707,7 +707,8 @@ if(doHIVAdj){
 
 # Smoothed direct estimates  ------------------------------------------------------
 
-time.model <- c('rw2','ar1')[1]
+time.model <- c('rw2','ar1')[2]
+
 
 ## load in appropriate direct estimates  ------------------------------------------------------
   setwd(paste0(res.dir,'/Direct'))

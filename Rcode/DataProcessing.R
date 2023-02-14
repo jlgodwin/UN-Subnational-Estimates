@@ -2,7 +2,7 @@ rm(list = ls())
 # ENTER COUNTRY OF INTEREST -----------------------------------------------
 # Please capitalize the first letter of the country name and replace " " in the country name to "_" if there is.
 
-country <- "Myanmar"
+country <- "Senegal"
 
 # Load libraries and info ----------------------------------------------------------
 options(gsubfn.engine = "R")

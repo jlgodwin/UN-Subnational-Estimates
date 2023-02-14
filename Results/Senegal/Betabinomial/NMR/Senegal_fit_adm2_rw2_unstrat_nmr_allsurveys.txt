@@ -1,0 +1,45 @@
+----------------------------------
+Cluster-level model
+  Main temporal model:        rw2
+  Spatial effect:             bym2
+  Interaction temporal model: rw2
+  Interaction type:           4
+  Interaction random slopes:  yes
+  Number of age groups: 1
+  Stratification: no, strata variable not in the input
+  Survey effect: yes
+----------------------------------
+Fixed Effects
+              mean    sd 0.025quant 0.5quant 0.975quant   mode kld
+(Intercept) -3.578 0.031     -3.638   -3.578     -3.516 -3.579   0
+----------------------------------
+Random Effects
+           Name          Model
+1   time.struct      RW2 model
+2 time.unstruct      IID model
+3 region.struct     BYM2 model
+4     time.area Generic0 model
+5   st.slope.id      IID model
+6     survey.id      IID model
+----------------------------------
+Model hyperparameters
+                                                      mean         sd 0.025quant 0.5quant 0.975quant
+overdispersion for the betabinomial observations     0.021      0.002      0.017    0.021      0.024
+Precision for time.struct                          973.609   2083.083     35.165  416.398   5423.822
+Precision for time.unstruct                      24033.773 149225.550    391.806 4448.598 160421.557
+Precision for region.struct                         64.349     31.252     25.132   57.343    144.635
+Phi for region.struct                                0.582      0.257      0.099    0.605      0.969
+Precision for time.area                          15733.025 116013.935    212.135 2455.000 104616.715
+Precision for st.slope.id                         1401.218  25830.028      2.762   72.942   7988.482
+                                                    mode
+overdispersion for the betabinomial observations   0.021
+Precision for time.struct                         85.598
+Precision for time.unstruct                      858.092
+Precision for region.struct                       46.121
+Phi for region.struct                              0.910
+Precision for time.area                          453.878
+Precision for st.slope.id                          5.132
+NULL
+                                           [,1]
+log marginal-likelihood (integration) -18392.30
+log marginal-likelihood (Gaussian)    -18387.69

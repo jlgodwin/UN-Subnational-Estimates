@@ -18,7 +18,7 @@ sd.time.model <- c("rw2", "ar1")[2]
 strata.model <- c("unstrat", "strat")[2]
 
 # specify whether benchmarked or not
-bench.model <- c("", "bench")[1]
+bench.model <- c("", "bench")[2]
 
 # Setup -----------------------------------------------
 ## Load libraries and info ----------------------------------------------------------
@@ -202,7 +202,7 @@ if(country=='Uganda'){
   
   ### Direct ####
   
-   nmr.filename <- paste0(country, '_direct_natl_yearly_nmr.rda')
+  nmr.filename <- paste0(country, '_direct_natl_yearly_nmr.rda')
   
   if(nmr.filename %in% list.files("Direct/NMR/")){
     message("Loading natl NMR results from \n", nmr.filename, ".\n" )
@@ -736,6 +736,23 @@ if(country=='Uganda'){
     load(file = paste0('Betabinomial/NMR/', nmr.filename))
     load(file = paste0('Betabinomial/U5MR/', u5.filename))
     
+    ##Load benchmarks
+    nmr.bench.file <- gsub(paste0(country, "_res_"), "", 
+                           nmr.filename)
+    nmr.bench.file <- gsub("_allsurveys", "", nmr.bench.file)
+    nmr.bench.file <- gsub("_bench", "_benchmarks", nmr.bench.file)
+    
+    u5.bench.file <- gsub(paste0(country, "_res_"), "", 
+                          u5.filename)
+    u5.bench.file <- gsub("_allsurveys", "", u5.bench.file)
+    u5.bench.file <- gsub("_bench", "_benchmarks", u5.bench.file)
+    
+    load(file = paste0('Betabinomial/NMR/', nmr.bench.file))
+    adm1.nmr.benchmarks <- bench.adj
+    load(file = paste0("Betabinomial/U5MR/", u5.bench.file))
+    adm1.u5.benchmarks <- bench.adj
+    
+    
     if(exists('bb.res.adm1.unstrat.nmr.allsurveys')){
       bb.res.adm1.unstrat.nmr <- bb.res.adm1.unstrat.nmr.allsurveys
     }
@@ -767,6 +784,22 @@ if(country=='Uganda'){
   }else{
     load(file = paste0('Betabinomial/NMR/', nmr.filename))
     load(file = paste0('Betabinomial/U5MR/', u5.filename))
+    
+    ##Load benchmarks
+    nmr.bench.file <- gsub(paste0(country, "_res_"), "", 
+                           nmr.filename)
+    nmr.bench.file <- gsub("_allsurveys", "", nmr.bench.file)
+    nmr.bench.file <- gsub("_bench", "_benchmarks", nmr.bench.file)
+    
+    u5.bench.file <- gsub(paste0(country, "_res_"), "", 
+                          u5.filename)
+    u5.bench.file <- gsub("_allsurveys", "", u5.bench.file)
+    u5.bench.file <- gsub("_bench", "_benchmarks", u5.bench.file)
+    
+    load(file = paste0('Betabinomial/NMR/', nmr.bench.file))
+    adm1.nmr.benchmarks <- bench.adj
+    load(file = paste0("Betabinomial/U5MR/", u5.bench.file))
+    adm1.u5.benchmarks <- bench.adj
     
     if(bench.model == ""){
       res.strat.admin1.nmr <- bb.res.adm1.strat.nmr
@@ -896,9 +929,9 @@ if(country=='Uganda'){
       if(exists('admin1.unstrat.nmr.BB8.bench')){
         adm1.pop.nmr <- weight.adm1.u1[weight.adm1.u1$years==year,]
         admin1.unstrat.nmr.BB8.bench.draw<-draw_1y_adm(admin_draws=res.unstrat.admin1.nmr.bench$draws.est.overall,
-                                                     year_num=year,
-                                                     admin_vec=admin1.names$Internal,
-                                                     nsim=length(res.unstrat.admin1.nmr.bench$draws.est.overall[[1]]$draws))
+                                                       year_num=year,
+                                                       admin_vec=admin1.names$Internal,
+                                                       nsim=length(res.unstrat.admin1.nmr.bench$draws.est.overall[[1]]$draws))
         natl.tmp.nmr <- admin1.unstrat.nmr.BB8.bench.draw %*% adm1.pop.nmr$proportion
         BB8.adm1.unstrat.bench.to.natl.frame[i, 1:3] = c(quantile(natl.tmp.nmr, probs = c(0.025, 0.5, 0.975)))
       }
@@ -906,8 +939,8 @@ if(country=='Uganda'){
       if(exists('admin1.unstrat.u5.BB8.bench')){
         adm1.pop.u5 <- weight.adm1.u5[weight.adm1.u5$years==year,]
         admin1.unstrat.u5.BB8.bench.draw<-draw_1y_adm(admin_draws=res.unstrat.admin1.u5.bench$draws.est.overall,
-                                                    year_num=year,
-                                                    admin_vec=admin1.names$Internal)
+                                                      year_num=year,
+                                                      admin_vec=admin1.names$Internal)
         natl.tmp.u5 <- admin1.unstrat.u5.BB8.bench.draw %*% adm1.pop.u5$proportion
         BB8.adm1.unstrat.bench.to.natl.frame[i, 4:6] = c(quantile(natl.tmp.u5, probs = c(0.025, 0.5, 0.975)))
       }
@@ -1052,363 +1085,398 @@ if(exists('poly.layer.adm2')){
     }
   }
   ## SD yearly ####
+  
+  nmr.filename <- paste0(country, '_res_admin2_', sd.time.model,
+                         '_nmr_SmoothedDirect_yearly.rda')
+  
+  if(nmr.filename %in% list.files("Direct/NMR/")){
+    message("Loading yearly Admin-2 NMR results from \n", nmr.filename, ".\n" )
+    load(file = paste0('Direct/NMR/', nmr.filename))
+    admin2.sd.yearly.nmr <- sd.admin2.yearly.nmr
+  }else if(gsub(paste0(sd.time.model, "_"), "", nmr.filename) %in% 
+           list.files("Direct/NMR/")){
+    nmr.filename <- gsub(paste0(sd.time.model, "_"), "", nmr.filename)
+    message("Loading yearly Admin-1NMR results from \n", nmr.filename, ".\n" )
+    load(file = paste0('Direct/NMR/', nmr.filename))
+    admin2.sd.yearly.nmr <- sd.admin2.yearly.nmr
+  }else{
+    message("The yearly Admin-2 Smoothed Direct NMR results specified don't exist.\n")
+  }
+  
+  u5.filename <- paste0(country, '_res_admin2_', time.model, 
+                        "_u5_SmoothedDirect_yearly.rda")
+  
+  if(u5.filename %in% list.files("Direct/U5MR/")){
+    message("Loading yearly Admin-2 U5MR results from \n", u5.filename, ".\n" )
     
-    nmr.filename <- paste0(country, '_res_admin2_', sd.time.model,
-                           '_nmr_SmoothedDirect_yearly.rda')
+    load(file = paste0('Direct/U5MR/', u5.filename))
+    admin2.sd.yearly.u5 <- sd.admin2.yearly.u5
+  }else if(gsub(paste0(sd.time.model, "_"), "", u5.filename) %in% 
+           list.files("Direct/U5MR/")){
+    u5.filename <- gsub(paste0(sd.time.model, "_"), "", u5.filename)
+    message("Loading yearly Admin-2 U5MR results from \n", u5.filename, ".\n" )
     
-    if(nmr.filename %in% list.files("Direct/NMR/")){
-      message("Loading yearly Admin-2 NMR results from \n", nmr.filename, ".\n" )
-      load(file = paste0('Direct/NMR/', nmr.filename))
-      admin2.sd.yearly.nmr <- sd.admin2.yearly.nmr
-    }else if(gsub(paste0(sd.time.model, "_"), "", nmr.filename) %in% 
-             list.files("Direct/NMR/")){
-      nmr.filename <- gsub(paste0(sd.time.model, "_"), "", nmr.filename)
-      message("Loading yearly Admin-1NMR results from \n", nmr.filename, ".\n" )
-      load(file = paste0('Direct/NMR/', nmr.filename))
-      admin2.sd.yearly.nmr <- sd.admin2.yearly.nmr
-    }else{
-      message("The yearly Admin-2 Smoothed Direct NMR results specified don't exist.\n")
-    }
+    load(file = paste0('Direct/U5MR/', u5.filename))
+    admin2.sd.yearly.u5 <- sd.admin2.yearly.u5
+  }else{
+    message("The yearly Admin 2 Smoothed Direct U5MR results specified don't exist.\n")
+  }
+  
+  
+  
+  
+  if(exists('admin2.sd.yearly.nmr') | exists('admin2.sd.yearly.u5')){
+    sd.adm2.yl.to.natl.frame = matrix(NA, nrow = n_years, ncol =  6)
     
-    u5.filename <- paste0(country, '_res_admin2_', time.model, 
-                          "_u5_SmoothedDirect_yearly.rda")
-    
-    if(u5.filename %in% list.files("Direct/U5MR/")){
-      message("Loading yearly Admin-2 U5MR results from \n", u5.filename, ".\n" )
+    for (i in 1:n_years){
+      year = (beg.year:end.proj.year)[i]
       
-      load(file = paste0('Direct/U5MR/', u5.filename))
-      admin2.sd.yearly.u5 <- sd.admin2.yearly.u5
-    }else if(gsub(paste0(sd.time.model, "_"), "", u5.filename) %in% 
-             list.files("Direct/U5MR/")){
-      u5.filename <- gsub(paste0(sd.time.model, "_"), "", u5.filename)
-      message("Loading yearly Admin-2 U5MR results from \n", u5.filename, ".\n" )
-      
-      load(file = paste0('Direct/U5MR/', u5.filename))
-      admin2.sd.yearly.u5 <- sd.admin2.yearly.u5
-    }else{
-      message("The yearly Admin 2 Smoothed Direct U5MR results specified don't exist.\n")
-    }
-    
-    
-    
-    
-    if(exists('admin2.sd.yearly.nmr') | exists('admin2.sd.yearly.u5')){
-      sd.adm2.yl.to.natl.frame = matrix(NA, nrow = n_years, ncol =  6)
-      
-      for (i in 1:n_years){
-        year = (beg.year:end.proj.year)[i]
-        
-        if(exists('admin2.sd.yearly.nmr')){
-          adm2.pop.nmr <- weight.adm2.u1[weight.adm2.u1$years==year,]
-          sd.nmr.tmp <- admin2.sd.yearly.nmr[admin2.sd.yearly.nmr$years.num==year,]
-          sd.nmr.tmp <- merge(sd.nmr.tmp,adm2.pop.nmr,by='region')[,c('region','years.x','lower','median','upper','proportion')]
-          sd.nmr.tmp$wt.lower <- sd.nmr.tmp$lower * sd.nmr.tmp$proportion
-          sd.nmr.tmp$wt.median <- sd.nmr.tmp$median * sd.nmr.tmp$proportion
-          sd.nmr.tmp$wt.upper <- sd.nmr.tmp$upper * sd.nmr.tmp$proportion
-          sd.adm2.yl.to.natl.frame[i, 1:3] <- c(sum(sd.nmr.tmp$wt.lower),sum(sd.nmr.tmp$wt.median),sum(sd.nmr.tmp$wt.upper))
-        }
-        
-        if(exists('admin2.sd.yearly.u5')){
-          adm2.pop.u5 <- weight.adm2.u5[weight.adm2.u5$years==year,]
-          sd.u5.tmp <- admin2.sd.yearly.u5[admin2.sd.yearly.u5$years.num==year,]
-          sd.u5.tmp <- merge(sd.u5.tmp,adm2.pop.u5,by='region')[,c('region','years.x','lower','median','upper','proportion')]
-          sd.u5.tmp$wt.lower <- sd.u5.tmp$lower * sd.u5.tmp$proportion
-          sd.u5.tmp$wt.median <- sd.u5.tmp$median * sd.u5.tmp$proportion
-          sd.u5.tmp$wt.upper <- sd.u5.tmp$upper * sd.u5.tmp$proportion
-          
-          sd.adm2.yl.to.natl.frame[i, 4:6] <- c(sum(sd.u5.tmp$wt.lower),sum(sd.u5.tmp$wt.median),sum(sd.u5.tmp$wt.upper))
-        }
+      if(exists('admin2.sd.yearly.nmr')){
+        adm2.pop.nmr <- weight.adm2.u1[weight.adm2.u1$years==year,]
+        sd.nmr.tmp <- admin2.sd.yearly.nmr[admin2.sd.yearly.nmr$years.num==year,]
+        sd.nmr.tmp <- merge(sd.nmr.tmp,adm2.pop.nmr,by='region')[,c('region','years.x','lower','median','upper','proportion')]
+        sd.nmr.tmp$wt.lower <- sd.nmr.tmp$lower * sd.nmr.tmp$proportion
+        sd.nmr.tmp$wt.median <- sd.nmr.tmp$median * sd.nmr.tmp$proportion
+        sd.nmr.tmp$wt.upper <- sd.nmr.tmp$upper * sd.nmr.tmp$proportion
+        sd.adm2.yl.to.natl.frame[i, 1:3] <- c(sum(sd.nmr.tmp$wt.lower),sum(sd.nmr.tmp$wt.median),sum(sd.nmr.tmp$wt.upper))
       }
       
-      sd.adm2.yl.to.natl.frame<-as.data.frame(sd.adm2.yl.to.natl.frame)
-      colnames(sd.adm2.yl.to.natl.frame) = c("lower_nmr", "median_nmr", "upper_nmr","lower_u5", "median_u5", "upper_u5")
-      sd.adm2.yl.to.natl.frame$method <- "aggre.sd.yearly.adm2"
-      sd.adm2.yl.to.natl.frame$years = beg.year:end.proj.year
+      if(exists('admin2.sd.yearly.u5')){
+        adm2.pop.u5 <- weight.adm2.u5[weight.adm2.u5$years==year,]
+        sd.u5.tmp <- admin2.sd.yearly.u5[admin2.sd.yearly.u5$years.num==year,]
+        sd.u5.tmp <- merge(sd.u5.tmp,adm2.pop.u5,by='region')[,c('region','years.x','lower','median','upper','proportion')]
+        sd.u5.tmp$wt.lower <- sd.u5.tmp$lower * sd.u5.tmp$proportion
+        sd.u5.tmp$wt.median <- sd.u5.tmp$median * sd.u5.tmp$proportion
+        sd.u5.tmp$wt.upper <- sd.u5.tmp$upper * sd.u5.tmp$proportion
+        
+        sd.adm2.yl.to.natl.frame[i, 4:6] <- c(sum(sd.u5.tmp$wt.lower),sum(sd.u5.tmp$wt.median),sum(sd.u5.tmp$wt.upper))
+      }
     }
-  ### BB8 ####
+    
+    sd.adm2.yl.to.natl.frame<-as.data.frame(sd.adm2.yl.to.natl.frame)
+    colnames(sd.adm2.yl.to.natl.frame) = c("lower_nmr", "median_nmr", "upper_nmr","lower_u5", "median_u5", "upper_u5")
+    sd.adm2.yl.to.natl.frame$method <- "aggre.sd.yearly.adm2"
+    sd.adm2.yl.to.natl.frame$years = beg.year:end.proj.year
+  }
+  ## BB8 ####
+  
+  if(bench.model == ""){
+    nmr.filename <- paste0(country, '_res_adm2_', time.model, 
+                           "_", strata.model, "_nmr_allsurveys.rda")
+  }else{
+    nmr.filename <- paste0(country, '_res_adm2_', time.model, 
+                           "_", strata.model, "_nmr_allsurveys_bench.rda")
+  }
+  strata_str <- ifelse(strata.model == "unstrat", "unstratified", "stratified")
+  bench_str <- ifelse(bench.model == "bench", "benchmarked", "unbenchmarked")
+  
+  if(nmr.filename %in% list.files("Betabinomial/NMR/")){
+    message("Loading Admin-2 ", bench_str, " ",
+            strata_str, " BB8 NMR results using all surveys ",
+            "from \n", nmr.filename, ".\n" )
+  }else if(gsub(paste0(time.model, "_"), "", nmr.filename) %in% 
+           list.files("Betabinomial/NMR/")){
+    nmr.filename <- gsub(paste0(time.model, "_"), "", nmr.filename)
+    message("Loading Admin-2 ", bench_str, " ", strata_str, 
+            " BB8 NMR results using all surveys ",
+            "from \n", nmr.filename, ".\n" )
+  }else if(gsub("_allsurveys", "", nmr.filename) %in% 
+           list.files("Betabinomial/NMR/")){
+    nmr.filename <- gsub("_allsurveys", "", nmr.filename)
+    message("Loading Admin-2 ", bench_str, " ",
+            strata_str, " BB8 NMR results using surveys ",
+            "from a single frame from \n", nmr.filename, ".\n" )
+  }else if(bench.model == "bench" & (paste0(country, '_res_adm2_',
+                                            strata.model, "_nmr_bench.rda") %in% 
+                                     list.files("Betabinomial/NMR/"))){
+    
+    nmr.filename <- gsub(paste0(time.model, "_"), "", nmr.filename)
+    nmr.filename <- gsub("_allsurveys", "", nmr.filename)
+    message("Loading Admin-2", bench_str, " ", strata_str, 
+            " BB8 NMR results using surveys ",
+            "from a single frame from \n", nmr.filename, ".\n" )
+  }else if(bench.model == "" & (paste0(country, '_res_adm2_',
+                                       strata.model, "_nmr.rda") %in% 
+                                list.files("Betabinomial/NMR/"))){
+    
+    nmr.filename <- gsub(paste0(time.model, "_"), "", nmr.filename)
+    nmr.filename <- gsub("_allsurveys", "", nmr.filename)
+    message("Loading Admin-2", bench_str, " ", strata_str, 
+            " BB8 NMR results using surveys ",
+            "from a single frame from \n", nmr.filename, ".\n" )
+  }else{
+    message("The Admin-2 BB8 NMR results specified don't exist.\n")
+  }
+  
+  if(bench.model == ""){
+    u5.filename <- paste0(country, '_res_adm2_', time.model, 
+                          "_", strata.model, "_u5_allsurveys.rda")
+  }else{
+    u5.filename <- paste0(country, '_res_adm2_', time.model, 
+                          "_", strata.model, "_u5_allsurveys_bench.rda")
+  }
+  strata_str <- ifelse(strata.model == "unstrat", "unstratified", "stratified")
+  bench_str <- ifelse(bench.model == "bench", "benchmarked", "unbenchmarked")
+  
+  if(u5.filename %in% list.files("Betabinomial/U5MR/")){
+    message("Loading Admin-2 ", bench_str, " ",
+            strata_str, " BB8 U5MR results using all surveys ",
+            "from \n", u5.filename, ".\n" )
+  }else if(gsub(paste0(time.model, "_"), "", u5.filename) %in% 
+           list.files("Betabinomial/U5MR/")){
+    u5.filename <- gsub(paste0(time.model, "_"), "", u5.filename)
+    message("Loading Admin-2 ", bench_str, " ", strata_str, 
+            " BB8 U5MR results using all surveys ",
+            "from \n", u5.filename, ".\n" )
+  }else if(gsub("_allsurveys", "", u5.filename) %in% 
+           list.files("Betabinomial/U5MR/")){
+    u5.filename <- gsub("_allsurveys", "", u5.filename)
+    message("Loading Admin-2 ", bench_str, " ",
+            strata_str, " BB8 U5MR results using surveys ",
+            "from a single frame from \n", u5.filename, ".\n" )
+  }else if(bench.model == "bench" &
+           (paste0(country, '_res_adm2_',
+                   strata.model, "_u5_bench.rda") %in% 
+            list.files("Betabinomial/U5MR/"))){
+    
+    u5.filename <- gsub(paste0(time.model, "_"), "", u5.filename)
+    u5.filename <- gsub("_allsurveys", "", u5.filename)
+    message("Loading Admin-2", bench_str, " ", strata_str, 
+            " BB8 U5MR results using surveys ",
+            "from a single frame from \n", u5.filename, ".\n" )
+  }else if(bench.model == "" & (paste0(country, '_res_adm1_',
+                                       strata.model, "_u5.rda") %in% 
+                                list.files("Betabinomial/U5MR/"))){
+    
+    u5.filename <- gsub(paste0(time.model, "_"), "", u5.filename)
+    u5.filename <- gsub("_allsurveys", "", u5.filename)
+    message("Loading Admin-2", bench_str, " ", strata_str, 
+            " BB8 U5MR results using surveys ",
+            "from a single frame from \n", u5.filename, ".\n" )
+  }else{
+    message("The Admin-2 BB8 U5MR results specified don't exist.\n")
+  }
+  
+  
+  if(strata.model == "unstrat"){
+    load(file = paste0('Betabinomial/NMR/', nmr.filename))
+    load(file = paste0('Betabinomial/U5MR/', u5.filename))
+    
+    ##Load benchmarks
+    nmr.bench.file <- gsub(paste0(country, "_res_"), "", 
+                           nmr.filename)
+    nmr.bench.file <- gsub("_allsurveys", "", nmr.bench.file)
+    nmr.bench.file <- gsub("_bench", "_benchmarks", nmr.bench.file)
+    
+    u5.bench.file <- gsub(paste0(country, "_res_"), "", 
+                          u5.filename)
+    u5.bench.file <- gsub("_allsurveys", "", u5.bench.file)
+    u5.bench.file <- gsub("_bench", "_benchmarks", u5.bench.file)
+    
+    load(file = paste0('Betabinomial/NMR/', nmr.bench.file))
+    adm2.nmr.benchmarks <- bench.adj
+    load(file = paste0("Betabinomial/U5MR/", u5.bench.file))
+    adm2.u5.benchmarks <- bench.adj
+    
+    
+    
+    if(exists('bb.res.adm2.unstrat.nmr.allsurveys')){
+      bb.res.adm2.unstrat.nmr <- bb.res.adm2.unstrat.nmr.allsurveys
+    }
+    if(exists('bb.res.adm2.unstrat.u5.allsurveys')){
+      bb.res.adm2.unstrat.u5 <- bb.res.adm2.unstrat.u5.allsurveys
+    }
+    if(exists('bb.res.adm2.unstrat.nmr.allsurveys.bench')){
+      bb.res.adm2.unstrat.nmr.bench <- bb.res.adm2.unstrat.nmr.allsurveys.bench
+    }
+    if(exists('bb.res.adm2.unstrat.u5.allsurveys.bench')){
+      bb.res.adm2.unstrat.u5.bench <- bb.res.adm2.unstrat.u5.allsurveys.bench
+    }
     
     if(bench.model == ""){
-      nmr.filename <- paste0(country, '_res_adm2_', time.model, 
-                             "_", strata.model, "_nmr_allsurveys.rda")
+      res.unstrat.admin2.nmr <- bb.res.adm2.unstrat.nmr
+      admin2.unstrat.nmr.BB8 <- res.unstrat.admin2.nmr$overall
+      
+      res.unstrat.admin2.u5 <- bb.res.adm2.unstrat.u5
+      admin2.unstrat.u5.BB8 <- res.unstrat.admin2.u5$overall
     }else{
-      nmr.filename <- paste0(country, '_res_adm2_', time.model, 
-                             "_", strata.model, "_nmr_allsurveys_bench.rda")
+      res.unstrat.admin2.nmr.bench <- bb.res.adm2.unstrat.nmr.bench
+      admin2.unstrat.nmr.BB8.bench <- res.unstrat.admin2.nmr.bench$overall
+      
+      res.unstrat.admin2.u5.bench <- bb.res.adm2.unstrat.u5.bench
+      admin2.unstrat.u5.BB8.bench <- res.unstrat.admin2.u5.bench$overall
     }
-    strata_str <- ifelse(strata.model == "unstrat", "unstratified", "stratified")
-    bench_str <- ifelse(bench.model == "bench", "benchmarked", "unbenchmarked")
     
-    if(nmr.filename %in% list.files("Betabinomial/NMR/")){
-      message("Loading Admin-2 ", bench_str, " ",
-              strata_str, " BB8 NMR results using all surveys ",
-              "from \n", nmr.filename, ".\n" )
-    }else if(gsub(paste0(time.model, "_"), "", nmr.filename) %in% 
-             list.files("Betabinomial/NMR/")){
-      nmr.filename <- gsub(paste0(time.model, "_"), "", nmr.filename)
-      message("Loading Admin-2 ", bench_str, " ", strata_str, 
-              " BB8 NMR results using all surveys ",
-              "from \n", nmr.filename, ".\n" )
-    }else if(gsub("_allsurveys", "", nmr.filename) %in% 
-             list.files("Betabinomial/NMR/")){
-      nmr.filename <- gsub("_allsurveys", "", nmr.filename)
-      message("Loading Admin-2 ", bench_str, " ",
-              strata_str, " BB8 NMR results using surveys ",
-              "from a single frame from \n", nmr.filename, ".\n" )
-    }else if(bench.model == "bench" & (paste0(country, '_res_adm2_',
-                                              strata.model, "_nmr_bench.rda") %in% 
-                                       list.files("Betabinomial/NMR/"))){
-      
-      nmr.filename <- gsub(paste0(time.model, "_"), "", nmr.filename)
-      nmr.filename <- gsub("_allsurveys", "", nmr.filename)
-      message("Loading Admin-2", bench_str, " ", strata_str, 
-              " BB8 NMR results using surveys ",
-              "from a single frame from \n", nmr.filename, ".\n" )
-    }else if(bench.model == "" & (paste0(country, '_res_adm2_',
-                                         strata.model, "_nmr.rda") %in% 
-                                  list.files("Betabinomial/NMR/"))){
-      
-      nmr.filename <- gsub(paste0(time.model, "_"), "", nmr.filename)
-      nmr.filename <- gsub("_allsurveys", "", nmr.filename)
-      message("Loading Admin-2", bench_str, " ", strata_str, 
-              " BB8 NMR results using surveys ",
-              "from a single frame from \n", nmr.filename, ".\n" )
-    }else{
-      message("The Admin-2 BB8 NMR results specified don't exist.\n")
-    }
+    
+  }else{
+    load(file = paste0('Betabinomial/NMR/', nmr.filename))
+    load(file = paste0('Betabinomial/U5MR/', u5.filename))
+    
+    ##Load benchmarks
+    nmr.bench.file <- gsub(paste0(country, "_res_"), "", 
+                           nmr.filename)
+    nmr.bench.file <- gsub("_allsurveys", "", nmr.bench.file)
+    nmr.bench.file <- gsub("_bench", "_benchmarks", nmr.bench.file)
+    
+    u5.bench.file <- gsub(paste0(country, "_res_"), "", 
+                          u5.filename)
+    u5.bench.file <- gsub("_allsurveys", "", u5.bench.file)
+    u5.bench.file <- gsub("_bench", "_benchmarks", u5.bench.file)
+    
+    load(file = paste0('Betabinomial/NMR/', nmr.bench.file))
+    adm2.nmr.benchmarks <- bench.adj
+    load(file = paste0("Betabinomial/U5MR/", u5.bench.file))
+    adm2.u5.benchmarks <- bench.adj
+    
     
     if(bench.model == ""){
-      u5.filename <- paste0(country, '_res_adm2_', time.model, 
-                            "_", strata.model, "_u5_allsurveys.rda")
+      res.strat.admin2.nmr <- bb.res.adm2.strat.nmr
+      admin2.strat.nmr.BB8 <- res.strat.admin2.nmr$overall
+      
+      res.strat.admin2.u5 <- bb.res.adm2.strat.u5
+      admin2.strat.u5.BB8 <- res.strat.admin2.u5$overall
     }else{
-      u5.filename <- paste0(country, '_res_adm2_', time.model, 
-                            "_", strata.model, "_u5_allsurveys_bench.rda")
+      res.strat.admin2.nmr.bench <- bb.res.adm2.strat.nmr.bench
+      admin2.strat.nmr.BB8.bench <- res.strat.admin2.nmr.bench$overall
+      
+      res.strat.admin2.u5.bench <- bb.res.adm2.strat.u5.bench
+      admin2.strat.u5.BB8.bench <- res.strat.admin2.u5.bench$overall
     }
-    strata_str <- ifelse(strata.model == "unstrat", "unstratified", "stratified")
-    bench_str <- ifelse(bench.model == "bench", "benchmarked", "unbenchmarked")
+  }  
+  
+  if(exists('admin2.unstrat.nmr.BB8') | exists('admin2.unstrat.u5.BB8')){
     
-    if(u5.filename %in% list.files("Betabinomial/U5MR/")){
-      message("Loading Admin-2 ", bench_str, " ",
-              strata_str, " BB8 U5MR results using all surveys ",
-              "from \n", u5.filename, ".\n" )
-    }else if(gsub(paste0(time.model, "_"), "", u5.filename) %in% 
-             list.files("Betabinomial/U5MR/")){
-      u5.filename <- gsub(paste0(time.model, "_"), "", u5.filename)
-      message("Loading Admin-2 ", bench_str, " ", strata_str, 
-              " BB8 U5MR results using all surveys ",
-              "from \n", u5.filename, ".\n" )
-    }else if(gsub("_allsurveys", "", u5.filename) %in% 
-             list.files("Betabinomial/U5MR/")){
-      u5.filename <- gsub("_allsurveys", "", u5.filename)
-      message("Loading Admin-2 ", bench_str, " ",
-              strata_str, " BB8 U5MR results using surveys ",
-              "from a single frame from \n", u5.filename, ".\n" )
-    }else if(bench.model == "bench" &
-             (paste0(country, '_res_adm2_',
-                     strata.model, "_u5_bench.rda") %in% 
-              list.files("Betabinomial/U5MR/"))){
+    BB8.adm2.unstrat.to.natl.frame <- matrix(NA, nrow = n_years, ncol =  6)
+    for (i in 1: n_years){
+      year = (beg.year:end.proj.year)[i]
       
-      u5.filename <- gsub(paste0(time.model, "_"), "", u5.filename)
-      u5.filename <- gsub("_allsurveys", "", u5.filename)
-      message("Loading Admin-2", bench_str, " ", strata_str, 
-              " BB8 U5MR results using surveys ",
-              "from a single frame from \n", u5.filename, ".\n" )
-    }else if(bench.model == "" & (paste0(country, '_res_adm1_',
-                                         strata.model, "_u5.rda") %in% 
-                                  list.files("Betabinomial/U5MR/"))){
+      if(exists('admin2.unstrat.nmr.BB8')){
+        adm2.pop.nmr <- weight.adm2.u1[weight.adm2.u1$years==year,]
+        admin2.unstrat.nmr.BB8.draw<-
+          draw_1y_adm(admin_draws=res.unstrat.admin2.nmr$draws.est.overall,
+                      year_num=year,
+                      admin_vec=admin2.names$Internal)
+        natl.tmp.nmr <- admin2.unstrat.nmr.BB8.draw %*% adm2.pop.nmr$proportion
+        BB8.adm2.unstrat.to.natl.frame[i, 1:3] =
+          c(quantile(natl.tmp.nmr, probs = c(0.025, 0.5, 0.975)))
+      }
       
-      u5.filename <- gsub(paste0(time.model, "_"), "", u5.filename)
-      u5.filename <- gsub("_allsurveys", "", u5.filename)
-      message("Loading Admin-2", bench_str, " ", strata_str, 
-              " BB8 U5MR results using surveys ",
-              "from a single frame from \n", u5.filename, ".\n" )
-    }else{
-      message("The Admin-2 BB8 U5MR results specified don't exist.\n")
+      if(exists('admin2.unstrat.u5.BB8')){
+        adm2.pop.u5 <- weight.adm2.u5[weight.adm2.u5$years==year,]
+        admin2.unstrat.u5.BB8.draw<-
+          draw_1y_adm(admin_draws=res.unstrat.admin2.u5$draws.est.overall,
+                      year_num=year,
+                      admin_vec=admin2.names$Internal)
+        natl.tmp.u5 <- admin2.unstrat.u5.BB8.draw %*% adm2.pop.u5$proportion
+        BB8.adm2.unstrat.to.natl.frame[i, 4:6] = 
+          c(quantile(natl.tmp.u5, probs = c(0.025, 0.5, 0.975)))
+      }
+      
     }
     
+    BB8.adm2.unstrat.to.natl.frame<-
+      as.data.frame(BB8.adm2.unstrat.to.natl.frame)
+    colnames(BB8.adm2.unstrat.to.natl.frame) =
+      c("lower_nmr", "median_nmr", "upper_nmr","lower_u5", 
+        "median_u5", "upper_u5")
+    BB8.adm2.unstrat.to.natl.frame$method <- "aggre.adm2.unstrat.BB8"
+    BB8.adm2.unstrat.to.natl.frame$years = beg.year:end.proj.year
+  }
+  if(exists('admin2.strat.nmr.BB8') | exists('admin2.strat.u5.BB8')){
     
-    if(strata.model == "unstrat"){
-      load(file = paste0('Betabinomial/NMR/', nmr.filename))
-      load(file = paste0('Betabinomial/U5MR/', u5.filename))
+    BB8.adm2.strat.to.natl.frame <- matrix(NA, nrow = n_years, ncol =  6)
+    for (i in 1: n_years){
+      year = (beg.year:end.proj.year)[i]
       
-      if(exists('bb.res.adm2.unstrat.nmr.allsurveys')){
-        bb.res.adm2.unstrat.nmr <- bb.res.adm2.unstrat.nmr.allsurveys
-      }
-      if(exists('bb.res.adm2.unstrat.u5.allsurveys')){
-        bb.res.adm2.unstrat.u5 <- bb.res.adm2.unstrat.u5.allsurveys
-      }
-      if(exists('bb.res.adm2.unstrat.nmr.allsurveys.bench')){
-        bb.res.adm2.unstrat.nmr.bench <- bb.res.adm2.unstrat.nmr.allsurveys.bench
-      }
-      if(exists('bb.res.adm2.unstrat.u5.allsurveys.bench')){
-        bb.res.adm2.unstrat.u5.bench <- bb.res.adm2.unstrat.u5.allsurveys.bench
+      if(exists('admin2.strat.nmr.BB8')){
+        adm2.pop.nmr <- weight.adm2.u1[weight.adm2.u1$years==year,]
+        admin2.strat.nmr.BB8.draw<-draw_1y_adm(admin_draws=res.strat.admin2.nmr$draws.est.overall,
+                                               year_num=year,
+                                               admin_vec=admin2.names$Internal)
+        natl.tmp.nmr <- admin2.strat.nmr.BB8.draw %*% adm2.pop.nmr$proportion
+        BB8.adm2.strat.to.natl.frame[i, 1:3] = c(quantile(natl.tmp.nmr, probs = c(0.025, 0.5, 0.975)))
       }
       
-      if(bench.model == ""){
-        res.unstrat.admin2.nmr <- bb.res.adm2.unstrat.nmr
-        admin2.unstrat.nmr.BB8 <- res.unstrat.admin2.nmr$overall
-        
-        res.unstrat.admin2.u5 <- bb.res.adm2.unstrat.u5
-        admin2.unstrat.u5.BB8 <- res.unstrat.admin2.u5$overall
-      }else{
-        res.unstrat.admin2.nmr.bench <- bb.res.adm2.unstrat.nmr.bench
-        admin2.unstrat.nmr.BB8.bench <- res.unstrat.admin2.nmr.bench$overall
-        
-        res.unstrat.admin2.u5.bench <- bb.res.adm2.unstrat.u5.bench
-        admin2.unstrat.u5.BB8.bench <- res.unstrat.admin2.u5.bench$overall
+      if(exists('admin2.strat.u5.BB8')){
+        adm2.pop.u5 <- weight.adm2.u5[weight.adm2.u5$years==year,]
+        admin2.strat.u5.BB8.draw<-draw_1y_adm(admin_draws=res.strat.admin2.u5$draws.est.overall,
+                                              year_num=year,
+                                              admin_vec=admin2.names$Internal)
+        natl.tmp.u5 <- admin2.strat.u5.BB8.draw %*% adm2.pop.u5$proportion
+        BB8.adm2.strat.to.natl.frame[i, 4:6] = c(quantile(natl.tmp.u5, probs = c(0.025, 0.5, 0.975)))
       }
       
-      
-    }else{
-      load(file = paste0('Betabinomial/NMR/', nmr.filename))
-      load(file = paste0('Betabinomial/U5MR/', u5.filename))
-      
-      if(bench.model == ""){
-        res.strat.admin2.nmr <- bb.res.adm2.strat.nmr
-        admin2.strat.nmr.BB8 <- res.strat.admin2.nmr$overall
-        
-        res.strat.admin2.u5 <- bb.res.adm2.strat.u5
-        admin2.strat.u5.BB8 <- res.strat.admin2.u5$overall
-      }else{
-        res.strat.admin2.nmr.bench <- bb.res.adm2.strat.nmr.bench
-        admin2.strat.nmr.BB8.bench <- res.strat.admin2.nmr.bench$overall
-        
-        res.strat.admin2.u5.bench <- bb.res.adm2.strat.u5.bench
-        admin2.strat.u5.BB8.bench <- res.strat.admin2.u5.bench$overall
-      }
-    }  
+    }
     
-    if(exists('admin2.unstrat.nmr.BB8') | exists('admin2.unstrat.u5.BB8')){
+    BB8.adm2.strat.to.natl.frame<-as.data.frame(BB8.adm2.strat.to.natl.frame)
+    colnames(BB8.adm2.strat.to.natl.frame) = c("lower_nmr", "median_nmr", "upper_nmr","lower_u5", "median_u5", "upper_u5")
+    BB8.adm2.strat.to.natl.frame$method <- "aggre.adm2.strat.BB8"
+    BB8.adm2.strat.to.natl.frame$years = beg.year:end.proj.year
+  }
+  if(exists('admin2.strat.nmr.BB8.bench') | exists('admin2.strat.u5.BB8.bench')){
+    
+    BB8.adm2.strat.bench.to.natl.frame <- matrix(NA, nrow = n_years, ncol =  6)
+    for (i in 1:n_years){
+      year = (beg.year:end.proj.year)[i]
       
-      BB8.adm2.unstrat.to.natl.frame <- matrix(NA, nrow = n_years, ncol =  6)
-      for (i in 1: n_years){
-        year = (beg.year:end.proj.year)[i]
-        
-        if(exists('admin2.unstrat.nmr.BB8')){
-          adm2.pop.nmr <- weight.adm2.u1[weight.adm2.u1$years==year,]
-          admin2.unstrat.nmr.BB8.draw<-
-            draw_1y_adm(admin_draws=res.unstrat.admin2.nmr$draws.est.overall,
-                        year_num=year,
-                        admin_vec=admin2.names$Internal)
-          natl.tmp.nmr <- admin2.unstrat.nmr.BB8.draw %*% adm2.pop.nmr$proportion
-          BB8.adm2.unstrat.to.natl.frame[i, 1:3] =
-            c(quantile(natl.tmp.nmr, probs = c(0.025, 0.5, 0.975)))
-        }
-        
-        if(exists('admin2.unstrat.u5.BB8')){
-          adm2.pop.u5 <- weight.adm2.u5[weight.adm2.u5$years==year,]
-          admin2.unstrat.u5.BB8.draw<-
-            draw_1y_adm(admin_draws=res.unstrat.admin2.u5$draws.est.overall,
-                        year_num=year,
-                        admin_vec=admin2.names$Internal)
-          natl.tmp.u5 <- admin2.unstrat.u5.BB8.draw %*% adm2.pop.u5$proportion
-          BB8.adm2.unstrat.to.natl.frame[i, 4:6] = 
-            c(quantile(natl.tmp.u5, probs = c(0.025, 0.5, 0.975)))
-        }
-        
+      if(exists('admin2.strat.nmr.BB8.bench')){
+        adm2.pop.nmr <- weight.adm2.u1[weight.adm2.u1$years==year,]
+        admin2.strat.nmr.BB8.bench.draw<-draw_1y_adm(admin_draws=res.strat.admin2.nmr.bench$draws.est.overall,
+                                                     year_num=year,
+                                                     admin_vec=admin2.names$Internal,
+                                                     nsim=length(res.strat.admin2.nmr.bench$draws.est.overall[[1]]$draws))
+        natl.tmp.nmr <- admin2.strat.nmr.BB8.bench.draw %*% adm2.pop.nmr$proportion
+        BB8.adm2.strat.bench.to.natl.frame[i, 1:3] = c(quantile(natl.tmp.nmr, probs = c(0.025, 0.5, 0.975)))
       }
       
-      BB8.adm2.unstrat.to.natl.frame<-
-        as.data.frame(BB8.adm2.unstrat.to.natl.frame)
-      colnames(BB8.adm2.unstrat.to.natl.frame) =
-        c("lower_nmr", "median_nmr", "upper_nmr","lower_u5", 
-          "median_u5", "upper_u5")
-      BB8.adm2.unstrat.to.natl.frame$method <- "aggre.adm2.unstrat.BB8"
-      BB8.adm2.unstrat.to.natl.frame$years = beg.year:end.proj.year
-    }
-    if(exists('admin2.strat.nmr.BB8') | exists('admin2.strat.u5.BB8')){
-      
-      BB8.adm2.strat.to.natl.frame <- matrix(NA, nrow = n_years, ncol =  6)
-      for (i in 1: n_years){
-        year = (beg.year:end.proj.year)[i]
-        
-        if(exists('admin2.strat.nmr.BB8')){
-          adm2.pop.nmr <- weight.adm2.u1[weight.adm2.u1$years==year,]
-          admin2.strat.nmr.BB8.draw<-draw_1y_adm(admin_draws=res.strat.admin2.nmr$draws.est.overall,
-                                                 year_num=year,
-                                                 admin_vec=admin2.names$Internal)
-          natl.tmp.nmr <- admin2.strat.nmr.BB8.draw %*% adm2.pop.nmr$proportion
-          BB8.adm2.strat.to.natl.frame[i, 1:3] = c(quantile(natl.tmp.nmr, probs = c(0.025, 0.5, 0.975)))
-        }
-        
-        if(exists('admin2.strat.u5.BB8')){
-          adm2.pop.u5 <- weight.adm2.u5[weight.adm2.u5$years==year,]
-          admin2.strat.u5.BB8.draw<-draw_1y_adm(admin_draws=res.strat.admin2.u5$draws.est.overall,
-                                                year_num=year,
-                                                admin_vec=admin2.names$Internal)
-          natl.tmp.u5 <- admin2.strat.u5.BB8.draw %*% adm2.pop.u5$proportion
-          BB8.adm2.strat.to.natl.frame[i, 4:6] = c(quantile(natl.tmp.u5, probs = c(0.025, 0.5, 0.975)))
-        }
-        
+      if(exists('admin2.strat.u5.BB8.bench')){
+        adm2.pop.u5 <- weight.adm2.u5[weight.adm2.u5$years==year,]
+        admin2.strat.u5.BB8.bench.draw<-draw_1y_adm(admin_draws=res.strat.admin2.u5.bench$draws.est.overall,
+                                                    year_num=year,
+                                                    admin_vec=admin2.names$Internal)
+        natl.tmp.u5 <- admin2.strat.u5.BB8.bench.draw %*% adm2.pop.u5$proportion
+        BB8.adm2.strat.bench.to.natl.frame[i, 4:6] = c(quantile(natl.tmp.u5, probs = c(0.025, 0.5, 0.975)))
       }
       
-      BB8.adm2.strat.to.natl.frame<-as.data.frame(BB8.adm2.strat.to.natl.frame)
-      colnames(BB8.adm2.strat.to.natl.frame) = c("lower_nmr", "median_nmr", "upper_nmr","lower_u5", "median_u5", "upper_u5")
-      BB8.adm2.strat.to.natl.frame$method <- "aggre.adm2.strat.BB8"
-      BB8.adm2.strat.to.natl.frame$years = beg.year:end.proj.year
     }
-    if(exists('admin2.strat.nmr.BB8.bench') | exists('admin2.strat.u5.BB8.bench')){
+    
+    BB8.adm2.strat.bench.to.natl.frame<-as.data.frame(BB8.adm2.strat.bench.to.natl.frame)
+    colnames(BB8.adm2.strat.bench.to.natl.frame) = c("lower_nmr", "median_nmr", "upper_nmr","lower_u5", "median_u5", "upper_u5")
+    BB8.adm2.strat.bench.to.natl.frame$method <- "aggre.adm2.strat.BB8.bench"
+    BB8.adm2.strat.bench.to.natl.frame$years = beg.year:end.proj.year
+  }
+  if(exists('admin2.unstrat.nmr.BB8.bench') | exists('admin2.unstrat.u5.BB8.bench')){
+    
+    BB8.adm2.unstrat.bench.to.natl.frame <- matrix(NA, nrow = n_years, ncol =  6)
+    for (i in 1:n_years){
+      year = (beg.year:end.proj.year)[i]
       
-      BB8.adm2.strat.bench.to.natl.frame <- matrix(NA, nrow = n_years, ncol =  6)
-      for (i in 1:n_years){
-        year = (beg.year:end.proj.year)[i]
-        
-        if(exists('admin2.strat.nmr.BB8.bench')){
-          adm2.pop.nmr <- weight.adm2.u1[weight.adm2.u1$years==year,]
-          admin2.strat.nmr.BB8.bench.draw<-draw_1y_adm(admin_draws=res.strat.admin2.nmr.bench$draws.est.overall,
+      if(exists('admin2.unstrat.nmr.BB8.bench')){
+        adm2.pop.nmr <- weight.adm2.u1[weight.adm2.u1$years==year,]
+        admin2.unstrat.nmr.BB8.bench.draw<-draw_1y_adm(admin_draws=res.unstrat.admin2.nmr.bench$draws.est.overall,
                                                        year_num=year,
                                                        admin_vec=admin2.names$Internal,
-                                                       nsim=length(res.strat.admin2.nmr.bench$draws.est.overall[[1]]$draws))
-          natl.tmp.nmr <- admin2.strat.nmr.BB8.bench.draw %*% adm2.pop.nmr$proportion
-          BB8.adm2.strat.bench.to.natl.frame[i, 1:3] = c(quantile(natl.tmp.nmr, probs = c(0.025, 0.5, 0.975)))
-        }
-        
-        if(exists('admin2.strat.u5.BB8.bench')){
-          adm2.pop.u5 <- weight.adm2.u5[weight.adm2.u5$years==year,]
-          admin2.strat.u5.BB8.bench.draw<-draw_1y_adm(admin_draws=res.strat.admin2.u5.bench$draws.est.overall,
+                                                       nsim=length(res.unstrat.admin2.nmr.bench$draws.est.overall[[1]]$draws))
+        natl.tmp.nmr <- admin2.unstrat.nmr.BB8.bench.draw %*% adm2.pop.nmr$proportion
+        BB8.adm2.unstrat.bench.to.natl.frame[i, 1:3] = c(quantile(natl.tmp.nmr, probs = c(0.025, 0.5, 0.975)))
+      }
+      
+      if(exists('admin2.unstrat.u5.BB8.bench')){
+        adm2.pop.u5 <- weight.adm2.u5[weight.adm2.u5$years==year,]
+        admin2.unstrat.u5.BB8.bench.draw<-draw_1y_adm(admin_draws=res.unstrat.admin2.u5.bench$draws.est.overall,
                                                       year_num=year,
                                                       admin_vec=admin2.names$Internal)
-          natl.tmp.u5 <- admin2.strat.u5.BB8.bench.draw %*% adm2.pop.u5$proportion
-          BB8.adm2.strat.bench.to.natl.frame[i, 4:6] = c(quantile(natl.tmp.u5, probs = c(0.025, 0.5, 0.975)))
-        }
-        
+        natl.tmp.u5 <- admin2.unstrat.u5.BB8.bench.draw %*% adm2.pop.u5$proportion
+        BB8.adm2.unstrat.bench.to.natl.frame[i, 4:6] = c(quantile(natl.tmp.u5, probs = c(0.025, 0.5, 0.975)))
       }
       
-      BB8.adm2.strat.bench.to.natl.frame<-as.data.frame(BB8.adm2.strat.bench.to.natl.frame)
-      colnames(BB8.adm2.strat.bench.to.natl.frame) = c("lower_nmr", "median_nmr", "upper_nmr","lower_u5", "median_u5", "upper_u5")
-      BB8.adm2.strat.bench.to.natl.frame$method <- "aggre.adm2.strat.BB8.bench"
-      BB8.adm2.strat.bench.to.natl.frame$years = beg.year:end.proj.year
     }
-    if(exists('admin2.unstrat.nmr.BB8.bench') | exists('admin2.unstrat.u5.BB8.bench')){
-      
-      BB8.adm2.unstrat.bench.to.natl.frame <- matrix(NA, nrow = n_years, ncol =  6)
-      for (i in 1:n_years){
-        year = (beg.year:end.proj.year)[i]
-        
-        if(exists('admin2.unstrat.nmr.BB8.bench')){
-          adm2.pop.nmr <- weight.adm2.u1[weight.adm2.u1$years==year,]
-          admin2.unstrat.nmr.BB8.bench.draw<-draw_1y_adm(admin_draws=res.unstrat.admin2.nmr.bench$draws.est.overall,
-                                                         year_num=year,
-                                                         admin_vec=admin2.names$Internal,
-                                                         nsim=length(res.unstrat.admin2.nmr.bench$draws.est.overall[[1]]$draws))
-          natl.tmp.nmr <- admin2.unstrat.nmr.BB8.bench.draw %*% adm2.pop.nmr$proportion
-          BB8.adm2.unstrat.bench.to.natl.frame[i, 1:3] = c(quantile(natl.tmp.nmr, probs = c(0.025, 0.5, 0.975)))
-        }
-        
-        if(exists('admin2.unstrat.u5.BB8.bench')){
-          adm2.pop.u5 <- weight.adm2.u5[weight.adm2.u5$years==year,]
-          admin2.unstrat.u5.BB8.bench.draw<-draw_1y_adm(admin_draws=res.unstrat.admin2.u5.bench$draws.est.overall,
-                                                        year_num=year,
-                                                        admin_vec=admin2.names$Internal)
-          natl.tmp.u5 <- admin2.unstrat.u5.BB8.bench.draw %*% adm2.pop.u5$proportion
-          BB8.adm2.unstrat.bench.to.natl.frame[i, 4:6] = c(quantile(natl.tmp.u5, probs = c(0.025, 0.5, 0.975)))
-        }
-        
-      }
-      
-      BB8.adm2.unstrat.bench.to.natl.frame<-as.data.frame(BB8.adm2.unstrat.bench.to.natl.frame)
-      colnames(BB8.adm2.unstrat.bench.to.natl.frame) = c("lower_nmr", "median_nmr", "upper_nmr","lower_u5", "median_u5", "upper_u5")
-      BB8.adm2.unstrat.bench.to.natl.frame$method <- "aggre.adm2.unstrat.BB8.bench"
-      BB8.adm2.unstrat.bench.to.natl.frame$years = beg.year:end.proj.year
-    }
+    
+    BB8.adm2.unstrat.bench.to.natl.frame<-as.data.frame(BB8.adm2.unstrat.bench.to.natl.frame)
+    colnames(BB8.adm2.unstrat.bench.to.natl.frame) = c("lower_nmr", "median_nmr", "upper_nmr","lower_u5", "median_u5", "upper_u5")
+    BB8.adm2.unstrat.bench.to.natl.frame$method <- "aggre.adm2.unstrat.BB8.bench"
+    BB8.adm2.unstrat.bench.to.natl.frame$years = beg.year:end.proj.year
+  }
 }
 
 ## IGME estimates ####
@@ -1829,7 +1897,7 @@ for(outcome in c("nmr", "u5")){
       area.idx <- area.idx + 1
       tmp.area <- tmp_plot[[outcome]][,c("region", "region.orig", "years.num", 
                                          "lower", "upper", "median")] %>% 
-             filter(region.orig == area)
+        filter(region.orig == area)
       tmp.area$width <- tmp.area$upper - tmp.area$lower
       tmp.area$cex2 <- median(tmp.area$width, na.rm = T)/tmp.area$width
       tmp.area$cex2[tmp.area$cex2 > 6] <- 6
@@ -1942,8 +2010,8 @@ bench_str <- ifelse(bench.model == "", "", "_bench")
 for(outcome in c("nmr", "u5")){
   
   if(!file.exists(paste0("Betabinomial/", country, "_adm2_",
-                    strata.model, "_", time.model, "_",
-                    outcome, bench_str, "_postsamp.rda"))){
+                         strata.model, "_", time.model, "_",
+                         outcome, bench_str, "_postsamp.rda"))){
     
     if(strata.model == "unstrat" & bench.model==''){
       res_obj <- eval(str2lang(paste0("bb.res.adm2.unstrat.", outcome)))
@@ -2071,7 +2139,48 @@ for(outcome in c("nmr", "u5")){
   
 }
 
+## Benchmarks ####
 
+if(bench.model == "bench"){
+  y_lims <- 1 + c(-1,1)*max(abs(1- range(adm2.nmr.benchmarks$ratio,
+                                         na.rm = TRUE)), na.rm = TRUE)
+  
+  pdf(paste0("Figures/Summary/NMR/",
+             country, "_Admin2_nmr_",
+             time.model, "_", strata.model, "_benchmarks.pdf"))
+  {
+    plot(adm2.nmr.benchmarks$years,
+         adm2.nmr.benchmarks$ratio,
+         xlab = "Year", ylab = "(Unbenchmarked Median)/(IGME Median)",
+         ylim = y_lims, main = "",
+         type = "n")
+    abline(h = 1)
+    lines(adm2.nmr.benchmarks$years,
+          adm2.nmr.benchmarks$ratio,
+          lwd = 2, col = "firebrick")
+  }
+  dev.off()
+  
+  
+  y_lims <- 1 + c(-1,1)*max(abs(1- range(adm2.u5.benchmarks$ratio,
+                                         na.rm = TRUE)), na.rm = TRUE)
+  
+  pdf(paste0("Figures/Summary/U5MR/",
+             country, "_Admin2_u5_",
+             time.model, "_", strata.model, "_benchmarks.pdf"))
+  {
+    plot(adm2.u5.benchmarks$years,
+         adm2.u5.benchmarks$ratio,
+         xlab = "Year", ylab = "(Unbenchmarked Median)/(IGME Median)",
+         ylim = y_lims, main = "",
+         type = "n")
+    abline(h = 1)
+    lines(adm2.u5.benchmarks$years,
+          adm2.u5.benchmarks$ratio,
+          lwd = 2, col = "firebrick")
+  }
+  dev.off()
+}
 # Admin-1 Plots ####
 ## Specify Admin-1 Result Object ####
 
@@ -2290,8 +2399,8 @@ bench_str <- ifelse(bench.model == "", "", "_bench")
 for(outcome in c("nmr", "u5")){
   
   if(!file.exists(paste0("Betabinomial/", country, "_adm1_",
-                    strata.model, "_", time.model, "_",
-                    outcome, bench_str, "_postsamp.rda"))){
+                         strata.model, "_", time.model, "_",
+                         outcome, bench_str, "_postsamp.rda"))){
     
     if(strata.model == "unstrat" & bench.model==''){
       res_obj <- eval(str2lang(paste0("bb.res.adm1.unstrat.", outcome)))
@@ -2415,4 +2524,45 @@ for(outcome in c("nmr", "u5")){
   }
   dev.off()
   
+}
+
+
+if(bench.model == "bench"){
+  y_lims <- 1 + c(-1,1)*max(abs(1- range(adm1.nmr.benchmarks$ratio,
+                                         na.rm = TRUE)), na.rm = TRUE)
+  
+  pdf(paste0("Figures/Summary/NMR/",
+             country, "_Admin1_nmr_",
+             time.model, "_", strata.model, "_benchmarks.pdf"))
+  {
+    plot(adm1.nmr.benchmarks$years,
+         adm1.nmr.benchmarks$ratio,
+         xlab = "Year", ylab = "(Unbenchmarked Median)/(IGME Median)",
+         ylim = y_lims, main = "",
+         type = "n")
+    abline(h = 1)
+    lines(adm1.nmr.benchmarks$years,
+          adm1.nmr.benchmarks$ratio,
+          lwd = 2, col = "firebrick")
+  }
+  dev.off()
+  
+  y_lims <- 1 + c(-1,1)*max(abs(1- range(adm1.u5.benchmarks$ratio,
+                                         na.rm = TRUE)), na.rm = TRUE)
+  
+  pdf(paste0("Figures/Summary/U5MR/",
+             country, "_Admin1_u5_",
+             time.model, "_", strata.model, "_benchmarks.pdf"))
+  {
+    plot(adm1.u5.benchmarks$years,
+         adm1.u5.benchmarks$ratio,
+         xlab = "Year", ylab = "(Unbenchmarked Median)/(IGME Median)",
+         ylim = y_lims, main = "",
+         type = "n")
+    abline(h = 1)
+    lines(adm1.u5.benchmarks$years,
+          adm1.u5.benchmarks$ratio,
+          lwd = 2, col = "firebrick")
+  }
+  dev.off()
 }

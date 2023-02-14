@@ -26,10 +26,10 @@ Random Effects
 Model hyperparameters
                                                      mean       sd 0.025quant 0.5quant 0.975quant    mode
 overdispersion for the betabinomial observations    0.020    0.002      0.016    0.020      0.026   0.020
-Precision for time.struct                         445.679  579.788     39.500  271.920   1931.904 103.893
+Precision for time.struct                         445.861  580.100     39.558  272.021   1932.678 104.019
 PACF1 for time.struct                               0.369    0.401     -0.518    0.437      0.932   0.762
-Precision for time.unstruct                      2347.628 6064.589    110.645  911.192  13712.647 263.629
+Precision for time.unstruct                      2351.304 6081.334    110.683  911.793  13738.418 263.672
 NULL
                                            [,1]
-log marginal-likelihood (integration) -8886.041
-log marginal-likelihood (Gaussian)    -8884.008
+log marginal-likelihood (integration) -8886.043
+log marginal-likelihood (Gaussian)    -8884.010

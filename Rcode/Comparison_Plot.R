@@ -383,7 +383,8 @@ setwd(res.dir)
     res.unstrat.admin1.u5.allsurveys <- bb.res.adm1.unstrat.u5.allsurveys
     admin1.unstrat.u5.allsurveys.BB8<-res.unstrat.admin1.u5.allsurveys$overall} 
   
-  if(exists('admin1.unstrat.nmr.allsurveys.BB8') | exists('admin1.unstrat.u5.allsurveys.BB8')){
+  if(exists('admin1.unstrat.nmr.allsurveys.BB8') |
+     exists('admin1.unstrat.u5.allsurveys.BB8')){
     
     BB8.adm1.unstrat.allsurveys.to.natl.frame <- matrix(NA, nrow = n_years, ncol =  6)
     for (i in 1:n_years){
@@ -869,7 +870,7 @@ if(exists('poly.layer.adm2')){
                "BB8.adm1.strat.bench.to.natl.frame",'BB8.adm1.unstrat.allsurveys.bench.to.natl.frame',
                "BB8.adm2.unstrat.to.natl.frame","BB8.adm2.strat.to.natl.frame",'BB8.adm2.unstrat.allsurveys.to.natl.frame',
                "BB8.adm2.strat.bench.to.natl.frame",'BB8.adm2.unstrat.allsurveys.bench.to.natl.frame',
-               "igme.frame")[c(1:5,6:7, 9:10,14:19)]
+               "igme.frame")[c(1:5,6:7, 9:19)]
   methods.include <- which(sapply(methods,exists))
   
   natl.all <- data.frame()
@@ -891,7 +892,8 @@ if(exists('poly.layer.adm2')){
   
   ## Compare smoothed direct estimates ---------------
   # USE THIS ARGUMENT TO PICK METHODS TO PLOT -- may have to change this line
-  methods.use <- c("natl.sd.yearly","aggre.sd.adm1","aggre.sd.yearly.adm1","aggre.sd.adm2","aggre.sd.yearly.adm2","igme")[c(1:3,6)]
+  methods.use <- c("natl.sd.yearly","aggre.sd.adm1","aggre.sd.yearly.adm1",
+                   "aggre.sd.adm2","aggre.sd.yearly.adm2","igme")[c(1:3,6)]
   
   ##IF you have made a comparison plot before that you don't want to overwrite, make sure to change the name of the PDF!
   pdf(paste0(res.dir, "/Figures/Summary/NMR/",
@@ -980,7 +982,7 @@ if(exists('poly.layer.adm2')){
   methods.use <- c("natl.sd.yearly","natl.bb.unstrat","natl.bb.strat","natl.bb.unstrat.allsurveys",
                    "aggre.adm1.unstrat.BB8","aggre.adm1.strat.BB8","aggre.adm1.unstrat.allsurveys.BB8",
                    "aggre.adm2.unstrat.BB8","aggre.adm2.strat.BB8", "aggre.adm2.unstrat.allsurveys.BB8",
-                   "igme")[c(1:3,5,6,8, 9,11)]
+                   "igme")[c(1:3,5:6,8:10,11)]
   
   ##IF you have made a comparison plot before that you don't want to overwrite, make sure to change the name of the  PDF!
   pdf(paste0(res.dir, "/Figures/Summary/NMR/",

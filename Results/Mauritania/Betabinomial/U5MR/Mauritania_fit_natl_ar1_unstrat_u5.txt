@@ -8,16 +8,16 @@ Cluster-level model
   Survey effect: no, only one survey
 ----------------------------------
 Fixed Effects
-                      mean    sd 0.025quant 0.5quant 0.975quant mode kld
-time.slope.group1   -0.328 0.171     -0.677   -0.325      0.000   NA   0
-time.slope.group2   -0.520 0.213     -0.944   -0.518     -0.106   NA   0
-time.slope.group3   -1.671 0.228     -2.119   -1.672     -1.221   NA   0
-age.intercept0:     -3.628 0.040     -3.707   -3.628     -3.550   NA   0
-age.intercept1-11:  -6.683 0.052     -6.786   -6.683     -6.581   NA   0
-age.intercept12-23: -7.981 0.093     -8.163   -7.981     -7.799   NA   0
-age.intercept24-35: -7.758 0.087     -7.928   -7.758     -7.588   NA   0
-age.intercept36-47: -8.613 0.135     -8.879   -8.613     -8.348   NA   0
-age.intercept48-59: -8.918 0.164     -9.239   -8.918     -8.597   NA   0
+                      mean    sd 0.025quant 0.5quant 0.975quant   mode kld
+time.slope.group1   -0.333 0.179     -0.700   -0.329      0.008 -0.323   0
+time.slope.group2   -0.523 0.219     -0.961   -0.521     -0.098 -0.518   0
+time.slope.group3   -1.670 0.234     -2.129   -1.671     -1.207 -1.672   0
+age.intercept0:     -3.629 0.040     -3.708   -3.629     -3.549 -3.628   0
+age.intercept1-11:  -6.684 0.053     -6.787   -6.684     -6.580 -6.683   0
+age.intercept12-23: -7.981 0.093     -8.163   -7.981     -7.799 -7.981   0
+age.intercept24-35: -7.758 0.087     -7.928   -7.758     -7.588 -7.758   0
+age.intercept36-47: -8.613 0.136     -8.879   -8.613     -8.348 -8.613   0
+age.intercept48-59: -8.918 0.164     -9.239   -8.918     -8.597 -8.918   0
 ----------------------------------
 Random Effects
            Name       Model
@@ -25,12 +25,12 @@ Random Effects
 2 time.unstruct   IID model
 ----------------------------------
 Model hyperparameters
-                                                    mean      sd 0.025quant 0.5quant 0.975quant mode
-overdispersion for the betabinomial observations   0.001   0.001      0.000    0.001      0.003   NA
-Precision for time.struct                        219.417 293.836     22.071  132.199    960.297   NA
-PACF1 for time.struct                             -0.079   0.409     -0.774   -0.102      0.715   NA
-Precision for time.unstruct                      254.778 326.156     28.766  157.835   1084.083   NA
+                                                    mean      sd 0.025quant 0.5quant 0.975quant   mode
+overdispersion for the betabinomial observations   0.001   0.001      0.000    0.001      0.003  0.001
+Precision for time.struct                        236.582 314.022     30.339  144.035   1021.257 69.052
+PACF1 for time.struct                             -0.081   0.413     -0.780   -0.105      0.721 -0.253
+Precision for time.unstruct                      310.183 484.811     28.771  170.621   1469.005 69.231
 NULL
                                            [,1]
-log marginal-likelihood (integration) -8009.961
-log marginal-likelihood (Gaussian)    -8007.951
+log marginal-likelihood (integration) -8009.951
+log marginal-likelihood (Gaussian)    -8007.933

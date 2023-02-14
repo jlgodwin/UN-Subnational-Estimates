@@ -1,0 +1,59 @@
+----------------------------------
+Cluster-level model
+  Main temporal model:        ar1
+  Additional linear trends:   stratum-age-specific
+  Spatial effect:             bym2
+  Interaction temporal model: ar1
+  Interaction type:           4
+  Interaction random slopes:  yes
+  Number of age groups: 6
+  Stratification: yes
+  Number of age group fixed effect per stratum: 6
+  Number of age-specific trends per stratum: 3
+  Strata-specific temporal trends: yes
+  Survey effect: no, only one survey
+----------------------------------
+Fixed Effects
+                           mean    sd 0.025quant 0.5quant 0.975quant   mode kld
+time.slope.group1        -0.738 0.239     -1.209   -0.738     -0.269 -0.737   0
+time.slope.group2        -0.907 0.310     -1.516   -0.907     -0.299 -0.907   0
+time.slope.group3        -2.157 0.337     -2.817   -2.157     -1.495 -2.158   0
+time.slope.group4        -0.602 0.208     -1.014   -0.601     -0.196 -0.599   0
+time.slope.group5        -0.815 0.266     -1.339   -0.815     -0.295 -0.814   0
+time.slope.group6        -1.925 0.290     -2.494   -1.925     -1.357 -1.925   0
+age.intercept0:urban     -3.519 0.081     -3.678   -3.519     -3.361 -3.519   0
+age.intercept1-11:urban  -6.573 0.096     -6.763   -6.573     -6.385 -6.573   0
+age.intercept12-23:urban -7.862 0.152     -8.161   -7.862     -7.564 -7.862   0
+age.intercept24-35:urban -7.662 0.144     -7.945   -7.662     -7.379 -7.662   0
+age.intercept36-47:urban -8.536 0.217     -8.962   -8.536     -8.110 -8.536   0
+age.intercept48-59:urban -8.830 0.257     -9.334   -8.830     -8.326 -8.830   0
+age.intercept0:rural     -3.501 0.071     -3.641   -3.501     -3.363 -3.501   0
+age.intercept1-11:rural  -6.558 0.083     -6.722   -6.558     -6.395 -6.558   0
+age.intercept12-23:rural -7.876 0.130     -8.132   -7.876     -7.620 -7.876   0
+age.intercept24-35:rural -7.638 0.122     -7.878   -7.638     -7.398 -7.637   0
+age.intercept36-47:rural -8.488 0.183     -8.846   -8.488     -8.130 -8.488   0
+age.intercept48-59:rural -8.806 0.220     -9.238   -8.806     -8.374 -8.806   0
+----------------------------------
+Random Effects
+           Name             Model
+1   time.struct       AR(p) model
+2 time.unstruct         IID model
+3 region.struct        BYM2 model
+4    region.int Besags ICAR model
+5   st.slope.id         IID model
+----------------------------------
+Model hyperparameters
+                                                    mean       sd 0.025quant 0.5quant 0.975quant   mode
+overdispersion for the betabinomial observations   0.001    0.001      0.000    0.001      0.003  0.001
+Precision for time.struct                        450.461  962.122     38.791  204.797   2421.197 80.840
+PACF1 for time.struct                             -0.441    0.266     -0.851   -0.476      0.160 -0.576
+Precision for time.unstruct                      139.803  136.981     27.100   99.235    499.554 57.907
+Precision for region.struct                       10.053    3.582      4.456    9.582     18.401  8.663
+Phi for region.struct                              0.311    0.201      0.043    0.267      0.779  0.131
+Precision for region.int                         381.148 1443.640     10.759  110.478   2475.952 24.990
+Group PACF1 for region.int                         0.933    0.123      0.578    0.974      0.998  0.995
+Precision for st.slope.id                         98.061  302.815      5.323   34.127    594.270 11.115
+NULL
+                                           [,1]
+log marginal-likelihood (integration) -8164.999
+log marginal-likelihood (Gaussian)    -8159.055

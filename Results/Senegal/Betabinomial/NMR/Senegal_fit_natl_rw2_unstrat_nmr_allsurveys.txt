@@ -1,0 +1,31 @@
+----------------------------------
+Cluster-level model
+  Main temporal model:        rw2
+  Interaction random slopes:  yes
+  Number of age groups: 1
+  Stratification: no, strata variable not in the input
+  Survey effect: yes
+----------------------------------
+Fixed Effects
+              mean    sd 0.025quant 0.5quant 0.975quant   mode kld
+(Intercept) -3.553 0.028     -3.606   -3.554     -3.498 -3.555   0
+----------------------------------
+Random Effects
+           Name     Model
+1   time.struct RW2 model
+2 time.unstruct IID model
+3     survey.id IID model
+----------------------------------
+Model hyperparameters
+                                                      mean        sd 0.025quant 0.5quant 0.975quant
+overdispersion for the betabinomial observations     0.021     0.002      0.018    0.021      0.025
+Precision for time.struct                        12281.213 22312.076    363.528 5730.255  64874.081
+Precision for time.unstruct                       5815.081 13747.716    206.607 2326.740  33305.961
+                                                    mode
+overdispersion for the betabinomial observations   0.021
+Precision for time.struct                        811.907
+Precision for time.unstruct                      500.328
+NULL
+                                           [,1]
+log marginal-likelihood (integration) -16601.11
+log marginal-likelihood (Gaussian)    -16599.82
