@@ -7,7 +7,7 @@ rm(list=ls())
 # Country Name & Model Info ####
 # Please capitalize the first letter of the country name and replace " "
 # in the country name to "_" if there is.
-country <- "Senegal"
+country <- "Mauritania"
 
 ## MIGHT NEED TO BE CHANGED depending on what you fit
 # specify time model for BB8
@@ -1908,9 +1908,10 @@ for(outcome in c("nmr", "u5")){
       
       if(dim(tmp.area)[1] != 0 &
          !(sum(is.na(tmp.area$median)) == nrow(tmp.area))){
-        plot.max <- max(1000*adm2.dir.frame[adm2.dir.frame$region == 
-                                              as.character(area),
-                                            paste0("median_", outcome)],
+        plot.max <- max(max(c(1000*adm2.dir.frame[adm2.dir.frame$region.orig == 
+                                               as.character(area),
+                                             paste0("median_", outcome)],
+                              tmp.area$median), na.rm = TRUE),
                         na.rm = T) + 25
       }else{
         plot.max <- 25
@@ -1944,13 +1945,12 @@ for(outcome in c("nmr", "u5")){
                    type = 'l', col = survey_cols[svy.idx], lwd = 2,
                    main = admin2.names$GADM[area.idx])
               
-              lines(pane.years[-length(pane.years)],
+              lines(pane.years[1:nrow(tmp)],
                     1000*tmp[, paste0("median_", outcome)],
                     cex = tmp$cex2,
                     type = 'l', col = survey_cols[svy.idx],
                     lwd = 2)
-              
-              points(pane.years[-length(pane.years)],
+              points(pane.years[1:nrow(tmp)],
                      1000*tmp[, paste0("median_", outcome)],
                      pch = 19,
                      col = alpha(survey_cols[svy.idx], 0.35),
@@ -1966,12 +1966,12 @@ for(outcome in c("nmr", "u5")){
             }
           }else{
             if(dim(tmp)[1] != 0){
-              lines(pane.years[-length(pane.years)],
+              lines(pane.years[1:nrow(tmp)],
                     1000*tmp[,paste0("median_", outcome)],
                     cex = tmp$cex2,
                     type = 'l', col = survey_cols[svy.idx],
                     lwd = 2)
-              points(pane.years[-length(pane.years)],
+              points(pane.years[1:nrow(tmp)],
                      1000*tmp[, paste0("median_", outcome)],
                      pch = 19,
                      col = alpha(survey_cols[svy.idx], 0.35),
@@ -2297,10 +2297,11 @@ for(outcome in c("nmr", "u5")){
       
       if(dim(tmp.area)[1] != 0 &
          !(sum(is.na(tmp.area$median)) == nrow(tmp.area))){
-        plot.max <- max(1000*adm1.dir.frame[adm1.dir.frame$region == 
-                                              as.character(area),
-                                            paste0("median_", outcome)],
-                        na.rm = T) + 25
+        max(max(c(1000*adm1.dir.frame[adm1.dir.frame$region.orig == 
+                                        as.character(area),
+                                      paste0("median_", outcome)],
+                  tmp.area$median), na.rm = TRUE),
+            na.rm = T) + 25
       }else{
         plot.max <- 25
       }
@@ -2333,13 +2334,13 @@ for(outcome in c("nmr", "u5")){
                    type = 'l', col = survey_cols[svy.idx], lwd = 2,
                    main = admin1.names$GADM[area.idx])
               
-              lines(pane.years[-length(pane.years)],
+              lines(pane.years[1:nrow(tmp)],
                     1000*tmp[, paste0("median_", outcome)],
                     cex = tmp$cex2,
                     type = 'l', col = survey_cols[svy.idx],
                     lwd = 2)
               
-              points(pane.years[-length(pane.years)],
+              points(pane.years[1:nrow(tmp)],
                      1000*tmp[, paste0("median_", outcome)],
                      pch = 19,
                      col = alpha(survey_cols[svy.idx], 0.35),
@@ -2355,12 +2356,12 @@ for(outcome in c("nmr", "u5")){
             }
           }else{
             if(dim(tmp)[1] != 0){
-              lines(pane.years[-length(pane.years)],
+              lines(pane.years[1:nrow(tmp)],
                     1000*tmp[,paste0("median_", outcome)],
                     cex = tmp$cex2,
                     type = 'l', col = survey_cols[svy.idx],
                     lwd = 2)
-              points(pane.years[-length(pane.years)],
+              points(pane.years[1:nrow(tmp)],
                      1000*tmp[, paste0("median_", outcome)],
                      pch = 19,
                      col = alpha(survey_cols[svy.idx], 0.35),

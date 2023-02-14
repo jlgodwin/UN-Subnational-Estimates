@@ -2,7 +2,7 @@ rm(list=ls())
 
 # ENTER COUNTRY OF INTEREST AND FINAL ESTIMATE INFO -----------------------------------------------
 # Please capitalize the first letter of the country name and replace " " in the country name to "_" if there is.
-country <- 'Senegal'
+country <- "Mauritania"
 # Please specify which model(s) to get diagnostic plots for
 models<- c('natl_unstrat_nmr','adm1_unstrat_nmr','adm2_unstrat_nmr',
             'natl_strat_nmr','adm1_strat_nmr','adm2_strat_nmr',

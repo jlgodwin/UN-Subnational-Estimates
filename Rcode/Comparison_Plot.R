@@ -9,7 +9,7 @@ logit <- function(x){
 
 # ENTER COUNTRY OF INTEREST AND FINAL ESTIMATE INFO -----------------------------------------------
 # Please capitalize the first letter of the country name and replace " " in the country name to "_" if there is.
-country <- "Senegal"
+country <- "Mauritania"
 
 
 ## Setup -----------------------------------------------
@@ -117,11 +117,7 @@ if(((end.year-beg.year+1) %% 3)==0){
   end.period.years <- c(beg.year+1,seq(beg.year+4,end.year,3))
 }
 
-if(end.year>end.year.1frame & end.year>2018){
-  beg.proj.years <- seq(end.year+1,2021,3)
-}else{
-  beg.proj.years <- seq(end.year+1,2020,3)
-}
+beg.proj.years <- seq(end.year+1,2021,3)
 end.proj.years <- beg.proj.years+2
 pane.years <- (c((end.period.years + beg.period.years)/2, (end.proj.years+beg.proj.years)/2))
 pane.years <- pane.years[pane.years<=end.proj.year]
