@@ -11,12 +11,12 @@ Cluster-level model
 ----------------------------------
 Fixed Effects
                       mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-age.intercept0:     -3.636 0.029     -3.692   -3.636     -3.578 -3.637   0
+age.intercept0:     -3.636 0.029     -3.693   -3.636     -3.577 -3.637   0
 age.intercept1-11:  -6.437 0.034     -6.505   -6.436     -6.371 -6.436   0
-age.intercept12-23: -7.220 0.042     -7.305   -7.220     -7.140 -7.218   0
-age.intercept24-35: -7.538 0.047     -7.632   -7.538     -7.449 -7.536   0
-age.intercept36-47: -7.746 0.051     -7.847   -7.745     -7.647 -7.744   0
-age.intercept48-59: -8.176 0.061     -8.298   -8.176     -8.056 -8.175   0
+age.intercept12-23: -7.221 0.042     -7.304   -7.220     -7.141 -7.219   0
+age.intercept24-35: -7.539 0.046     -7.631   -7.538     -7.449 -7.537   0
+age.intercept36-47: -7.746 0.051     -7.847   -7.745     -7.647 -7.745   0
+age.intercept48-59: -8.176 0.061     -8.297   -8.176     -8.057 -8.175   0
 ----------------------------------
 Random Effects
            Name          Model
@@ -30,21 +30,21 @@ Random Effects
 Model hyperparameters
                                                      mean        sd 0.025quant 0.5quant 0.975quant
 overdispersion for the betabinomial observations    0.001     0.000      0.001    0.001      0.001
-Precision for time.struct                        1931.434  4512.393     59.163  770.406  11207.766
-Precision for time.unstruct                      9813.348 35848.308    296.159 2913.905  62725.329
-Precision for region.struct                        15.858     4.653      8.382   15.313     26.550
-Phi for region.struct                               0.907     0.104      0.612    0.944      0.998
-Precision for time.area                           287.788   320.200     56.008  192.026   1109.774
-Precision for st.slope.id                         946.868 12221.118      2.865   79.273   6076.056
+Precision for time.struct                        7993.360 49086.286     83.443 1444.263  53908.816
+Precision for time.unstruct                      5491.697 16558.309    285.450 1922.845  32933.232
+Precision for region.struct                        15.828     4.631      8.453   15.261     26.538
+Phi for region.struct                               0.903     0.105      0.606    0.940      0.997
+Precision for time.area                           307.776   335.011     57.248  207.964   1175.096
+Precision for st.slope.id                        1480.583 26634.078      2.953   80.448   8564.159
                                                     mode
 overdispersion for the betabinomial observations   0.001
-Precision for time.struct                        141.348
-Precision for time.unstruct                      686.577
-Precision for region.struct                       14.288
-Phi for region.struct                              0.996
-Precision for time.area                          108.112
-Precision for st.slope.id                          5.175
+Precision for time.struct                        176.067
+Precision for time.unstruct                      615.934
+Precision for region.struct                       14.198
+Phi for region.struct                              0.995
+Precision for time.area                          116.907
+Precision for st.slope.id                          5.418
 NULL
                                            [,1]
-log marginal-likelihood (integration) -29784.01
-log marginal-likelihood (Gaussian)    -29779.51
+log marginal-likelihood (integration) -29784.38
+log marginal-likelihood (Gaussian)    -29779.81

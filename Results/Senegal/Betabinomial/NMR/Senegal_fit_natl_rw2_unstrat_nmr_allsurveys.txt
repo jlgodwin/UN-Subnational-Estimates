@@ -8,7 +8,7 @@ Cluster-level model
 ----------------------------------
 Fixed Effects
               mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-(Intercept) -3.553 0.028     -3.606   -3.554     -3.498 -3.555   0
+(Intercept) -3.553 0.028     -3.606   -3.553     -3.497 -3.554   0
 ----------------------------------
 Random Effects
            Name     Model
@@ -19,13 +19,13 @@ Random Effects
 Model hyperparameters
                                                       mean        sd 0.025quant 0.5quant 0.975quant
 overdispersion for the betabinomial observations     0.021     0.002      0.018    0.021      0.025
-Precision for time.struct                        12281.213 22312.076    363.528 5730.255  64874.081
-Precision for time.unstruct                       5815.081 13747.716    206.607 2326.740  33305.961
+Precision for time.struct                        11665.960 21759.221    387.851 5407.609  61998.927
+Precision for time.unstruct                       5556.149 13082.889    205.330 2236.032  31731.289
                                                     mode
 overdispersion for the betabinomial observations   0.021
-Precision for time.struct                        811.907
-Precision for time.unstruct                      500.328
+Precision for time.struct                        910.665
+Precision for time.unstruct                      499.034
 NULL
                                            [,1]
-log marginal-likelihood (integration) -16601.11
-log marginal-likelihood (Gaussian)    -16599.82
+log marginal-likelihood (integration) -16601.09
+log marginal-likelihood (Gaussian)    -16599.81

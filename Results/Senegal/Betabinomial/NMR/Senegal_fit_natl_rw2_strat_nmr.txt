@@ -11,8 +11,8 @@ Cluster-level model
 ----------------------------------
 Fixed Effects
                        mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-age.intercept0:urban -3.781 0.048     -3.876   -3.781     -3.688 -3.781   0
-age.intercept0:rural -3.514 0.033     -3.577   -3.515     -3.449 -3.516   0
+age.intercept0:urban -3.781 0.047     -3.875   -3.781     -3.689 -3.781   0
+age.intercept0:rural -3.515 0.032     -3.577   -3.515     -3.450 -3.516   0
 ----------------------------------
 Random Effects
            Name     Model
@@ -21,15 +21,15 @@ Random Effects
 3     survey.id IID model
 ----------------------------------
 Model hyperparameters
-                                                      mean         sd 0.025quant 0.5quant 0.975quant
-overdispersion for the betabinomial observations     0.020      0.002      0.016    0.020      0.025
-Precision for time.struct                        30759.194 101404.826    683.432 9453.248 193548.747
-Precision for time.unstruct                       3006.257  10055.291    115.300  954.650  18514.404
+                                                      mean        sd 0.025quant 0.5quant 0.975quant
+overdispersion for the betabinomial observations     0.020     0.002      0.016    0.020      0.025
+Precision for time.struct                        19313.666 42064.345    739.775 8215.151 108268.128
+Precision for time.unstruct                       2245.494  6459.658     86.661  797.291  13523.407
                                                      mode
 overdispersion for the betabinomial observations    0.020
-Precision for time.struct                        1565.426
-Precision for time.unstruct                       261.355
+Precision for time.struct                        1823.277
+Precision for time.unstruct                       205.778
 NULL
                                            [,1]
-log marginal-likelihood (integration) -8883.939
-log marginal-likelihood (Gaussian)    -8882.734
+log marginal-likelihood (integration) -8883.582
+log marginal-likelihood (Gaussian)    -8882.360

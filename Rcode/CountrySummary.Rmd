@@ -1,5 +1,5 @@
 ---
-title: "Country Summary: Mauritania"
+title: "Country Summary: Senegal"
 output: 
   pdf_document:
     toc: true
@@ -32,11 +32,11 @@ knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
 <!-- User-defined Arguments -->
 ```{r params}
 
-country <- "Mauritania"
+country <- "Senegal"
 debugging <- FALSE
 
 ## MIGHT NEED TO BE CHANGED depending on what you fit
-time.model <- c('rw2','ar1')[2]
+time.model <- c('rw2','ar1')[1]
 strata.model <- c("strat", "unstrat")[1]
 bench.model <- c("", "bench")[2]
 
@@ -80,7 +80,7 @@ if(debugging == TRUE){
 
 # data.dir <- paste0(home.dir,'/Data/', country) 
 
-data.dir <- "R://Project/STAB/Mauritania"
+data.dir <- "R://Project/STAB/Senegal"
 # set the directory to store the results (e.g. fitted R objects, figures, tables in .csv etc.)
 
 res.dir <- paste0(home.dir,'/Results/', country)
@@ -390,7 +390,7 @@ print.xtable(coefs.xtable,
 if(strata.model == 'strat'){
   
   ur.odds.filename <- paste0(country, "_URodds_natl_",
-                             time.model, "_", strata.model,
+                             "ar1_", strata.model,
                              "_u5.pdf")
   
   if(!file.exists(paste0(res.dir, "/Figures/Trends/U5MR/", ur.odds.filename))){

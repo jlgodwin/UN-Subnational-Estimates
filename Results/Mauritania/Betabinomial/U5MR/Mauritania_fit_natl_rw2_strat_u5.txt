@@ -11,16 +11,16 @@ Cluster-level model
 ----------------------------------
 Fixed Effects
                            mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-age.intercept0:urban     -3.714 0.057     -3.827   -3.714     -3.602 -3.714   0
-age.intercept1-11:urban  -6.772 0.078     -6.926   -6.772     -6.618 -6.772   0
-age.intercept12-23:urban -8.074 0.143     -8.354   -8.074     -7.793 -8.074   0
+age.intercept0:urban     -3.714 0.057     -3.826   -3.714     -3.602 -3.713   0
+age.intercept1-11:urban  -6.772 0.078     -6.925   -6.772     -6.618 -6.771   0
+age.intercept12-23:urban -8.074 0.143     -8.354   -8.074     -7.794 -8.074   0
 age.intercept24-35:urban -7.871 0.134     -8.134   -7.871     -7.608 -7.871   0
-age.intercept36-47:urban -8.745 0.211     -9.158   -8.745     -8.332 -8.745   0
-age.intercept48-59:urban -9.038 0.251     -9.531   -9.038     -8.545 -9.038   0
-age.intercept0:rural     -3.568 0.049     -3.664   -3.568     -3.472 -3.568   0
-age.intercept1-11:rural  -6.637 0.066     -6.766   -6.637     -6.507 -6.637   0
-age.intercept12-23:rural -7.967 0.121     -8.204   -7.967     -7.729 -7.967   0
-age.intercept24-35:rural -7.728 0.112     -7.948   -7.728     -7.508 -7.728   0
+age.intercept36-47:urban -8.745 0.210     -9.158   -8.745     -8.332 -8.745   0
+age.intercept48-59:urban -9.039 0.251     -9.532   -9.039     -8.546 -9.039   0
+age.intercept0:rural     -3.568 0.049     -3.664   -3.568     -3.473 -3.568   0
+age.intercept1-11:rural  -6.637 0.066     -6.766   -6.637     -6.508 -6.636   0
+age.intercept12-23:rural -7.967 0.121     -8.204   -7.967     -7.730 -7.967   0
+age.intercept24-35:rural -7.728 0.112     -7.948   -7.728     -7.509 -7.728   0
 age.intercept36-47:rural -8.579 0.176     -8.924   -8.579     -8.234 -8.579   0
 age.intercept48-59:rural -8.896 0.215     -9.317   -8.896     -8.476 -8.896   0
 ----------------------------------
@@ -30,11 +30,15 @@ Random Effects
 2 time.unstruct IID model
 ----------------------------------
 Model hyperparameters
-                                                     mean        sd 0.025quant 0.5quant 0.975quant     mode
-overdispersion for the betabinomial observations    0.001     0.001      0.001    0.001      0.003    0.001
-Precision for time.struct                        6813.851 10289.841    607.950 3820.440  31848.508 1506.520
-Precision for time.unstruct                      1229.145  3947.386     54.812  408.327   7514.841  121.481
+                                                     mean       sd 0.025quant 0.5quant 0.975quant
+overdispersion for the betabinomial observations    0.001    0.001      0.000    0.001      0.003
+Precision for time.struct                        5588.781 7724.406    451.296 3282.418  25034.343
+Precision for time.unstruct                       602.806 1113.908     39.283  294.772   3107.051
+                                                     mode
+overdispersion for the betabinomial observations    0.001
+Precision for time.struct                        1179.625
+Precision for time.unstruct                        97.457
 NULL
                                            [,1]
-log marginal-likelihood (integration) -8050.149
-log marginal-likelihood (Gaussian)    -8048.997
+log marginal-likelihood (integration) -8050.368
+log marginal-likelihood (Gaussian)    -8049.208

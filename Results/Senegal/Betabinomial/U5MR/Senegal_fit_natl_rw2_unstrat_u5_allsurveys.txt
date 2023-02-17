@@ -8,11 +8,11 @@ Cluster-level model
 ----------------------------------
 Fixed Effects
                       mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-age.intercept0:     -3.535 0.026     -3.586   -3.536     -3.484 -3.536   0
+age.intercept0:     -3.535 0.026     -3.586   -3.536     -3.483 -3.536   0
 age.intercept1-11:  -6.402 0.034     -6.470   -6.401     -6.337 -6.400   0
-age.intercept12-23: -7.261 0.039     -7.341   -7.260     -7.188 -7.258   0
-age.intercept24-35: -7.376 0.040     -7.457   -7.375     -7.301 -7.373   0
-age.intercept36-47: -7.715 0.043     -7.802   -7.714     -7.633 -7.712   0
+age.intercept12-23: -7.262 0.039     -7.341   -7.261     -7.188 -7.258   0
+age.intercept24-35: -7.376 0.040     -7.458   -7.376     -7.301 -7.374   0
+age.intercept36-47: -7.715 0.043     -7.802   -7.714     -7.633 -7.713   0
 age.intercept48-59: -8.166 0.049     -8.264   -8.165     -8.072 -8.164   0
 ----------------------------------
 Random Effects
@@ -24,13 +24,13 @@ Random Effects
 Model hyperparameters
                                                       mean         sd 0.025quant 0.5quant 0.975quant
 overdispersion for the betabinomial observations     0.001      0.000      0.001    0.001      0.001
-Precision for time.struct                         5044.479   5858.462    643.336 3299.046  20226.577
-Precision for time.unstruct                      30819.544 157722.879    711.919 6840.873 202402.317
+Precision for time.struct                         4994.923   5892.501    645.456 3240.769  20213.756
+Precision for time.unstruct                      34324.463 183936.574    743.869 7320.343 226616.221
                                                      mode
 overdispersion for the betabinomial observations    0.001
-Precision for time.struct                        1584.885
-Precision for time.unstruct                      1556.470
+Precision for time.struct                        1567.142
+Precision for time.unstruct                      1622.391
 NULL
                                            [,1]
-log marginal-likelihood (integration) -54867.52
-log marginal-likelihood (Gaussian)    -54866.33
+log marginal-likelihood (integration) -54867.42
+log marginal-likelihood (Gaussian)    -54866.23

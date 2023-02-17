@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.8)  14 FEB 2023 15:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.8)  16 FEB 2023 13:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -192,7 +192,7 @@ Package graphics Info: Driver file: pdftex.def on input line 107.
 \Gin@req@height=\dimen158
 \Gin@req@width=\dimen159
 ) (//udrive.uw.edu/udrive/jlg0003/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2022-11-13 v7.00u Hypertext links for LaTeX
+Package: hyperref 2023-02-07 v7.00v Hypertext links for LaTeX
 (//udrive.uw.edu/udrive/jlg0003/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
 Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
 ) (//udrive.uw.edu/udrive/jlg0003/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
@@ -230,7 +230,7 @@ Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 \Hy@linkcounter=\count275
 \Hy@pagecounter=\count276
 (//udrive.uw.edu/udrive/jlg0003/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2022-11-13 v7.00u Hyperref: PDFDocEncoding definition (HO)
+File: pd1enc.def 2023-02-07 v7.00v Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 ) (//udrive.uw.edu/udrive/jlg0003/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
@@ -240,24 +240,24 @@ Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
 \Hy@SavedSpaceFactor=\count277
 (//udrive.uw.edu/udrive/jlg0003/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2022-11-13 v7.00u Hyperref: PDF Unicode definition (HO)
+File: puenc.def 2023-02-07 v7.00v Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
-Package hyperref Info: Option `unicode' set `true' on input line 4045.
-Package hyperref Info: Hyper figures OFF on input line 4162.
-Package hyperref Info: Link nesting OFF on input line 4167.
-Package hyperref Info: Hyper index ON on input line 4170.
-Package hyperref Info: Plain pages OFF on input line 4177.
-Package hyperref Info: Backreferencing OFF on input line 4182.
+Package hyperref Info: Option `unicode' set `true' on input line 4060.
+Package hyperref Info: Hyper figures OFF on input line 4177.
+Package hyperref Info: Link nesting OFF on input line 4182.
+Package hyperref Info: Hyper index ON on input line 4185.
+Package hyperref Info: Plain pages OFF on input line 4192.
+Package hyperref Info: Backreferencing OFF on input line 4197.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4410.
+Package hyperref Info: Bookmarks ON on input line 4425.
 \c@Hy@tempcnt=\count278
 (//udrive.uw.edu/udrive/jlg0003/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 4748.
+LaTeX Info: Redefining \url on input line 4763.
 \XeTeXLinkMargin=\dimen161
 (//udrive.uw.edu/udrive/jlg0003/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -267,13 +267,13 @@ Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 \Fld@menulength=\count279
 \Field@Width=\dimen162
 \Fld@charsize=\dimen163
-Package hyperref Info: Hyper figures OFF on input line 6027.
-Package hyperref Info: Link nesting OFF on input line 6032.
-Package hyperref Info: Hyper index ON on input line 6035.
-Package hyperref Info: backreferencing OFF on input line 6042.
-Package hyperref Info: Link coloring OFF on input line 6047.
-Package hyperref Info: Link coloring with OCG OFF on input line 6052.
-Package hyperref Info: PDF/A mode OFF on input line 6057.
+Package hyperref Info: Hyper figures OFF on input line 6042.
+Package hyperref Info: Link nesting OFF on input line 6047.
+Package hyperref Info: Hyper index ON on input line 6050.
+Package hyperref Info: backreferencing OFF on input line 6057.
+Package hyperref Info: Link coloring OFF on input line 6062.
+Package hyperref Info: Link coloring with OCG OFF on input line 6067.
+Package hyperref Info: PDF/A mode OFF on input line 6072.
 (//udrive.uw.edu/udrive/jlg0003/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atbegshi-ltx.sty
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
@@ -284,7 +284,7 @@ package with kernel methods
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 (//udrive.uw.edu/udrive/jlg0003/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2022-11-13 v7.00u Hyperref driver for pdfTeX
+File: hpdftex.def 2023-02-07 v7.00v Hyperref driver for pdfTeX
 (//udrive.uw.edu/udrive/jlg0003/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atveryend-ltx.sty
 Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
 with kernel methods
@@ -412,141 +412,141 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 [1
 
 {//udrive.uw.edu/udrive/jlg0003/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
-<U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Trends/U5MR/Mauritania_URodds_natl_ar1_strat_u5.pdf, id=59, 505.89pt x 505.89pt>
-File: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Trends/U5MR/Mauritania_URodds_natl_ar1_strat_u5.pdf Graphic file (type pdf)
-<use U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Trends/U5MR/Mauritania_URodds_natl_ar1_strat_u5.pdf>
-Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Trends/U5MR/Mauritania_URodds_natl_ar1_strat_u5.pdf  used on input line 151.
+<U:/UN-Subnational-Estimates/Results/Senegal/Figures/Trends/U5MR/Senegal_URodds_natl_ar1_strat_u5.pdf, id=59, 505.89pt x 505.89pt>
+File: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Trends/U5MR/Senegal_URodds_natl_ar1_strat_u5.pdf Graphic file (type pdf)
+<use U:/UN-Subnational-Estimates/Results/Senegal/Figures/Trends/U5MR/Senegal_URodds_natl_ar1_strat_u5.pdf>
+Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Trends/U5MR/Senegal_URodds_natl_ar1_strat_u5.pdf  used on input line 196.
 (pdftex.def)             Requested size: 361.35352pt x 361.35352pt.
 [3
 
- <u:/UN-Subnational-Estimates/Results/Mauritania/Figures/Trends/U5MR/Mauritania_URodds_natl_ar1_strat_u5.pdf>]
-<U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_natl_strat_ar1_nmr_Spaghetti.pdf, id=71, 578.16pt x 192.72pt>
-File: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_natl_strat_ar1_nmr_Spaghetti.pdf Graphic file (type pdf)
-<use U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_natl_strat_ar1_nmr_Spaghetti.pdf>
-Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_natl_strat_ar1_nmr_Spaghetti.pdf  used on input line 158.
+ <u:/UN-Subnational-Estimates/Results/Senegal/Figures/Trends/U5MR/Senegal_URodds_natl_ar1_strat_u5.pdf>]
+<U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_natl_strat_rw2_nmr_Spaghetti.pdf, id=71, 578.16pt x 192.72pt>
+File: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_natl_strat_rw2_nmr_Spaghetti.pdf Graphic file (type pdf)
+<use U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_natl_strat_rw2_nmr_Spaghetti.pdf>
+Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_natl_strat_rw2_nmr_Spaghetti.pdf  used on input line 203.
 (pdftex.def)             Requested size: 542.05013pt x 180.68336pt.
-<U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_natl_strat_ar1_u5_Spaghetti.pdf, id=72, 578.16pt x 192.72pt>
-File: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_natl_strat_ar1_u5_Spaghetti.pdf Graphic file (type pdf)
-<use U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_natl_strat_ar1_u5_Spaghetti.pdf>
-Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_natl_strat_ar1_u5_Spaghetti.pdf  used on input line 163.
+<U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_natl_strat_rw2_u5_Spaghetti.pdf, id=72, 578.16pt x 192.72pt>
+File: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_natl_strat_rw2_u5_Spaghetti.pdf Graphic file (type pdf)
+<use U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_natl_strat_rw2_u5_Spaghetti.pdf>
+Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_natl_strat_rw2_u5_Spaghetti.pdf  used on input line 208.
 (pdftex.def)             Requested size: 542.05013pt x 180.68336pt.
 [4
 
- <u:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_natl_strat_ar1_nmr_Spaghetti.pdf> <u:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_natl_strat_ar1_u5_Spaghetti.pdf>]
-<U:/UN-Subnational-Estimates/Results/Mauritania/Figures/ShapeCheck/Mauritania_adm1_neighb.pdf, id=101, 289.08pt x 289.08pt>
-File: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/ShapeCheck/Mauritania_adm1_neighb.pdf Graphic file (type pdf)
-<use U:/UN-Subnational-Estimates/Results/Mauritania/Figures/ShapeCheck/Mauritania_adm1_neighb.pdf>
-Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/ShapeCheck/Mauritania_adm1_neighb.pdf  used on input line 175.
+ <u:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_natl_strat_rw2_nmr_Spaghetti.pdf> <u:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_natl_strat_rw2_u5_Spaghetti.pdf>]
+<U:/UN-Subnational-Estimates/Results/Senegal/Figures/ShapeCheck/Senegal_adm1_neighb.pdf, id=101, 289.08pt x 289.08pt>
+File: U:/UN-Subnational-Estimates/Results/Senegal/Figures/ShapeCheck/Senegal_adm1_neighb.pdf Graphic file (type pdf)
+<use U:/UN-Subnational-Estimates/Results/Senegal/Figures/ShapeCheck/Senegal_adm1_neighb.pdf>
+Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Senegal/Figures/ShapeCheck/Senegal_adm1_neighb.pdf  used on input line 220.
 (pdftex.def)             Requested size: 252.94437pt x 252.94437pt.
-<U:/UN-Subnational-Estimates/Results/Mauritania/Figures/ShapeCheck/Mauritania_adm2_neighb.pdf, id=102, 289.08pt x 289.08pt>
-File: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/ShapeCheck/Mauritania_adm2_neighb.pdf Graphic file (type pdf)
-<use U:/UN-Subnational-Estimates/Results/Mauritania/Figures/ShapeCheck/Mauritania_adm2_neighb.pdf>
-Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/ShapeCheck/Mauritania_adm2_neighb.pdf  used on input line 176.
+<U:/UN-Subnational-Estimates/Results/Senegal/Figures/ShapeCheck/Senegal_adm2_neighb.pdf, id=102, 289.08pt x 289.08pt>
+File: U:/UN-Subnational-Estimates/Results/Senegal/Figures/ShapeCheck/Senegal_adm2_neighb.pdf Graphic file (type pdf)
+<use U:/UN-Subnational-Estimates/Results/Senegal/Figures/ShapeCheck/Senegal_adm2_neighb.pdf>
+Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Senegal/Figures/ShapeCheck/Senegal_adm2_neighb.pdf  used on input line 221.
 (pdftex.def)             Requested size: 252.94437pt x 252.94437pt.
-<U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_adm1_ar1_strat_nmr_bench_medianmap_20002021.pdf, id=103, 505.89pt x 505.89pt>
-File: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_adm1_ar1_strat_nmr_bench_medianmap_20002021.pdf Graphic file (type pdf)
-<use U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_adm1_ar1_strat_nmr_bench_medianmap_20002021.pdf>
-Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_adm1_ar1_strat_nmr_bench_medianmap_20002021.pdf  used on input line 185.
+<U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_adm1_rw2_strat_nmr_bench_medianmap_20002021.pdf, id=103, 505.89pt x 505.89pt>
+File: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_adm1_rw2_strat_nmr_bench_medianmap_20002021.pdf Graphic file (type pdf)
+<use U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_adm1_rw2_strat_nmr_bench_medianmap_20002021.pdf>
+Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_adm1_rw2_strat_nmr_bench_medianmap_20002021.pdf  used on input line 230.
 (pdftex.def)             Requested size: 252.94437pt x 252.94437pt.
-<U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_adm1_ar1_strat_u5_bench_medianmap_20002021.pdf, id=104, 505.89pt x 505.89pt>
-File: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_adm1_ar1_strat_u5_bench_medianmap_20002021.pdf Graphic file (type pdf)
-<use U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_adm1_ar1_strat_u5_bench_medianmap_20002021.pdf>
-Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_adm1_ar1_strat_u5_bench_medianmap_20002021.pdf  used on input line 186.
+<U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_adm1_rw2_strat_u5_bench_medianmap_20002021.pdf, id=104, 505.89pt x 505.89pt>
+File: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_adm1_rw2_strat_u5_bench_medianmap_20002021.pdf Graphic file (type pdf)
+<use U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_adm1_rw2_strat_u5_bench_medianmap_20002021.pdf>
+Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_adm1_rw2_strat_u5_bench_medianmap_20002021.pdf  used on input line 231.
 (pdftex.def)             Requested size: 252.94437pt x 252.94437pt.
 [5
 
 
- <u:/UN-Subnational-Estimates/Results/Mauritania/Figures/ShapeCheck/Mauritania_adm1_neighb.pdf> <u:/UN-Subnational-Estimates/Results/Mauritania/Figures/ShapeCheck/Mauritania_adm2_neighb.pdf> <u:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_adm1_ar1_strat_nmr_bench_medianmap_20002021.pdf> <u:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_adm1_ar1_strat_u5_bench_medianmap_20002021.pdf>]
-<U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin1_nmr_SpaghettiAll_ar1_strat_bench_1.pdf, id=131, 505.89pt x 505.89pt>
-File: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin1_nmr_SpaghettiAll_ar1_strat_bench_1.pdf Graphic file (type pdf)
-<use U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin1_nmr_SpaghettiAll_ar1_strat_bench_1.pdf>
-Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin1_nmr_SpaghettiAll_ar1_strat_bench_1.pdf  used on input line 193.
+ <u:/UN-Subnational-Estimates/Results/Senegal/Figures/ShapeCheck/Senegal_adm1_neighb.pdf> <u:/UN-Subnational-Estimates/Results/Senegal/Figures/ShapeCheck/Senegal_adm2_neighb.pdf> <u:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_adm1_rw2_strat_nmr_bench_medianmap_20002021.pdf> <u:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_adm1_rw2_strat_u5_bench_medianmap_20002021.pdf>]
+<U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin1_nmr_SpaghettiAll_rw2_strat_bench_1.pdf, id=131, 505.89pt x 505.89pt>
+File: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin1_nmr_SpaghettiAll_rw2_strat_bench_1.pdf Graphic file (type pdf)
+<use U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin1_nmr_SpaghettiAll_rw2_strat_bench_1.pdf>
+Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin1_nmr_SpaghettiAll_rw2_strat_bench_1.pdf  used on input line 238.
 (pdftex.def)             Requested size: 505.89645pt x 505.89645pt.
 [6
 
- <u:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin1_nmr_SpaghettiAll_ar1_strat_bench_1.pdf>]
-<U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin1_u5_SpaghettiAll_ar1_strat_bench_1.pdf, id=142, 505.89pt x 505.89pt>
-File: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin1_u5_SpaghettiAll_ar1_strat_bench_1.pdf Graphic file (type pdf)
-<use U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin1_u5_SpaghettiAll_ar1_strat_bench_1.pdf>
-Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin1_u5_SpaghettiAll_ar1_strat_bench_1.pdf  used on input line 199.
+ <u:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin1_nmr_SpaghettiAll_rw2_strat_bench_1.pdf>]
+<U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin1_u5_SpaghettiAll_rw2_strat_bench_1.pdf, id=142, 505.89pt x 505.89pt>
+File: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin1_u5_SpaghettiAll_rw2_strat_bench_1.pdf Graphic file (type pdf)
+<use U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin1_u5_SpaghettiAll_rw2_strat_bench_1.pdf>
+Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin1_u5_SpaghettiAll_rw2_strat_bench_1.pdf  used on input line 244.
 (pdftex.def)             Requested size: 505.89645pt x 505.89645pt.
 [7
 
- <u:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin1_u5_SpaghettiAll_ar1_strat_bench_1.pdf>]
-<U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_adm2_ar1_strat_nmr_bench_medianmap_20002021.pdf, id=153, 505.89pt x 505.89pt>
-File: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_adm2_ar1_strat_nmr_bench_medianmap_20002021.pdf Graphic file (type pdf)
-<use U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_adm2_ar1_strat_nmr_bench_medianmap_20002021.pdf>
-Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_adm2_ar1_strat_nmr_bench_medianmap_20002021.pdf  used on input line 209.
+ <u:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin1_u5_SpaghettiAll_rw2_strat_bench_1.pdf>]
+<U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_adm2_rw2_strat_nmr_bench_medianmap_20002021.pdf, id=153, 505.89pt x 505.89pt>
+File: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_adm2_rw2_strat_nmr_bench_medianmap_20002021.pdf Graphic file (type pdf)
+<use U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_adm2_rw2_strat_nmr_bench_medianmap_20002021.pdf>
+Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_adm2_rw2_strat_nmr_bench_medianmap_20002021.pdf  used on input line 254.
 (pdftex.def)             Requested size: 252.94437pt x 252.94437pt.
-<U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_adm2_ar1_strat_u5_bench_medianmap_20002021.pdf, id=154, 505.89pt x 505.89pt>
-File: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_adm2_ar1_strat_u5_bench_medianmap_20002021.pdf Graphic file (type pdf)
-<use U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_adm2_ar1_strat_u5_bench_medianmap_20002021.pdf>
-Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_adm2_ar1_strat_u5_bench_medianmap_20002021.pdf  used on input line 210.
+<U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_adm2_rw2_strat_u5_bench_medianmap_20002021.pdf, id=154, 505.89pt x 505.89pt>
+File: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_adm2_rw2_strat_u5_bench_medianmap_20002021.pdf Graphic file (type pdf)
+<use U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_adm2_rw2_strat_u5_bench_medianmap_20002021.pdf>
+Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_adm2_rw2_strat_u5_bench_medianmap_20002021.pdf  used on input line 255.
 (pdftex.def)             Requested size: 252.94437pt x 252.94437pt.
 [8
 
- <u:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_adm2_ar1_strat_nmr_bench_medianmap_20002021.pdf> <u:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_adm2_ar1_strat_u5_bench_medianmap_20002021.pdf>]
-<U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin2_nmr_SpaghettiAll_ar1_strat_bench_1.pdf, id=173, 505.89pt x 505.89pt>
-File: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin2_nmr_SpaghettiAll_ar1_strat_bench_1.pdf Graphic file (type pdf)
-<use U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin2_nmr_SpaghettiAll_ar1_strat_bench_1.pdf>
-Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin2_nmr_SpaghettiAll_ar1_strat_bench_1.pdf  used on input line 217.
+ <u:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_adm2_rw2_strat_nmr_bench_medianmap_20002021.pdf> <u:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_adm2_rw2_strat_u5_bench_medianmap_20002021.pdf>]
+<U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin2_nmr_SpaghettiAll_rw2_strat_bench_1.pdf, id=173, 505.89pt x 505.89pt>
+File: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin2_nmr_SpaghettiAll_rw2_strat_bench_1.pdf Graphic file (type pdf)
+<use U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin2_nmr_SpaghettiAll_rw2_strat_bench_1.pdf>
+Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin2_nmr_SpaghettiAll_rw2_strat_bench_1.pdf  used on input line 262.
 (pdftex.def)             Requested size: 505.89645pt x 505.89645pt.
-<U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin2_nmr_SpaghettiAll_ar1_strat_bench_2.pdf, id=174, 505.89pt x 505.89pt>
-File: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin2_nmr_SpaghettiAll_ar1_strat_bench_2.pdf Graphic file (type pdf)
-<use U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin2_nmr_SpaghettiAll_ar1_strat_bench_2.pdf>
-Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin2_nmr_SpaghettiAll_ar1_strat_bench_2.pdf  used on input line 221.
+<U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin2_nmr_SpaghettiAll_rw2_strat_bench_2.pdf, id=174, 505.89pt x 505.89pt>
+File: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin2_nmr_SpaghettiAll_rw2_strat_bench_2.pdf Graphic file (type pdf)
+<use U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin2_nmr_SpaghettiAll_rw2_strat_bench_2.pdf>
+Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin2_nmr_SpaghettiAll_rw2_strat_bench_2.pdf  used on input line 266.
 (pdftex.def)             Requested size: 505.89645pt x 505.89645pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin2_nmr_SpaghettiAll_ar1_strat_bench_3.pdf, id=175, 505.89pt x 505.89pt>
-File: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin2_nmr_SpaghettiAll_ar1_strat_bench_3.pdf Graphic file (type pdf)
-<use U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin2_nmr_SpaghettiAll_ar1_strat_bench_3.pdf>
-Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin2_nmr_SpaghettiAll_ar1_strat_bench_3.pdf  used on input line 225.
+<U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin2_nmr_SpaghettiAll_rw2_strat_bench_3.pdf, id=175, 505.89pt x 505.89pt>
+File: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin2_nmr_SpaghettiAll_rw2_strat_bench_3.pdf Graphic file (type pdf)
+<use U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin2_nmr_SpaghettiAll_rw2_strat_bench_3.pdf>
+Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin2_nmr_SpaghettiAll_rw2_strat_bench_3.pdf  used on input line 270.
 (pdftex.def)             Requested size: 505.89645pt x 505.89645pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [9
 
- <u:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin2_nmr_SpaghettiAll_ar1_strat_bench_1.pdf>] [10 <u:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin2_nmr_SpaghettiAll_ar1_strat_bench_2.pdf>] [11 <u:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/NMR/Mauritania_Admin2_nmr_SpaghettiAll_ar1_strat_bench_3.pdf>]
-<U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin2_u5_SpaghettiAll_ar1_strat_bench_1.pdf, id=203, 505.89pt x 505.89pt>
-File: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin2_u5_SpaghettiAll_ar1_strat_bench_1.pdf Graphic file (type pdf)
-<use U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin2_u5_SpaghettiAll_ar1_strat_bench_1.pdf>
-Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin2_u5_SpaghettiAll_ar1_strat_bench_1.pdf  used on input line 231.
+ <u:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin2_nmr_SpaghettiAll_rw2_strat_bench_1.pdf>] [10 <u:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin2_nmr_SpaghettiAll_rw2_strat_bench_2.pdf>] [11 <u:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/NMR/Senegal_Admin2_nmr_SpaghettiAll_rw2_strat_bench_3.pdf>]
+<U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin2_u5_SpaghettiAll_rw2_strat_bench_1.pdf, id=203, 505.89pt x 505.89pt>
+File: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin2_u5_SpaghettiAll_rw2_strat_bench_1.pdf Graphic file (type pdf)
+<use U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin2_u5_SpaghettiAll_rw2_strat_bench_1.pdf>
+Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin2_u5_SpaghettiAll_rw2_strat_bench_1.pdf  used on input line 276.
 (pdftex.def)             Requested size: 505.89645pt x 505.89645pt.
-<U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin2_u5_SpaghettiAll_ar1_strat_bench_2.pdf, id=204, 505.89pt x 505.89pt>
-File: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin2_u5_SpaghettiAll_ar1_strat_bench_2.pdf Graphic file (type pdf)
-<use U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin2_u5_SpaghettiAll_ar1_strat_bench_2.pdf>
-Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin2_u5_SpaghettiAll_ar1_strat_bench_2.pdf  used on input line 235.
+<U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin2_u5_SpaghettiAll_rw2_strat_bench_2.pdf, id=204, 505.89pt x 505.89pt>
+File: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin2_u5_SpaghettiAll_rw2_strat_bench_2.pdf Graphic file (type pdf)
+<use U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin2_u5_SpaghettiAll_rw2_strat_bench_2.pdf>
+Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin2_u5_SpaghettiAll_rw2_strat_bench_2.pdf  used on input line 280.
 (pdftex.def)             Requested size: 505.89645pt x 505.89645pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin2_u5_SpaghettiAll_ar1_strat_bench_3.pdf, id=205, 505.89pt x 505.89pt>
-File: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin2_u5_SpaghettiAll_ar1_strat_bench_3.pdf Graphic file (type pdf)
-<use U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin2_u5_SpaghettiAll_ar1_strat_bench_3.pdf>
-Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin2_u5_SpaghettiAll_ar1_strat_bench_3.pdf  used on input line 239.
+<U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin2_u5_SpaghettiAll_rw2_strat_bench_3.pdf, id=205, 505.89pt x 505.89pt>
+File: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin2_u5_SpaghettiAll_rw2_strat_bench_3.pdf Graphic file (type pdf)
+<use U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin2_u5_SpaghettiAll_rw2_strat_bench_3.pdf>
+Package pdftex.def Info: U:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin2_u5_SpaghettiAll_rw2_strat_bench_3.pdf  used on input line 284.
 (pdftex.def)             Requested size: 505.89645pt x 505.89645pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [12
 
- <u:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin2_u5_SpaghettiAll_ar1_strat_bench_1.pdf>] [13 <u:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin2_u5_SpaghettiAll_ar1_strat_bench_2.pdf>] [14 <u:/UN-Subnational-Estimates/Results/Mauritania/Figures/Summary/U5MR/Mauritania_Admin2_u5_SpaghettiAll_ar1_strat_bench_3.pdf>] (./CountrySummary.aux)
+ <u:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin2_u5_SpaghettiAll_rw2_strat_bench_1.pdf>] [13 <u:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin2_u5_SpaghettiAll_rw2_strat_bench_2.pdf>] [14 <u:/UN-Subnational-Estimates/Results/Senegal/Figures/Summary/U5MR/Senegal_Admin2_u5_SpaghettiAll_rw2_strat_bench_3.pdf>] (./CountrySummary.aux)
 Package rerunfilecheck Info: File `CountrySummary.out' has not changed.
 (rerunfilecheck)             Checksum: 6F18FDAE030CC231A7F98375F6261D04;922.
  ) 
 Here is how much of TeX's memory you used:
- 10619 strings out of 477989
- 181258 string characters out of 5836578
- 1865340 words of memory out of 5000000
- 30586 multiletter control sequences out of 15000+600000
+ 10622 strings out of 477989
+ 180759 string characters out of 5836578
+ 1870340 words of memory out of 5000000
+ 30589 multiletter control sequences out of 15000+600000
  557572 words of font info for 70 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  75i,9n,76p,319b,439s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {//udrive.uw.edu/udrive/jlg0003/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}<//udrive.uw.edu/udrive/jlg0003/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><//udrive.uw.edu/udrive/jlg0003/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><//udrive.uw.edu/udrive/jlg0003/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><//udrive.uw.edu/udrive/jlg0003/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb>
-Output written on CountrySummary.pdf (14 pages, 1702826 bytes).
+Output written on CountrySummary.pdf (14 pages, 2998023 bytes).
 PDF statistics:
  267 PDF objects out of 1000 (max. 8388607)
  202 compressed objects within 3 object streams

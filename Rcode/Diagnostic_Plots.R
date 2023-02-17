@@ -11,7 +11,7 @@ models<- c('natl_unstrat_nmr','adm1_unstrat_nmr','adm2_unstrat_nmr',
             'natl_strat_u5','adm1_strat_u5','adm2_strat_u5',
             'natl_unstrat_u5_allsurveys','adm1_unstrat_u5_allsurveys','adm2_unstrat_u5_allsurveys')[c(1, 4, 10, 13)]
 
-time.model <- c("rw2", "ar1")[2]
+time.model <- c("rw2", "ar1")[1]
 
 models <- gsub("natl_strat", paste0("natl_", time.model, "_strat"), models)
 models <- gsub("natl_unstrat", paste0("natl_", time.model, "_unstrat"), models)

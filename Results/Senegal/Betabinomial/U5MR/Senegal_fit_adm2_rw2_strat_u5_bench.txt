@@ -1,9 +1,8 @@
 ----------------------------------
 Cluster-level model
-  Main temporal model:        ar1
-  Additional linear trends:   stratum-age-specific
+  Main temporal model:        rw2
   Spatial effect:             bym2
-  Interaction temporal model: ar1
+  Interaction temporal model: rw2
   Interaction type:           4
   Interaction random slopes:  yes
   Number of age groups: 6
@@ -15,46 +14,46 @@ Cluster-level model
 ----------------------------------
 Fixed Effects
                            mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-time.slope.group1        -0.635 0.166     -0.961   -0.635     -0.309 -0.635   0
-time.slope.group2        -1.454 0.204     -1.854   -1.454     -1.054 -1.454   0
-time.slope.group3        -2.265 0.205     -2.667   -2.265     -1.864 -2.266   0
-time.slope.group4        -0.532 0.114     -0.756   -0.533     -0.306 -0.534   0
-time.slope.group5        -1.539 0.127     -1.787   -1.540     -1.289 -1.540   0
-time.slope.group6        -2.295 0.116     -2.525   -2.295     -2.067 -2.295   0
-age.intercept0:urban     -3.471 0.041     -3.550   -3.471     -3.391 -3.471   0
-age.intercept1-11:urban  -6.378 0.052     -6.480   -6.378     -6.277 -6.378   0
-age.intercept12-23:urban -7.508 0.081     -7.666   -7.508     -7.351 -7.508   0
-age.intercept24-35:urban -7.734 0.091     -7.912   -7.734     -7.556 -7.734   0
-age.intercept36-47:urban -7.862 0.099     -8.057   -7.862     -7.668 -7.862   0
-age.intercept48-59:urban -8.109 0.115     -8.334   -8.109     -7.884 -8.109   0
-age.intercept0:rural     -3.324 0.028     -3.378   -3.324     -3.269 -3.324   0
-age.intercept1-11:rural  -6.037 0.032     -6.100   -6.037     -5.975 -6.037   0
-age.intercept12-23:rural -6.707 0.039     -6.783   -6.707     -6.630 -6.707   0
-age.intercept24-35:rural -7.042 0.045     -7.131   -7.042     -6.953 -7.042   0
-age.intercept36-47:rural -7.266 0.051     -7.367   -7.266     -7.165 -7.266   0
-age.intercept48-59:rural -7.748 0.066     -7.877   -7.748     -7.619 -7.748   0
+age.intercept0:urban     -3.495 0.047     -3.587   -3.495     -3.404 -3.495   0
+age.intercept1-11:urban  -6.431 0.060     -6.549   -6.431     -6.315 -6.430   0
+age.intercept12-23:urban -7.570 0.086     -7.739   -7.570     -7.401 -7.570   0
+age.intercept24-35:urban -7.796 0.096     -7.983   -7.796     -7.608 -7.796   0
+age.intercept36-47:urban -7.924 0.103     -8.127   -7.924     -7.721 -7.924   0
+age.intercept48-59:urban -8.170 0.119     -8.403   -8.170     -7.938 -8.170   0
+age.intercept0:rural     -3.315 0.034     -3.381   -3.315     -3.248 -3.316   0
+age.intercept1-11:rural  -6.070 0.038     -6.145   -6.071     -5.995 -6.071   0
+age.intercept12-23:rural -6.770 0.045     -6.859   -6.769     -6.682 -6.769   0
+age.intercept24-35:rural -7.105 0.050     -7.204   -7.104     -7.006 -7.104   0
+age.intercept36-47:rural -7.329 0.056     -7.439   -7.328     -7.220 -7.328   0
+age.intercept48-59:rural -7.811 0.069     -7.947   -7.811     -7.676 -7.811   0
 ----------------------------------
 Random Effects
-           Name             Model
-1   time.struct       AR(p) model
-2 time.unstruct         IID model
-3 region.struct        BYM2 model
-4    region.int Besags ICAR model
-5   st.slope.id         IID model
-6     survey.id         IID model
+           Name          Model
+1   time.struct      RW2 model
+2 time.unstruct      IID model
+3 region.struct     BYM2 model
+4     time.area Generic0 model
+5   st.slope.id      IID model
+6     survey.id      IID model
 ----------------------------------
 Model hyperparameters
-                                                     mean       sd 0.025quant 0.5quant 0.975quant    mode
-overdispersion for the betabinomial observations    0.001    0.000      0.000    0.001      0.001   0.001
-Precision for time.struct                        1457.388 2687.537    142.347  729.379   7387.896 304.923
-PACF1 for time.struct                              -0.235    0.299     -0.770   -0.244      0.355  -0.232
-Precision for time.unstruct                       807.858  806.651    130.348  570.728   2936.426 310.802
-Precision for region.struct                      2179.761 9748.151     40.063  531.022  14357.926  90.848
-Phi for region.struct                               0.383    0.307      0.014    0.300      0.971   0.026
-Precision for region.int                           14.602    4.077      8.042   14.123     23.980  13.229
-Group PACF1 for region.int                          0.973    0.015      0.934    0.977      0.993   0.983
-Precision for st.slope.id                         121.360  286.879      9.132   51.353    677.149  19.164
+                                                     mean        sd 0.025quant 0.5quant 0.975quant
+overdispersion for the betabinomial observations    0.001     0.000      0.000    0.001      0.001
+Precision for time.struct                        1312.623  2017.145    112.107  726.124   6175.173
+Precision for time.unstruct                      1425.137  1922.646    164.008  857.214   6216.768
+Precision for region.struct                        19.107     6.006      9.646   18.344     33.060
+Phi for region.struct                               0.860     0.141      0.466    0.909      0.994
+Precision for time.area                           264.214   267.878     54.470  184.386    964.055
+Precision for st.slope.id                        1211.749 20401.682      2.562   72.172   7168.061
+                                                    mode
+overdispersion for the betabinomial observations   0.001
+Precision for time.struct                        278.974
+Precision for time.unstruct                      389.845
+Precision for region.struct                       16.899
+Phi for region.struct                              0.988
+Precision for time.area                          108.010
+Precision for st.slope.id                          4.573
 NULL
                                            [,1]
-log marginal-likelihood (integration) -28217.51
-log marginal-likelihood (Gaussian)    -28211.21
+log marginal-likelihood (integration) -29804.23
+log marginal-likelihood (Gaussian)    -29799.54

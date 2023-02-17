@@ -22,15 +22,23 @@ Random Effects
 5   st.slope.id      IID model
 ----------------------------------
 Model hyperparameters
-                                                     mean        sd 0.025quant 0.5quant 0.975quant   mode
-overdispersion for the betabinomial observations    0.043     0.009      0.028    0.043      0.062  0.042
-Precision for time.struct                        5958.305 89127.076     17.257  409.823  36059.417 32.942
-Precision for time.unstruct                       977.468  2848.576     35.035  342.818   5940.783 83.791
-Precision for region.struct                        17.235    10.270      5.032   14.797     43.868 10.931
-Phi for region.struct                               0.274     0.215      0.016    0.217      0.784  0.041
-Precision for time.area                          1483.560  5186.794     40.721  448.197   9398.846 95.510
-Precision for st.slope.id                        1414.026 24818.273      2.849   79.699   8262.309  5.146
+                                                     mean        sd 0.025quant 0.5quant 0.975quant
+overdispersion for the betabinomial observations    0.043     0.009      0.028    0.043      0.062
+Precision for time.struct                        5869.702 87198.135     17.274  407.330  35589.068
+Precision for time.unstruct                      1186.988  3972.436     39.547  376.397   7423.050
+Precision for region.struct                        17.246    10.274      5.035   14.808     43.889
+Phi for region.struct                               0.275     0.215      0.016    0.218      0.785
+Precision for time.area                          1764.858  7042.594     43.271  480.180  11404.112
+Precision for st.slope.id                        1381.354 23884.237      2.848   79.514   8114.747
+                                                    mode
+overdispersion for the betabinomial observations   0.042
+Precision for time.struct                         33.079
+Precision for time.unstruct                       92.509
+Precision for region.struct                       10.940
+Phi for region.struct                              0.041
+Precision for time.area                          100.067
+Precision for st.slope.id                          5.147
 NULL
                                            [,1]
-log marginal-likelihood (integration) -3874.279
-log marginal-likelihood (Gaussian)    -3869.577
+log marginal-likelihood (integration) -3874.265
+log marginal-likelihood (Gaussian)    -3869.568

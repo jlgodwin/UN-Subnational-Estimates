@@ -14,18 +14,18 @@ Cluster-level model
 ----------------------------------
 Fixed Effects
                            mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-age.intercept0:urban     -3.751 0.045     -3.841   -3.751     -3.663 -3.751   0
-age.intercept1-11:urban  -6.684 0.058     -6.800   -6.683     -6.571 -6.683   0
-age.intercept12-23:urban -7.825 0.085     -7.992   -7.825     -7.658 -7.824   0
-age.intercept24-35:urban -8.050 0.095     -8.236   -8.050     -7.864 -8.050   0
-age.intercept36-47:urban -8.178 0.103     -8.380   -8.178     -7.977 -8.178   0
-age.intercept48-59:urban -8.425 0.118     -8.656   -8.425     -8.194 -8.425   0
-age.intercept0:rural     -3.578 0.033     -3.641   -3.578     -3.513 -3.579   0
+age.intercept0:urban     -3.751 0.045     -3.840   -3.751     -3.663 -3.750   0
+age.intercept1-11:urban  -6.683 0.058     -6.798   -6.683     -6.570 -6.682   0
+age.intercept12-23:urban -7.824 0.085     -7.991   -7.824     -7.658 -7.824   0
+age.intercept24-35:urban -8.050 0.095     -8.235   -8.050     -7.864 -8.050   0
+age.intercept36-47:urban -8.178 0.102     -8.379   -8.178     -7.977 -8.178   0
+age.intercept48-59:urban -8.425 0.118     -8.656   -8.424     -8.194 -8.424   0
+age.intercept0:rural     -3.578 0.032     -3.641   -3.578     -3.514 -3.579   0
 age.intercept1-11:rural  -6.329 0.037     -6.401   -6.329     -6.257 -6.329   0
-age.intercept12-23:rural -7.025 0.044     -7.113   -7.025     -6.940 -7.024   0
-age.intercept24-35:rural -7.361 0.050     -7.459   -7.360     -7.264 -7.360   0
-age.intercept36-47:rural -7.585 0.055     -7.693   -7.584     -7.477 -7.584   0
-age.intercept48-59:rural -8.067 0.069     -8.202   -8.067     -7.933 -8.067   0
+age.intercept12-23:rural -7.025 0.044     -7.112   -7.024     -6.940 -7.024   0
+age.intercept24-35:rural -7.360 0.049     -7.458   -7.359     -7.263 -7.359   0
+age.intercept36-47:rural -7.584 0.055     -7.692   -7.583     -7.477 -7.583   0
+age.intercept48-59:rural -8.066 0.069     -8.201   -8.066     -7.932 -8.066   0
 ----------------------------------
 Random Effects
            Name          Model
@@ -37,23 +37,15 @@ Random Effects
 6     survey.id      IID model
 ----------------------------------
 Model hyperparameters
-                                                     mean        sd 0.025quant 0.5quant 0.975quant
-overdispersion for the betabinomial observations    0.001     0.000      0.000    0.001      0.001
-Precision for time.struct                        4598.942 15524.921    164.374 1450.076  28570.463
-Precision for time.unstruct                      5536.252 15245.056    288.808 2070.938  32631.410
-Precision for region.struct                        18.940     6.127      9.736   18.000     33.599
-Phi for region.struct                               0.852     0.144      0.453    0.901      0.993
-Precision for time.area                           257.430   258.587     53.921  180.402    933.802
-Precision for st.slope.id                        1597.298 29795.561      3.082   82.126   9099.476
-                                                    mode
-overdispersion for the betabinomial observations   0.001
-Precision for time.struct                        377.719
-Precision for time.unstruct                      652.504
-Precision for region.struct                       16.259
-Phi for region.struct                              0.984
-Precision for time.area                          106.254
-Precision for st.slope.id                          5.721
+                                                     mean       sd 0.025quant 0.5quant 0.975quant    mode
+overdispersion for the betabinomial observations    0.001    0.000      0.000    0.001      0.001   0.001
+Precision for time.struct                        2275.388 4427.777    136.858 1067.979  11911.249 337.060
+Precision for time.unstruct                      3293.382 6994.913    230.445 1473.938  17662.985 528.481
+Precision for region.struct                        19.388    5.965     10.093   18.589     33.346  17.092
+Phi for region.struct                               0.847    0.141      0.465    0.892      0.991   0.978
+Precision for time.area                           237.391  226.589     50.268  170.010    831.914 102.075
+Precision for st.slope.id                         461.407 4764.974      1.407   47.589   3032.997   2.067
 NULL
                                            [,1]
-log marginal-likelihood (integration) -29801.85
-log marginal-likelihood (Gaussian)    -29797.22
+log marginal-likelihood (integration) -29804.48
+log marginal-likelihood (Gaussian)    -29799.90

@@ -1,0 +1,40 @@
+----------------------------------
+Cluster-level model
+  Main temporal model:        rw2
+  Spatial effect:             bym2
+  Interaction temporal model: rw2
+  Interaction type:           4
+  Interaction random slopes:  yes
+  Number of age groups: 1
+  Stratification: yes
+  Number of age group fixed effect per stratum: 1
+  Number of age-specific trends per stratum: 1
+  Strata-specific temporal trends: yes
+  Survey effect: no, only one survey
+----------------------------------
+Fixed Effects
+                       mean    sd 0.025quant 0.5quant 0.975quant   mode kld
+age.intercept0:urban -3.518 0.091     -3.697   -3.518     -3.338 -3.518   0
+age.intercept0:rural -3.531 0.089     -3.711   -3.531     -3.357 -3.529   0
+----------------------------------
+Random Effects
+           Name          Model
+1   time.struct      RW2 model
+2 time.unstruct      IID model
+3 region.struct     BYM2 model
+4     time.area Generic0 model
+5   st.slope.id      IID model
+----------------------------------
+Model hyperparameters
+                                                     mean        sd 0.025quant 0.5quant 0.975quant   mode
+overdispersion for the betabinomial observations    0.043     0.009      0.028    0.043      0.062  0.042
+Precision for time.struct                        3672.038 25102.589     31.263  597.589  24852.437 63.960
+Precision for time.unstruct                      1048.160  3308.851     33.378  344.379   6495.332 79.106
+Precision for region.struct                        16.837    10.163      4.922   14.382     43.285 10.580
+Phi for region.struct                               0.282     0.220      0.017    0.224      0.801  0.043
+Precision for time.area                           750.212  1676.442     24.957  310.133   4271.131 60.376
+Precision for st.slope.id                        1400.589 25013.867      2.808   76.772   8113.176  5.113
+NULL
+                                           [,1]
+log marginal-likelihood (integration) -3918.830
+log marginal-likelihood (Gaussian)    -3914.144
