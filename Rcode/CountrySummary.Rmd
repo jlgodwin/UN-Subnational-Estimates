@@ -31,8 +31,6 @@ knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
 
 <!-- User-defined Arguments -->
 ```{r params}
-
-country <- "Senegal"
 debugging <- FALSE
 
 ## MIGHT NEED TO BE CHANGED depending on what you fit
@@ -62,10 +60,8 @@ code.path.splitted <- strsplit(code.path, "/")[[1]]
 home.dir <- paste(code.path.splitted[1: (length(code.path.splitted)-2)],
                   collapse = "/")
 
-## ONLY NEED TO DO IF USING MAC -- change user path to that of your local computer
-# user.path <- "/Users/alanamcgovern"
-# home.dir <- gsub('~',user.path,home.dir)
-
+## ONLY NEED TO DO IF USING MAC -- changes user path to that of your local computer
+home.dir <- fs::path_expand(home.dir)
 
 knitr::opts_chunk$set(root.dir = home.dir)
 
@@ -76,14 +72,18 @@ if(debugging == TRUE){
 }
 
 # set the directory that stores the data
-
-
 # data.dir <- paste0(home.dir,'/Data/', country) 
-
 data.dir <- "R://Project/STAB/Senegal"
+
 # set the directory to store the results (e.g. fitted R objects, figures, tables in .csv etc.)
 
 res.dir <- paste0(home.dir,'/Results/', country)
+
+if(grep('_',country)>0){
+  country_print <- gsub('_',' ',country)
+}else{
+  country_print <- country
+}
 ```
 
 
@@ -207,9 +207,9 @@ These estimates are created using `r ifelse(strata.model == "unstrat", "an unstr
 
 ```{r,  results='asis'}
 if(exists('poly.layer.adm2')){
-  cat("\n",country, ' has ', nrow(admin1.names), ' Admin 1 areas and ', nrow(admin2.names), 'Admin 2 areas. \n')
+  cat("\n",country_print, ' has ', nrow(admin1.names), ' Admin 1 areas and ', nrow(admin2.names), 'Admin 2 areas. \n')
 }else{
-  cat("\n", country, ' has ', nrow(admin1.names), ' Admin 1 areas. \n')
+  cat("\n", country_print, ' has ', nrow(admin1.names), ' Admin 1 areas. \n')
 }
 ```
 
@@ -243,7 +243,7 @@ clus.printxtable <- xtable(clus.xtable,
                            align = "ccccc",
                            caption =
                              paste0("Number of clusters by urban/rural ",
-                                    "designation by survey for ", country, "."))
+                                    "designation by survey for ", country_print, "."))
 print.xtable(clus.printxtable, 
              comment = F, 
              include.rownames = F)
@@ -270,7 +270,8 @@ sum.print <- xtableList(sum.tableList,
                         align = "cccc", 
                         caption = paste0("Numbers of agemonths and deaths by ",
                                          "age group for each survey used ",
-                                         "in analysis for ", country, "."))
+                                         "in analysis for ", country_print, "."))
+
 
 if(length(sum.print) > 1){
   print.xtableList(sum.print,
@@ -376,7 +377,7 @@ coefs.xtable <- xtable(coefs_tab,
                                 "children by age band for the Admin-1, ",
                                 bench_cap_str, " ", strata_cap_str,
                                 " model for ",
-                                country, "."))
+                                country_print, "."))
 print.xtable(coefs.xtable, 
              comment = F, 
              include.rownames = F,
@@ -390,7 +391,7 @@ print.xtable(coefs.xtable,
 if(strata.model == 'strat'){
   
   ur.odds.filename <- paste0(country, "_URodds_natl_",
-                             "ar1_", strata.model,
+                             time.model, "_", strata.model,
                              "_u5.pdf")
   
   if(!file.exists(paste0(res.dir, "/Figures/Trends/U5MR/", ur.odds.filename))){
