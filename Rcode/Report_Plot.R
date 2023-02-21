@@ -474,8 +474,10 @@ if(country=='Uganda'){
   
   load(file = paste0("Direct/NMR/",  nmr.filename))
   load(file = paste0("Direct/U5MR/",  u5.filename))
-  adm1.dir.reg.nmr <- direct.admin1.nmr$region
-  adm1.dir.reg.u5 <- direct.admin1.u5$region
+  adm1.dir.reg.nmr <- direct.admin1.nmr[direct.admin1.nmr$years %in%
+                                          period.years, "region"]
+  adm1.dir.reg.u5 <- direct.admin1.u5[direct.admin1.u5$years %in%
+                                        period.years, "region"]
   adm1.dir.est.nmr <- direct.admin1.nmr[direct.admin1.nmr$years %in%
                                           period.years, "mean"]
   adm1.dir.lower.nmr <- direct.admin1.nmr[direct.admin1.nmr$years %in% 
@@ -514,7 +516,7 @@ if(country=='Uganda'){
   adm1.dir.frame <- data.frame(region = admin1.names$Internal) %>% 
     full_join(adm1.dir.frame.nmr,
               by = "region") %>% 
-    full_join(adm1.dir.frame.u5 %>% 
+    full_join(adm1.dir.frame.u5,
                 by = c("region", "method", "years", "surveyYears"))
   
   ## SD 3-year ####
@@ -799,8 +801,10 @@ if(exists('poly.layer.adm2')){
   
   load(file = paste0("Direct/NMR/",  nmr.filename))
   load(file = paste0("Direct/U5MR/",  u5.filename))
-  adm2.dir.reg.nmr <- direct.admin2.nmr$region
-  adm2.dir.reg.u5 <- direct.admin2.u5$region
+  adm2.dir.reg.nmr <- direct.admin2.nmr[direct.admin2.nmr$years %in%
+                                          period.years, "region"]
+  adm2.dir.reg.u5 <- direct.admin2.u5[direct.admin2.u5$years %in%
+                                        period.years, "region"]
   adm2.dir.est.nmr <- direct.admin2.nmr[direct.admin2.nmr$years %in%
                                           period.years, "mean"]
   adm2.dir.lower.nmr <- direct.admin2.nmr[direct.admin2.nmr$years %in% 
