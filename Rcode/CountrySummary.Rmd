@@ -1,5 +1,5 @@
 ---
-title: "Country Summary: Senegal"
+title: "Country Summary: Mauritania"
 output: 
   pdf_document:
     toc: true
@@ -31,11 +31,12 @@ knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
 
 <!-- User-defined Arguments -->
 ```{r params}
+country <- "Mauritania"
 debugging <- FALSE
 
 ## MIGHT NEED TO BE CHANGED depending on what you fit
-time.model <- c('rw2','ar1')[1]
-strata.model <- c("strat", "unstrat")[1]
+time.model <- c('rw2','ar1')[2]
+strata.model <- c("strat", "unstrat")[2]
 bench.model <- c("", "bench")[2]
 
 
@@ -56,12 +57,12 @@ n_years <- length(plot.years)
 # extract file location of this script
 code.path <- rstudioapi::getActiveDocumentContext()$path
 code.path.splitted <- strsplit(code.path, "/")[[1]]
-
-home.dir <- paste(code.path.splitted[1: (length(code.path.splitted)-2)],
-                  collapse = "/")
-
+# 
+# home.dir <- paste(code.path.splitted[1: (length(code.path.splitted)-2)],
+#                   collapse = "/")
+home.dir <- "C:/Users/jlg0003/jlgodwin/UN-Subnational-Estimates"
 ## ONLY NEED TO DO IF USING MAC -- changes user path to that of your local computer
-home.dir <- fs::path_expand(home.dir)
+# home.dir <- fs::path_expand(home.dir)
 
 knitr::opts_chunk$set(root.dir = home.dir)
 
@@ -73,13 +74,13 @@ if(debugging == TRUE){
 
 # set the directory that stores the data
 # data.dir <- paste0(home.dir,'/Data/', country) 
-data.dir <- "R://Project/STAB/Senegal"
+data.dir <- "R://Project/STAB/Mauritania"
 
 # set the directory to store the results (e.g. fitted R objects, figures, tables in .csv etc.)
 
 res.dir <- paste0(home.dir,'/Results/', country)
 
-if(grep('_',country)>0){
+if(length(grep('_',country))>0){
   country_print <- gsub('_',' ',country)
 }else{
   country_print <- country
