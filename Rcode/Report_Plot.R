@@ -7,7 +7,9 @@ rm(list=ls())
 # Country Name & Model Info ####
 # Please capitalize the first letter of the country name and replace " "
 # in the country name to "_" if there is.
+
 country <- "Senegal"
+
 
 
 ## MIGHT NEED TO BE CHANGED depending on what you fit
@@ -95,7 +97,18 @@ setwd(data.dir)
 load(paste0(poly.path,'/', country, '_Amat.rda'))
 load(paste0(poly.path,'/', country, '_Amat_Names.rda'))
 
-
+if(country == "Pakistan"){
+  load(paste0(poly.path,'/', country, '_Amat_excluding_disputed.rda'))
+  load(paste0(poly.path,'/', country, '_Amat_Names_excluding_disputed.rda'))
+  
+  disputed_areas_gadm <- unique(c(setdiff(admin1.names$GADM,admin1.names_excluding_disputed$GADM),
+                                  setdiff(admin2.names$GADM,admin2.names_excluding_disputed$GADM)))
+  disputed_areas_internal <- c(setdiff(admin1.names$Internal,admin1.names_excluding_disputed$Internal),
+                               setdiff(admin2.names$Internal,admin2.names_excluding_disputed$Internal))
+   
+  admin1.names <- admin1.names_excluding_disputed
+  admin2.names <- admin2.names_excluding_disputed
+}
 ## Load IGME estimates ------------------------------------------------------
 
 {
@@ -202,9 +215,21 @@ if(country=='Uganda'){
   merge.dat <- poly.adm2@data %>% group_by(ADM1_EN) %>% summarise(n = n(), 
                                                                   ADM1_PCODE = unique(ADM1_PCODE))
   poly.adm1 <- SpatialPolygonsDataFrame(poly.adm1, merge.dat)
-  
 }
 
+if(country=='Pakistan'){
+  poly.adm1 <- readOGR(dsn = poly.path,encoding = "UTF-8", use_iconv = TRUE,
+                       layer = as.character("gadm41_PAK_1_excluding_disputed")) # load the shape file of admin-1 regions
+  
+  if(exists('poly.layer.adm2')){
+    poly.adm2 <- readOGR(dsn = poly.path,encoding = "UTF-8", use_iconv = TRUE,
+                         layer = as.character("gadm41_PAK_2_excluding_disputed"))} # load the shape file of admin-2 regions
+  
+  # set coordinate reference system to be equal
+  if(exists("poly.adm2")){
+    proj4string(poly.adm1)  <- proj4string(poly.adm2)
+  }
+}
 
 # Load Model Results ####
 ## National ####
@@ -506,19 +531,19 @@ if(country=='Uganda'){
                                    years=adm1.dir.year.nmr,
                                    surveyYears = adm1.dir.svy.nmr)
   adm1.dir.frame.u5 <- data.frame(region = adm1.dir.reg.u5,
-                               lower_u5=adm1.dir.lower.u5,
-                               median_u5=adm1.dir.est.u5, 
-                               upper_u5=adm1.dir.upper.u5, 
-                               method='adm1.dir',
-                               years=adm1.dir.year.u5,
-                               surveyYears = adm1.dir.svy.u5)
+                                  lower_u5=adm1.dir.lower.u5,
+                                  median_u5=adm1.dir.est.u5, 
+                                  upper_u5=adm1.dir.upper.u5, 
+                                  method='adm1.dir',
+                                  years=adm1.dir.year.u5,
+                                  surveyYears = adm1.dir.svy.u5)
   
   adm1.dir.frame <- data.frame(region = admin1.names$Internal) %>% 
     full_join(adm1.dir.frame.nmr,
               by = "region") %>% 
     full_join(adm1.dir.frame.u5,
-                by = c("region", "method", "years", "surveyYears"))
-  
+              by = c("region", "method", "years", "surveyYears"))
+
   ## SD 3-year ####
   nmr.filename <- paste0(country, '_res_admin1_', sd.time.model,
                          '_nmr_SmoothedDirect.rda')
@@ -833,12 +858,12 @@ if(exists('poly.layer.adm2')){
                                    years=adm2.dir.year.nmr,
                                    surveyYears = adm2.dir.svy.nmr)
   adm2.dir.u5.frame <- data.frame(region = adm2.dir.reg.u5, 
-                               lower_u5=adm2.dir.lower.u5,
-                               median_u5=adm2.dir.est.u5, 
-                               upper_u5=adm2.dir.upper.u5, 
-                               method='adm2.dir',
-                               years=adm2.dir.year.u5,
-                               surveyYears = adm2.dir.svy.u5)
+                                  lower_u5=adm2.dir.lower.u5,
+                                  median_u5=adm2.dir.est.u5, 
+                                  upper_u5=adm2.dir.upper.u5, 
+                                  method='adm2.dir',
+                                  years=adm2.dir.year.u5,
+                                  surveyYears = adm2.dir.svy.u5)
   adm2.dir.frame <- data.frame(region = admin2.names$Internal) %>% 
     full_join(adm2.dir.nmr.frame,
               by = "region") %>% 
@@ -1422,6 +1447,7 @@ tmp_plot <- lapply(tmp_plot, function(res.admin2){
   res.admin2
 })
 
+
 # make the plot
 
 numberAreasPerPage <- 21
@@ -1430,11 +1456,19 @@ numberPages <- ceiling(numberAreasTotal/numberAreasPerPage)
 
 # order data by median magnitude in 2021
 tmp_plot$u5$years.num <- as.numeric(paste0(tmp_plot$u5$years))
-areaOrder <- tmp_plot$u5 %>% 
-  filter(years.num == end.proj.year) %>%
-  arrange(median) %>% 
-  dplyr::select(region.orig) %>% unlist()
 
+if(country != "Pakistan"){
+  areaOrder <- tmp_plot$u5 %>% 
+    filter(years.num == end.proj.year) %>%
+    arrange(median) %>% 
+    dplyr::select(region.orig) %>% unlist()
+}else{
+  areaOrder <- tmp_plot$u5 %>% 
+    filter(years.num == end.proj.year) %>%
+    filter(!(region.orig %in% disputed_areas_internal)) %>% 
+    arrange(median) %>% 
+    dplyr::select(region.orig) %>% unlist()
+}
 # loop and make plots
 for (i in 1:numberPages) {
   if (i != numberPages) {
@@ -1446,6 +1480,7 @@ for (i in 1:numberPages) {
   for(outcome in c("nmr", "u5")){
     tmp <- tmp_plot[[outcome]]
     tmp <- tmp[tmp$region.orig %in% areas,]
+
     tmp.dir <- ifelse(outcome == "u5", "u5mr", outcome)
     bench_str <- ifelse(bench.model == "", bench.model,
                         paste0("_", bench.model))
@@ -1506,8 +1541,8 @@ for(outcome in c("nmr", "u5")){
       if(dim(tmp.area)[1] != 0 &
          !(sum(is.na(tmp.area$median)) == nrow(tmp.area))){
         plot.max <- max(max(c(1000*adm2.dir.frame[adm2.dir.frame$region.orig == 
-                                               as.character(area),
-                                             paste0("median_", outcome)],
+                                                    as.character(area),
+                                                  paste0("median_", outcome)],
                               tmp.area$median), na.rm = TRUE),
                         na.rm = T) + 25
       }else{
@@ -1616,7 +1651,11 @@ for(outcome in c("nmr", "u5")){
   
   for(year in years_vt){
     cond <- tmp_plot[[outcome]][tmp_plot[[outcome]]$years.num == year,]
-  
+    
+    if(country == "Pakistan"){
+      cond <- cond[!(cond$region.orig %in% disputed_areas_internal), ]
+    }
+    
     # create plotting area names (just admin 1 name if admin = 1,
     # or 'admin2,\n admin1' if admin = 2)
     # if this part is not working, please revist how
@@ -1638,7 +1677,7 @@ for(outcome in c("nmr", "u5")){
     data_plot_dt <- rbind(data_plot_dt, data_plot_dt_year)
   }
   
- 
+  
   rowcount <- ceiling(length(years_vt)/5)
   
   pdf(paste0("Figures/Summary/", toupper(tmp.dir),
@@ -1770,11 +1809,19 @@ numberPages <- ceiling(numberAreasTotal/numberAreasPerPage)
 
 # order data by median magnitude in 2021
 tmp_plot$u5$years.num <- as.numeric(paste0(tmp_plot$u5$years))
-areaOrder <- tmp_plot$u5 %>% 
-  filter(years.num == end.proj.year) %>%
-  arrange(median) %>% 
-  dplyr::select(region.orig) %>% unlist()
 
+if(country != "Pakistan"){
+  areaOrder <- tmp_plot$u5 %>% 
+    filter(years.num == end.proj.year) %>%
+    arrange(median) %>% 
+    dplyr::select(region.orig) %>% unlist()
+}else{
+  areaOrder <- tmp_plot$u5 %>% 
+    filter(years.num == end.proj.year) %>%
+    filter(!(region.orig %in% disputed_areas_internal)) %>% 
+    arrange(median) %>% 
+    dplyr::select(region.orig) %>% unlist()
+}
 # loop and make plots
 for (i in 1:numberPages) {
   if (i != numberPages) {
@@ -1789,7 +1836,7 @@ for (i in 1:numberPages) {
     tmp.dir <- ifelse(outcome == "u5", "u5mr", outcome)
     bench_str <- ifelse(bench.model == "", bench.model,
                         paste0("_", bench.model))
-
+    
     pdf(paste0("Figures/Summary/", toupper(tmp.dir), "/",
                country, '_Admin1_', outcome, '_SpaghettiAll_',
                time.model, '_', strata.model, bench_str, "_",
@@ -1954,13 +2001,16 @@ admin_name_dt <- as.data.table(admin1.names)
 for(outcome in c("nmr", "u5")){
   
   tmp.dir <- ifelse(outcome == "u5", "u5mr", outcome)
-
+  
   
   data_plot_dt <- NULL
   
   for(year in years_vt){
     
     cond <- tmp_plot[[outcome]][tmp_plot[[outcome]]$years.num == year,]
+    if(country == "Pakistan"){
+      cond <- cond[!(cond$region.orig %in% disputed_areas_internal), ]
+    }
     
     # create plotting area names (just admin 1 name if admin = 1,
     # or 'admin2,\n admin1' if admin = 2)
