@@ -8,17 +8,17 @@ rm(list=ls())
 # Please capitalize the first letter of the country name and replace " "
 # in the country name to "_" if there is.
 
-country <- "Senegal"
+country <- "Mauritania"
 
 
 
 ## MIGHT NEED TO BE CHANGED depending on what you fit
 # specify time model for BB8
-time.model <- c('rw2','ar1')[1]
+time.model <- c('rw2','ar1')[2]
 # specify time model for smoothed direct
-sd.time.model <- c("rw2", "ar1")[1]
+sd.time.model <- c("rw2", "ar1")[2]
 # specify stratification for BB8 model
-strata.model <- c("unstrat", "strat")[2]
+strata.model <- c("unstrat", "strat")[1]
 
 # specify whether benchmarked or not -- this should be equal to 'bench' unless trying to troubleshoot
 
