@@ -28,7 +28,7 @@ nat <- readxl::read_xlsx("Crisis_Under5_deaths_2022.xlsx")
 # get Guinea inputs
 df_GIN <- df %>% filter(country == "GUINEA")
 gadm_GIN <- readOGR(
-  dsn = "CrisisAdjustment/gadm41_GIN_shp",
+  dsn = "Crisis_Adjustment/gadm41_GIN_shp",
   layer = "gadm41_GIN_2"
 )
 
@@ -50,7 +50,17 @@ adm2_map_GIN <- data.frame(
   gadm = sort(adm2_GIN),
   prefecture = sort(df_GIN$prefecture)
 )
+
+## props correct?
+sum(df_GIN$prop_deaths)
+
 df_GIN <- merge(df_GIN, adm2_map_GIN, by = "prefecture")
+
+## props correct?
+sum(df_GIN$prop_deaths)
+## deaths correct? No, but they are from other source
+sum(df_GIN$deaths) == sum(nat_GIN$nat_ed_0_1 +
+                            nat_GIN$nat_ed_1_5)
 
 # get national crisis death counts
 nat_GIN <- nat %>%
@@ -66,6 +76,10 @@ df_GIN <- merge(df_GIN, nat_GIN, by = "country", all = T)
 df_GIN <- df_GIN %>%
   mutate(ed_0_1 = nat_ed_0_1 * prop_deaths,
          ed_1_5 = nat_ed_1_5 * prop_deaths)
+
+## Check ed sums
+df_GIN %>% group_by(years) %>%
+  summarise(ed_0_1 = sum(ed_0_1), ed_1_5 = sum(ed_1_5))
 
 # light formatting
 df_GIN <- df_GIN %>%
@@ -85,8 +99,16 @@ df_GIN_adm1 <- df_GIN_adm1 %>%
   summarise(ed_0_1 = sum(ed_0_1),
             ed_1_5 = sum(ed_1_5))
 
+## Check sums
+df_GIN_adm1 %>% group_by(years) %>%
+  summarise(ed_0_1 = sum(ed_0_1), ed_1_5 = sum(ed_1_5))
+
 # combine
 df_GIN <- rbind(df_GIN, df_GIN_adm1)
+
+## Check sums
+df_GIN %>% group_by(level, years) %>% 
+  summarise(ed_0_1 = sum(ed_0_1), ed_1_5 = sum(ed_1_5))
 
 save(df_GIN, file = "CrisisAdjustment/crisis_GIN.rda")
 
@@ -96,7 +118,7 @@ save(df_GIN, file = "CrisisAdjustment/crisis_GIN.rda")
 # get Liberia inputs
 df_LBR <- df %>% filter(country == "LIBERIA")
 gadm_LBR <- readOGR(
-  dsn = "CrisisAdjustment/gadm41_LBR_shp",
+  dsn = "Crisis_Adjustment/gadm41_LBR_shp",
   layer = "gadm41_LBR_1"
 )
 
@@ -123,6 +145,12 @@ df_LBR <- df_LBR %>%
   mutate(ed_0_1 = nat_ed_0_1 * prop_deaths,
          ed_1_5 = nat_ed_1_5 * prop_deaths)
 
+## Check sums
+df_LBR %>% group_by(years) %>% 
+  summarise(prop_deaths = sum(prop_deaths),
+            ed_0_1 = sum(ed_0_1), ed_1_5 = sum(ed_1_5),
+            nat_ed_0_1 = unique(nat_ed_0_1),
+            nat_ed_1_5 = unique(nat_ed_1_5))
 # light formatting
 df_LBR <- df_LBR %>%
   mutate(level = "admin1",
@@ -137,7 +165,7 @@ save(df_LBR, file = "CrisisAdjustment/crisis_LBR.rda")
 # Get Sierra Leone inputs
 df_SLE <- df %>% filter(country == "SIERRA LEONE")
 gadm_SLE <- readOGR(
-  dsn = "alt_SLE_shp",
+  dsn = "Crisis_Adjustment/alt_SLE_shp",
   layer = "sle_adm2_districts_mic_cleaned"
 )
 
@@ -168,10 +196,19 @@ nat_SLE <- nat %>%
 # combine
 df_SLE <- merge(df_SLE, nat_SLE, by = "country", all = T)
 
+
 # convert subnational death proportions to death counts
 df_SLE <- df_SLE %>%
   mutate(ed_0_1 = nat_ed_0_1 * prop_deaths,
          ed_1_5 = nat_ed_1_5 * prop_deaths)
+
+## Check sums
+df_SLE %>% 
+  group_by(years) %>% 
+  summarise(prop_deaths = sum(prop_deaths),
+            ed_0_1 = sum(ed_0_1), ed_1_5 = sum(ed_1_5),
+            nat_ed_0_1 = unique(nat_ed_0_1),
+            nat_ed_1_5 = unique(nat_ed_1_5))
 
 # light formatting
 df_SLE <- df_SLE %>%
@@ -191,12 +228,22 @@ df_SLE_adm1 <- df_SLE_adm1 %>%
   summarise(ed_0_1 = sum(ed_0_1),
             ed_1_5 = sum(ed_1_5))
 
+## Check Sums
+df_SLE_adm1 %>% 
+  group_by(years) %>% 
+  summarise(ed_0_1 = sum(ed_0_1), ed_1_5 = sum(ed_1_5))
+
 #alter admin1 names to make compatible w sle_adme_province_mic
 df_SLE_adm1[df_SLE_adm1$gadm=='Western',]$gadm <- 'Western Area'
 df_SLE_adm1[df_SLE_adm1$gadm!='Western Area',]$gadm <- paste0(df_SLE_adm1[df_SLE_adm1$gadm!='Western Area',]$gadm, ' Province')
 
 # combine
 df_SLE <- rbind(df_SLE, df_SLE_adm1)
+
+## Check
+df_SLE %>% 
+  group_by(level, years) %>% 
+  summarise(ed_0_1 = sum(ed_0_1), ed_1_5 = sum(ed_1_5))
 
 save(df_SLE, file = "crisis_SLE.rda")
 
