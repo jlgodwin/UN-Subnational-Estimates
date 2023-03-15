@@ -54,13 +54,13 @@ igme <- readxl::read_xlsx(paste0(home.dir,
 #### 2020 ####
 
 igme_2020 <- readxl::read_xlsx(paste0(home.dir,
-                                 "/Data/Crisis_Adjustment/",
-                                 "Crisis_Under5_deaths2020.xlsx"))
+                                      "/Data/Crisis_Adjustment/",
+                                      "Crisis_Under5_deaths2020.xlsx"))
 #### 2022: Haiti Myanmar ####
 
 igme_2022 <- readxl::read_xlsx(paste0(home.dir,
-                                 "/Data/Crisis_Adjustment/",
-                                 "Haiti and Mynamr Crisis Under 5.xlsx"))
+                                      "/Data/Crisis_Adjustment/",
+                                      "Haiti and Mynamr Crisis Under 5.xlsx"))
 
 igme_updated <- igme_2022 %>% 
   select(LocName, Country.Code, Year, EventType,
@@ -258,13 +258,6 @@ pop <- pop[, c("country", "level", "gadm", "region", "years", "pop_0_1", "pop_1_
 ### admin1 u5mr ####
 deaths_adm1 <- df_SLE %>% filter(level == "admin1")
 deaths_adm1_updated <- deaths_adm1 %>% 
-  left_join(igme_updated %>% 
-              mutate(Year = floor(Year)),
-            by = c("country" = "Country",
-                   "years" = "Year")) %>% 
-  group_by(years) %>% 
-  mutate(ed_0_1_updated = `Crisis d0`*(ed_0_1/sum(ed_0_1)),
-         ed_1_5_updated = `Crisis d1-4`*(ed_1_5/sum(ed_1_5)))
 pop_adm1 <- pop %>% filter(level == "admin1")
 df <- merge(deaths_adm1, pop_adm1, by = c("gadm", "years"))
 df_updated <- merge(deaths_adm1_updated, pop_adm1, by = c("gadm", "years"))
