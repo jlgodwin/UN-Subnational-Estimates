@@ -71,3 +71,5 @@ xtableList(crisis.tableList,
            caption = paste0("Numbers of deaths and mortality rate ",
                             "per 1000 individuals ",
                             "by country, year, and age group."))
+
+

@@ -6,7 +6,7 @@
 rm(list = ls())
 # ENTER COUNTRY OF INTEREST -----------------------------------------------
 # Please capitalize the first letter of the country name and replace " " in the country name to "_" if there is.
-country <- 'Liberia'
+country <- 'Sierra_Leone'
 # Specify straification of final U5MR model (which was benchmarked)
 mod_label <- c('strat_u5_bench','unstrat_u5_allsurveys_bench')[1]
 
@@ -33,11 +33,19 @@ if (country != "Haiti") {
 }
 
 # population weights
-load(paste0(data.dir,'/worldpop/adm1_weights_u1.rda'))
-load(paste0(data.dir,'/worldpop/adm1_weights_u5.rda'))
-load(paste0(data.dir,'/worldpop/adm2_weights_u1.rda'))
-load(paste0(data.dir,'/worldpop/adm2_weights_u5.rda'))
+# load(paste0(data.dir,'/worldpop/adm1_weights_u1.rda'))
+# load(paste0(data.dir,'/worldpop/adm1_weights_u5.rda'))
+# load(paste0(data.dir,'/worldpop/adm2_weights_u1.rda'))
+# load(paste0(data.dir,'/worldpop/adm2_weights_u5.rda'))
 
+load(paste0(home.dir,'/Data/Crisis_Adjustment/adm_weights/',
+            tolower(gadm.abbrev), '_adm1_weights_u1.rda'))
+load(paste0(home.dir,'/Data/Crisis_Adjustment/adm_weights/',
+            tolower(gadm.abbrev), '_adm1_weights_u5.rda'))
+load(paste0(home.dir,'/Data/Crisis_Adjustment/adm_weights/',
+            tolower(gadm.abbrev), '_adm2_weights_u1.rda'))
+load(paste0(home.dir,'/Data/Crisis_Adjustment/adm_weights/',
+            tolower(gadm.abbrev), '_adm2_weights_u5.rda'))
 # final admin1 and admin2 benchmarked u5mr without crisis adjustment
 load(paste0(res.dir,"/Betabinomial/U5MR/", country, "_res_adm1_",mod_label,".rda"))
 load(paste0(res.dir,"/Betabinomial/U5MR/", country, "_res_adm2_", mod_label, ".rda"))
@@ -191,7 +199,7 @@ if (country == "Haiti") {
 # admin1 u5mr
 deaths_adm1 <- deaths %>% filter(level == "admin1")
 pop_adm1 <- pop %>% filter(level == "admin1")
-df <- merge(deaths_adm1, pop_adm1, by = c("region", "years"))
+df <- merge(deaths_adm1, pop_adm1, by = c("gadm", "years"))
 df <- get_ed_5q0(df) # convert deaths to qx
 df <- merge(df, admin1.names, by.x = "region", by.y = "Internal", all=T)
 if (nrow(df[is.na(df$GADM) | is.na(df$gadm),]) > 0) {
@@ -211,7 +219,7 @@ save(res_adm1_u5_crisis, file=paste0(res.dir,"/Betabinomial/U5MR/", country,
 # admin2 u5mr
 deaths_adm2 <- deaths %>% filter(level == "admin2")
 pop_adm2 <- pop %>% filter(level == "admin2")
-df <- merge(deaths_adm2, pop_adm2, by = c("region", "years"))
+df <- merge(deaths_adm2, pop_adm2, by = c("gadm", "years"))
 df <- get_ed_5q0(df) # convert deaths to qx
 df <- df %>% select(region, years, ed_5q0)
 res_adm2_u5_crisis <- merge(res_adm2_u5, df, by = c("region", "years"), all=T)
