@@ -51,7 +51,70 @@ igme <- readxl::read_xlsx(paste0(home.dir,
                                  "/Data/Crisis_Adjustment/",
                                  "Crisis_Under5_deaths_2022.xlsx"))
 
+#### 2020 ####
 
+igme_2020 <- readxl::read_xlsx(paste0(home.dir,
+                                 "/Data/Crisis_Adjustment/",
+                                 "Crisis_Under5_deaths2020.xlsx"))
+#### 2022: Haiti Myanmar ####
+
+igme_2022 <- readxl::read_xlsx(paste0(home.dir,
+                                 "/Data/Crisis_Adjustment/",
+                                 "Haiti and Mynamr Crisis Under 5.xlsx"))
+
+igme_updated <- igme_2022 %>% 
+  select(LocName, Country.Code, Year, EventType,
+         dth_both_infant, dth_both_x1to4) %>% 
+  rename("Country" = "LocName", "ISO3Code" = "Country.Code",
+         "Event" = "EventType", "Crisis d0" = "dth_both_infant",
+         "Crisis d1-4" = "dth_both_x1to4") %>% 
+  mutate(`Crisis d0-5` = `Crisis d0` + `Crisis d1-4`,
+         ID = ISO3Code) %>% 
+  relocate("ID", .after = "Year") %>% 
+  relocate("Crisis d0-5", .after = "Event") %>% 
+  bind_rows(igme_2020 %>% 
+              filter(Country %in% c("Guinea", "Liberia",
+                                    "Sierra Leone")))
+
+#### Plot Comparison ####
+
+pdf(paste0(home.dir, "/Data/Crisis_Adjustment/",
+           "IGME_Deaths_Compare.pdf"),
+    height = 3.5, width = 7)
+{
+par(lend = 1)
+plot_tmp <- igme %>%
+  filter(Country %in% c("Myanmar", "Haiti",
+                        "Guinea", "Liberia",
+                        "Sierra Leone")) %>% 
+  left_join(igme_updated,
+            by = c("Country", "ISO3Code", "Year"),
+            suffix = c("_orig", "_updated"))
+
+country_cols <- rainbow(5)
+par(mfrow = c(1,2), lend = 1)
+plot(plot_tmp$`Crisis d0_orig`,
+     plot_tmp$`Crisis d0_updated`,
+     xlab = "Previous Crisis Numbers",
+     ylab = "Updated Crisis Numbers",
+     main = "0-1", pch = 19,
+     col = rep(country_cols, c(2, 1, 2, 1, 2)))
+abline(0,1)
+legend("topleft",
+       bty = "n", cex = .75,
+       pch = 19, col = country_cols,
+       legend = c("Guinea", "Haiti", "Liberia",
+                  "Myanmar", "Sierra Leone"))
+
+plot(plot_tmp$`Crisis d1-4_orig`,
+     plot_tmp$`Crisis d1-4_updated`,
+     xlab = "Previous Crisis Numbers",
+     ylab = "Updated Crisis Numbers",
+     main = "1-4", pch = 19,
+     col = rep(country_cols, c(2, 1, 2, 1, 2)))
+abline(0,1)
+}
+dev.off()
 ### IGME Estimates: Crisis-Adjusted ####
 
 {
@@ -194,14 +257,30 @@ pop <- pop[, c("country", "level", "gadm", "region", "years", "pop_0_1", "pop_1_
 ## Distribute Deaths ####
 ### admin1 u5mr ####
 deaths_adm1 <- df_SLE %>% filter(level == "admin1")
+deaths_adm1_updated <- deaths_adm1 %>% 
+  left_join(igme_updated %>% 
+              mutate(Year = floor(Year)),
+            by = c("country" = "Country",
+                   "years" = "Year")) %>% 
+  group_by(years) %>% 
+  mutate(ed_0_1_updated = `Crisis d0`*(ed_0_1/sum(ed_0_1)),
+         ed_1_5_updated = `Crisis d1-4`*(ed_1_5/sum(ed_1_5)))
 pop_adm1 <- pop %>% filter(level == "admin1")
 df <- merge(deaths_adm1, pop_adm1, by = c("gadm", "years"))
-df <- get_ed_5q0(df, nax_1_5 = 0.4) # convert deaths to qx
-df <- merge(df, admin1.names, by.x = "region", by.y = "Internal", all=T)
+df_updated <- merge(deaths_adm1_updated, pop_adm1, by = c("gadm", "years"))
+df <- get_ed_5q0(df, nax_1_5 = 0.4)
+df_updated <- get_ed_5q0(df_updated %>% 
+                           mutate(ed_0_1 = ed_0_1_updated,
+                                  ed_1_5 = ed_1_5_updated), nax_1_5 = 0.4)# convert deaths to qx
+df <- merge(df, admin1.names, by.x = "region",
+            by.y = "Internal", all=T)
+df_updated <- merge(df_updated, admin1.names, by.x = "region",
+            by.y = "Internal", all=T)
 if (nrow(df[is.na(df$GADM) | is.na(df$gadm),]) > 0) {
   stop("Incomplete merge of Admin 1 location information.")
 }
 df <- df %>% select(region, years, ed_5q0)
+df_updated <- df_updated %>% select(region, years, ed_5q0)
 res_adm1_u5_crisis <- merge(res_adm1_u5, df, by = c("region", "years"), all=T)
 res_adm1_u5_crisis <- res_adm1_u5_crisis %>%
   mutate(ed_5q0 = ifelse(is.na(ed_5q0), 0, ed_5q0)) %>%
@@ -210,14 +289,47 @@ res_adm1_u5_crisis <- res_adm1_u5_crisis %>%
          upper = upper + ed_5q0) %>%
   dplyr::select(c(region,years,time,area,median,upper,lower,is.yearly))
 
+
+res_adm1_u5_crisis_updated <- merge(res_adm1_u5, df_updated, by = c("region", "years"), all=T)
+res_adm1_u5_crisis_updated <- res_adm1_u5_crisis_updated %>%
+  mutate(ed_5q0 = ifelse(is.na(ed_5q0), 0, ed_5q0)) %>%
+  mutate(median = median + ed_5q0, # final qx = non-crisis qx + crisis qx
+         lower = lower + ed_5q0,
+         upper = upper + ed_5q0) %>%
+  dplyr::select(c(region,years,time,area,median,upper,lower,is.yearly))
+
 ### admin2 u5mr ####
 deaths_adm2 <- df_SLE %>% filter(level == "admin2")
+deaths_adm2_updated <- deaths_adm2 %>% 
+  left_join(igme_updated %>% 
+              mutate(Year = floor(Year)),
+            by = c("country" = "Country",
+                   "years" = "Year")) %>% 
+  group_by(years) %>% 
+  mutate(ed_0_1_updated = `Crisis d0`*(ed_0_1/sum(ed_0_1)),
+         ed_1_5_updated = `Crisis d1-4`*(ed_1_5/sum(ed_1_5)))
 pop_adm2 <- pop %>% filter(level == "admin2")
 df <- merge(deaths_adm2, pop_adm2, by = c("gadm", "years"))
 df <- get_ed_5q0(df, nax_1_5 = 0.4) # convert deaths to qx
 df <- df %>% select(region, years, ed_5q0)
+df_updated <- merge(deaths_adm2_updated, pop_adm2, by = c("gadm", "years"))
+df_updated <- get_ed_5q0(df_updated %>% 
+                           mutate(ed_0_1 = ed_0_1_updated,
+                                  ed_1_5 = ed_1_5_updated),
+                         nax_1_5 = 0.4) # convert deaths to qx
+df_updated <- df_updated %>% select(region, years, ed_5q0)
+
 res_adm2_u5_crisis <- merge(res_adm2_u5, df, by = c("region", "years"), all=T)
 res_adm2_u5_crisis <- res_adm2_u5_crisis %>%
+  mutate(ed_5q0 = ifelse(is.na(ed_5q0), 0, ed_5q0)) %>%
+  mutate(median = median + ed_5q0, # final qx = non-crisis qx + crisis qx
+         lower = lower + ed_5q0,
+         upper = upper + ed_5q0) %>%
+  dplyr::select(c(region,years,time,area,median,upper,lower,is.yearly))
+
+
+res_adm2_u5_crisis_updated <- merge(res_adm2_u5, df_updated, by = c("region", "years"), all=T)
+res_adm2_u5_crisis_updated <- res_adm2_u5_crisis_updated %>%
   mutate(ed_5q0 = ifelse(is.na(ed_5q0), 0, ed_5q0)) %>%
   mutate(median = median + ed_5q0, # final qx = non-crisis qx + crisis qx
          lower = lower + ed_5q0,
@@ -236,6 +348,15 @@ natl_ed_adm1_agg <- deaths_adm1 %>%
             pop_0_1 = sum(pop_0_1),
             pop_1_5 = sum(pop_1_5))
 
+natl_ed_adm1_agg_up <- deaths_adm1_updated %>%
+  left_join(pop_adm1,
+            by = c("gadm", "years")) %>% 
+  group_by(years) %>%
+  summarise(ed_0_1 = sum(ed_0_1_updated),
+            ed_1_5 = sum(ed_1_5_updated),
+            pop_0_1 = sum(pop_0_1),
+            pop_1_5 = sum(pop_1_5))
+
 natl_ed_adm2_agg <- deaths_adm2 %>%
   left_join(pop_adm2,
             by = c("gadm", "years")) %>% 
@@ -244,6 +365,16 @@ natl_ed_adm2_agg <- deaths_adm2 %>%
             ed_1_5 = sum(ed_1_5),
             pop_0_1 = sum(pop_0_1),
             pop_1_5 = sum(pop_1_5))
+
+natl_ed_adm2_agg_up <- deaths_adm2_updated %>%
+  left_join(pop_adm2,
+            by = c("gadm", "years")) %>% 
+  group_by(years) %>%
+  summarise(ed_0_1 = sum(ed_0_1_updated),
+            ed_1_5 = sum(ed_1_5_updated),
+            pop_0_1 = sum(pop_0_1),
+            pop_1_5 = sum(pop_1_5))
+
 
 natl_adm1_agg_nocrisis <- res_adm1_u5 %>%
   mutate(years = as.numeric(as.character(years))) %>%
@@ -281,7 +412,32 @@ natl_adm1_agg <- res_adm1_u5_crisis %>%
             upper = sum(upper*pop/sum(pop)),
             lower = sum(lower*pop/sum(pop)))
 
+natl_adm1_agg_up <- res_adm1_u5_crisis_updated %>%
+  mutate(years = as.numeric(as.character(years))) %>%
+  left_join(pop_adm1,
+            by = c("region", "years")) %>%
+  arrange(years) %>%
+  filter(years %in% 2014:2015) %>%
+  mutate(pop = pop_0_1 + pop_1_5) %>%
+  group_by(years) %>%
+  summarise(median = sum(median*pop/sum(pop)),
+            upper = sum(upper*pop/sum(pop)),
+            lower = sum(lower*pop/sum(pop)))
+
+
+
 natl_adm2_agg <- res_adm2_u5_crisis %>%
+  mutate(years = as.numeric(as.character(years))) %>%
+  left_join(pop_adm2,
+            by = c("region", "years")) %>%
+  arrange(years) %>%
+  filter(years %in% 2014:2015) %>%
+  mutate(pop = pop_0_1 + pop_1_5) %>%
+  group_by(years) %>%
+  summarise(median = sum(median*pop/sum(pop)),
+            upper = sum(upper*pop/sum(pop)),
+            lower = sum(lower*pop/sum(pop)))
+natl_adm2_agg_up <- res_adm2_u5_crisis_updated %>%
   mutate(years = as.numeric(as.character(years))) %>%
   left_join(pop_adm2,
             by = c("region", "years")) %>%
@@ -310,6 +466,25 @@ natl_igme_adm2_ourfn <- igme.ests.u5 %>%
          upper = UPPER_BOUND + ed_5q0,
          lower = LOWER_BOUND + ed_5q0)
 
+natl_igme_adm1_ourfn_up <- igme.ests.u5 %>% 
+  filter(year %in% 2014:2015) %>%
+  left_join(get_ed_5q0(natl_ed_adm1_agg_up, 0.4) %>%
+              dplyr::select(years, ed_5q0),
+            by = c("year" = "years")) %>%
+  mutate(median = OBS_VALUE + ed_5q0,
+         upper = UPPER_BOUND + ed_5q0,
+         lower = LOWER_BOUND + ed_5q0)
+natl_igme_adm2_ourfn_up <- igme.ests.u5 %>% 
+  filter(year %in% 2014:2015) %>%
+  left_join(get_ed_5q0(natl_ed_adm2_agg_up, 0.4) %>%
+              dplyr::select(years, ed_5q0),
+            by = c("year" = "years")) %>%
+  mutate(median = OBS_VALUE + ed_5q0,
+         upper = UPPER_BOUND + ed_5q0,
+         lower = LOWER_BOUND + ed_5q0)
+
+
+
 natl_igme_crisis <- igme.ests.u5.crisis %>% 
   filter(year %in% 2014:2015) %>% 
   mutate(median = OBS_VALUE,
@@ -322,7 +497,7 @@ natl_igme_nocrisis <- igme.ests.u5 %>%
          upper = UPPER_BOUND,
          lower = LOWER_BOUND)
 
-# Plot
+## Plot ####
 
 pdf(paste0(res.dir,"CrisisCompare.pdf"),
     height = 5, width = 5)
@@ -384,6 +559,84 @@ pdf(paste0(res.dir,"CrisisCompare.pdf"),
                          pch = 1, lwd = 2, col = alpha("navy", .45))
                   points(rep(1.55, 5),
                          1000*res_adm1_u5_crisis$median[res_adm1_u5_crisis$years == 2015],
+                         pch = 1, lwd = 2, col = alpha("navy", 1))
+                  legend("topleft",
+                         pch = c(1, 1, rep(19, 8)), bty = 'n', cex = 0.75,
+                         col = c(alpha(cols[1], .45),
+                                 "navy", alpha(cols[c(1,3,5)], 0.45),
+                                 cols[c(1,3,2,4,5)]),
+                         legend = c("BB8 Adm-1", "BB8 Admin-1: Crisis",
+                                    "BB8 Adm-1 Agg",
+                                    "BB8 Adm-2 Agg",
+                                    "IGME",
+                                    "BB8 Adm-1 Agg",
+                                    "BB8 Adm-2 Agg",
+                                    "IGME Adm-1 Death Agg",
+                                    "IGME Adm-2 Death Agg",
+                                    "IGME"))
+}
+dev.off()
+
+pdf(paste0(res.dir,"CrisisCompare_Updated.pdf"),
+    height = 5, width = 5)
+{
+  cols <- c("navy", "firebrick", "forestgreen",
+                  "goldenrod", "black", "grey75")
+                  par(lend = 1)
+                  
+                  plot(NA,
+                       xlim = c(0, 3),
+                       ylim = c(100, 250),
+                       xlab = "",
+                       ylab = "U5MR per 1000 births",
+                       xaxt = "n")
+                  axis(1, at = 1:2,
+                       labels = c("Unadjusted",
+                                  "Adjusted"))
+                  points(c(.85, 1, 1.15),
+                         c(natl_adm1_agg_nocrisis$median[2]*1000,
+                           natl_adm2_agg_nocrisis$median[2]*1000,
+                           natl_igme_nocrisis$median[2]*1000),
+                         pch = 19,
+                         col = alpha(cols[c(1,3,5)], 0.45))
+                  segments(x0 = c(.85, 1, 1.15),
+                           x1 = c(.85, 1, 1.15),
+                           y0 = c(natl_adm1_agg_nocrisis$lower[2]*1000,
+                                  natl_adm2_agg_nocrisis$lower[2]*1000,
+                                  natl_igme_nocrisis$lower[2]*1000),
+                           y1 = c(natl_adm1_agg_nocrisis$upper[2]*1000,
+                                  natl_adm2_agg_nocrisis$upper[2]*1000,
+                                  natl_igme_nocrisis$upper[2]*1000),
+                           lwd = 2,
+                           col = alpha(cols[c(1,3,5)], 0.45))
+                  
+                  points(seq(1.75, 2.25, length.out = 5),
+                         c(natl_adm1_agg_up$median[2]*1000,
+                           natl_adm2_agg_up$median[2]*1000,
+                           natl_igme_adm1_ourfn_up$median[2]*1000,
+                           natl_igme_adm2_ourfn_up$median[2]*1000,
+                           natl_igme_crisis$median[2]*1000),
+                         pch = 19,
+                         col = cols[c(1,3,2,4,5)])
+                  segments(x0 = seq(1.75, 2.25, length.out = 5),
+                           x1 = seq(1.75, 2.25, length.out = 5),
+                           y0 = c(natl_adm1_agg_up$lower[2]*1000,
+                                  natl_adm2_agg_up$lower[2]*1000,
+                                  natl_igme_adm1_ourfn_up$lower[2]*1000,
+                                  natl_igme_adm2_ourfn_up$lower[2]*1000,
+                                  natl_igme_crisis$lower[2]*1000),
+                           y1 = c(natl_adm1_agg_up$upper[2]*1000,
+                                  natl_adm2_agg_up$upper[2]*1000,
+                                  natl_igme_adm1_ourfn_up$upper[2]*1000,
+                                  natl_igme_adm2_ourfn_up$upper[2]*1000,
+                                  natl_igme_crisis$upper[2]*1000),
+                           lwd = 2,
+                           col = cols[c(1,3,2,4,5)])
+                  points(rep(1.45, 5),
+                         1000*res_adm1_u5$median[res_adm1_u5$years == 2015],
+                         pch = 1, lwd = 2, col = alpha("navy", .45))
+                  points(rep(1.55, 5),
+                         1000*res_adm1_u5_crisis_updated$median[res_adm1_u5_crisis_updated$years == 2015],
                          pch = 1, lwd = 2, col = alpha("navy", 1))
                   legend("topleft",
                          pch = c(1, 1, rep(19, 8)), bty = 'n', cex = 0.75,
