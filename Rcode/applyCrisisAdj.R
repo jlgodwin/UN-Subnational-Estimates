@@ -58,8 +58,35 @@ res_adm2_u5 <- eval(str2lang(paste0('bb.res.adm2.',str_replace_all(mod_label,'_'
 load(paste0(data.dir,'/',poly.path,'/', country, '_Amat_Names.rda'))
 
 # UN-IGME national crisis adjustments
-igme <- readxl::read_xlsx(paste0(home.dir,"/Data/Crisis_Adjustment/Crisis_Under5_deaths_2022.xlsx"))
+# DO not use for deaths ONLY pop
+igme <- readxl::read_xlsx(paste0(home.dir,
+                                 "/Data/Crisis_Adjustment/",
+                                 "Crisis_Under5_deaths_2022.xlsx"))
 
+## UN-IGME national 2020 crisis adjustments
+igme_2020 <- readxl::read_xlsx(paste0(home.dir,
+                                      "/Data/Crisis_Adjustment/",
+                                      "Crisis_Under5_deaths2020.xlsx"))
+## 2022: Haiti Myanmar Crisis Adj ####
+
+igme_2022 <- readxl::read_xlsx(paste0(home.dir,
+                                      "/Data/Crisis_Adjustment/",
+                                      "Haiti and Mynamr Crisis ",
+                                      "Under 5.xlsx"))
+
+igme_updated <- igme_2022 %>% 
+  dplyr::select(LocName, Country.Code, Year, EventType,
+         dth_both_infant, dth_both_x1to4) %>% 
+  rename("Country" = "LocName", "ISO3Code" = "Country.Code",
+         "Event" = "EventType", "Crisis d0" = "dth_both_infant",
+         "Crisis d1-4" = "dth_both_x1to4") %>% 
+  mutate(`Crisis d0-5` = `Crisis d0` + `Crisis d1-4`,
+         ID = ISO3Code) %>% 
+  relocate("ID", .after = "Year") %>% 
+  relocate("Crisis d0-5", .after = "Event") %>% 
+  bind_rows(igme_2020 %>% 
+              filter(Country %in% c("Guinea", "Liberia",
+                                    "Sierra Leone")))
 
 # Prep population from UN-IGME pop and weights ----------------------------
 
@@ -139,10 +166,10 @@ if (country == "Liberia") {
     dplyr::mutate(ed_0_1= ed_0_1 * prop_pop_0_1,
            ed_1_5 = ed_1_5 * prop_pop_1_5) %>% ungroup()
   deaths_adm2 <- deaths_adm2 %>%
-    select(country.x, level.x, gadm.x, region, years, ed_0_1, ed_1_5) %>% rename(country=country.x,level=level.x,gadm=gadm.x)
+    dplyr::select(country.x, level.x, gadm.x, years, ed_0_1, ed_1_5) %>% rename(country=country.x,level=level.x,gadm=gadm.x)
   
   # combine
-  deaths <- merge(deaths,admin1.names,by.x='gadm',by.y='GADM') %>% rename(region = Internal)
+  deaths <- merge(deaths,admin1.names,by.x='gadm',by.y='GADM') %>% dplyr::select(-c(Internal))
   deaths <- rbind(deaths, deaths_adm2)
 }
 
@@ -150,9 +177,10 @@ if (country == "Liberia") {
 # split to admin2 by population
 if (country == "Haiti") {
   
-  nat_ed_0_1 <- 4499 # from UN-IGME
-  nat_ed_1_5 <- 59498 # from UN-IGME
-  
+  nat_ed_0_1 <- igme_updated[igme_updated$Country == "Haiti",
+                             "Crisis d0"]
+  nat_ed_1_5 <- igme_updated[igme_updated$Country == "Haiti",
+                             "Crisis d1-4"]
   # admin1
   deaths_adm1 <- data.frame(
     country = "Haiti", level = "admin1",
@@ -178,11 +206,13 @@ if (country == "Haiti") {
   deaths_adm2 <- deaths_adm2 %>%
     group_by(NAME_1) %>%
     summarise(prop_pop_0_1 = pop_0_1 / sum(pop_0_1),
-              prop_pop_1_5 = pop_1_5 / sum(pop_1_5)) %>%
+              prop_pop_1_5 = pop_1_5 / sum(pop_1_5),
+              ed_0_1,
+              ed_1_5) %>%
     mutate(ed_0_1 = ed_0_1 * prop_pop_0_1,
            ed_1_5 = ed_1_5 * prop_pop_1_5)
   deaths_adm2 <- deaths_adm2 %>%
-    select(country, level, gadm, years, ed_0_1, ed_1_5)
+    dplyr::select(country, level, gadm, years, ed_0_1, ed_1_5)
   
   # combine
   deaths <- rbind(deaths_adm1, deaths_adm2)
@@ -197,7 +227,17 @@ if (country == "Haiti") {
 # 3. add on to non-crisis results to get final u5mr
 
 # admin1 u5mr
-deaths_adm1 <- deaths %>% filter(level == "admin1")
+deaths_adm1 <- deaths %>%
+  filter(level == "admin1") %>%
+  left_join(igme_updated %>% 
+            mutate(Year = floor(Year)) %>%
+              dplyr::select(Country, Year, contains("Crisis ")),
+          by = c("country" = "Country",
+                 "years" = "Year")) %>% 
+  rename("ed_0_1_orig" = "ed_0_1", "ed_1_5_orig" = "ed_1_5") %>%
+  group_by(years) %>% 
+  mutate(ed_0_1 = `Crisis d0`*(ed_0_1_orig/sum(ed_0_1_orig)),
+         ed_1_5 = `Crisis d1-4`*(ed_1_5_orig/sum(ed_1_5_orig)))
 pop_adm1 <- pop %>% filter(level == "admin1")
 df <- merge(deaths_adm1, pop_adm1, by = c("gadm", "years"))
 df <- get_ed_5q0(df) # convert deaths to qx
@@ -205,7 +245,7 @@ df <- merge(df, admin1.names, by.x = "region", by.y = "Internal", all=T)
 if (nrow(df[is.na(df$GADM) | is.na(df$gadm),]) > 0) {
   stop("Incomplete merge of Admin 1 location information.")
 }
-df <- df %>% select(region, years, ed_5q0)
+df <- df %>% dplyr::select(region, years, ed_5q0)
 res_adm1_u5_crisis <- merge(res_adm1_u5, df, by = c("region", "years"), all=T)
 res_adm1_u5_crisis <- res_adm1_u5_crisis %>%
   mutate(ed_5q0 = ifelse(is.na(ed_5q0), 0, ed_5q0)) %>%
@@ -217,11 +257,21 @@ save(res_adm1_u5_crisis, file=paste0(res.dir,"/Betabinomial/U5MR/", country,
                                 "_res_adm1_", mod_label,"_crisis.rda"))
 
 # admin2 u5mr
-deaths_adm2 <- deaths %>% filter(level == "admin2")
+deaths_adm2 <- deaths %>% 
+  filter(level == "admin2") %>%
+  left_join(igme_updated %>% 
+              mutate(Year = floor(Year)) %>%
+              dplyr::select(Country, Year, contains("Crisis ")),
+            by = c("country" = "Country",
+                   "years" = "Year")) %>% 
+  rename("ed_0_1_orig" = "ed_0_1", "ed_1_5_orig" = "ed_1_5") %>%
+  group_by(years) %>% 
+  mutate(ed_0_1 = `Crisis d0`*(ed_0_1_orig/sum(ed_0_1_orig)),
+         ed_1_5 = `Crisis d1-4`*(ed_1_5_orig/sum(ed_1_5_orig)))
 pop_adm2 <- pop %>% filter(level == "admin2")
 df <- merge(deaths_adm2, pop_adm2, by = c("gadm", "years"))
 df <- get_ed_5q0(df) # convert deaths to qx
-df <- df %>% select(region, years, ed_5q0)
+df <- df %>% dplyr::select(region, years, ed_5q0)
 res_adm2_u5_crisis <- merge(res_adm2_u5, df, by = c("region", "years"), all=T)
 res_adm2_u5_crisis <- res_adm2_u5_crisis %>%
   mutate(ed_5q0 = ifelse(is.na(ed_5q0), 0, ed_5q0)) %>%

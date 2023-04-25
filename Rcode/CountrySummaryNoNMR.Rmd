@@ -1,9 +1,5 @@
 ---
-<<<<<<< HEAD
-title: "Country Summary: Mauritania"
-=======
-title: "Country Summary: Rwanda"
->>>>>>> upstream/main
+title: "Country Summary: Uganda"
 output: 
   pdf_document:
     toc: true
@@ -35,23 +31,14 @@ knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
 
 <!-- User-defined Arguments -->
 ```{r params}
-<<<<<<< HEAD
-country <- "Mauritania"
-=======
 
-country <- "Rwanda"
->>>>>>> upstream/main
+country <- "Uganda"
 debugging <- FALSE
 
 ## MIGHT NEED TO BE CHANGED depending on what you fit
 time.model <- c('rw2','ar1')[2]
-<<<<<<< HEAD
-strata.model <- c("strat", "unstrat")[2]
-bench.model <- c("", "bench")[2]
-=======
 strata.model <- c("strat", "unstrat")[1]
-bench.model <- c("", "bench")[1]
->>>>>>> upstream/main
+bench.model <- c("", "bench")[2]
 
 
 ## Timing of projection
@@ -70,12 +57,12 @@ n_years <- length(plot.years)
 # extract file location of this script
 code.path <- rstudioapi::getActiveDocumentContext()$path
 code.path.splitted <- strsplit(code.path, "/")[[1]]
-# 
-# home.dir <- paste(code.path.splitted[1: (length(code.path.splitted)-2)],
-#                   collapse = "/")
-home.dir <- "C:/Users/jlg0003/jlgodwin/UN-Subnational-Estimates"
+
+home.dir <- paste(code.path.splitted[1: (length(code.path.splitted)-2)],
+                  collapse = "/")
+
 ## ONLY NEED TO DO IF USING MAC -- changes user path to that of your local computer
-# home.dir <- fs::path_expand(home.dir)
+home.dir <- fs::path_expand(home.dir)
 
 knitr::opts_chunk$set(root.dir = home.dir)
 
@@ -86,18 +73,14 @@ if(debugging == TRUE){
 }
 
 # set the directory that stores the data
-# data.dir <- paste0(home.dir,'/Data/', country) 
-data.dir <- "R://Project/STAB/Mauritania"
 
+
+data.dir <- paste0(home.dir,'/Data/', country) 
 # set the directory to store the results (e.g. fitted R objects, figures, tables in .csv etc.)
 
 res.dir <- paste0(home.dir,'/Results/', country)
 
-<<<<<<< HEAD
-if(length(grep('_',country))>0){
-=======
 if(grepl('_',country)){
->>>>>>> upstream/main
   country_print <- gsub('_',' ',country)
 }else{
   country_print <- country
@@ -290,7 +273,6 @@ sum.print <- xtableList(sum.tableList,
                                          "age group for each survey used ",
                                          "in analysis for ", country_print, "."))
 
-
 if(length(sum.print) > 1){
   print.xtableList(sum.print,
                    comment = F,
@@ -433,18 +415,6 @@ if(strata.model == 'strat'){
 
 
 ```{r natl, results = 'asis'}
-natl.nmr.filename <- paste0(country, "_natl_", strata.model,
-                            "_", time.model,
-                            "_nmr_Spaghetti.pdf")
-
-if(!file.exists(paste0(res.dir, "/Figures/Summary/NMR/", natl.nmr.filename))){
-  if(file.exists(paste0(res.dir, "/Figures/Summary/NMR/",
-                        gsub(paste0(time.model, "_"), "", natl.nmr.filename)))){
-    natl.nmr.filename <- gsub(paste0(time.model, "_"), "", natl.nmr.filename)
-  }else{
-    message("Cannot find the national NMR file specified.")
-  }
-}
 
 natl.u5.filename <- paste0(country, "_natl_", strata.model,
                            "_", time.model,
@@ -459,12 +429,6 @@ if(!file.exists(paste0(res.dir, "/Figures/Summary/U5MR/", natl.u5.filename))){
   }
 }
 
-cat("\\begin{figure}\n \\centering\n")
-cat(paste0("\\includegraphics[width=7.5in]{", res.dir,
-           "/Figures/Summary/NMR/",
-           natl.nmr.filename, "}\n"))
-cat(paste0("\\caption{NMR results from the national BB8 model.}\n",
-           "\\end{figure}\n"))
 cat("\\begin{figure}\n \\centering\n")
 cat(paste0("\\includegraphics[width=7.5in]{", res.dir,
            "/Figures/Summary/U5MR/",
@@ -505,14 +469,6 @@ if(exists('poly.layer.adm2')){
 ## Admin 1 Figures
 
 ```{r adm1, results = 'asis'}
-adm1.nmr.filename <- paste0(country, "_adm1_", time.model, "_",
-                            strata.model, "_nmr", bench_str,
-                            "_", "medianmap_20002021.pdf")
-
-if(!file.exists(paste0(res.dir, "/Figures/Summary/NMR/", adm1.nmr.filename))){
-  message("Cannot find the Admin-1 NMR file specified.")
-}
-
 adm1.u5.filename <- paste0(country, "_adm1_", time.model, "_",
                            strata.model, "_u5", bench_str,
                            "_medianmap_20002021.pdf")
@@ -524,43 +480,16 @@ if(!file.exists(paste0(res.dir, "/Figures/Summary/U5MR/", adm1.u5.filename))){
 
 cat("\\begin{figure}[!h]\n \\centering\n")
 cat(paste0("\\includegraphics[width=3.5in]{", res.dir,
-           "/Figures/Summary/NMR/",
-           adm1.nmr.filename, "}\n"))
-cat(paste0("\\includegraphics[width=3.5in]{", res.dir,
            "/Figures/Summary/U5MR/",
            adm1.u5.filename, "}\n"))
-cat(paste0("\\caption{NMR (left) and U5MR (right) ",
+cat(paste0("\\caption{U5MR ",
            "results in 2000, 2010, 2015, and 2021 ",
            "from the Admin-1 BB8 model.}\n",
            "\\end{figure}\n",
            "\\clearpage"))
 ```
 
-```{r adm1spag, results = 'asis', fig.cap = "Median NMR estimates by Admin-1 from the BB8 model."}
-
-adm1.nmr.filenames <- list.files(paste0(res.dir, "/Figures/Summary/NMR/"))
-adm1.nmr.filenames <- adm1.nmr.filenames[grepl("_Admin1_nmr_SpaghettiAll_",
-                                               adm1.nmr.filenames)]
-
-if(bench.model == ""){
-  adm1.nmr.filenames <- adm1.nmr.filenames[grepl(time.model, adm1.nmr.filenames) &
-                                             grepl(paste0("_", strata.model,
-                                                          "_"),
-                                                   adm1.nmr.filenames) &
-                                             !grepl("bench", adm1.nmr.filenames)] %>%
-    sort()
-}else{
-  adm1.nmr.filenames <- adm1.nmr.filenames[grepl(time.model, adm1.nmr.filenames) &
-                                             grepl(paste0("_", strata.model,
-                                                          "_",bench.model,"_"),
-                                                   adm1.nmr.filenames)] %>%
-    sort()
-}
-
-if(length(adm1.nmr.filenames) == 0){
-  message("Cannot find the Admin-1 NMR file specified.")
-}
-
+```{r adm1spag, results = 'asis', fig.cap = "Median U5MR estimates by Admin-1 from the BB8 model."}
 
 adm1.u5.filenames <- list.files(paste0(res.dir, "/Figures/Summary/U5MR/"))
 adm1.u5.filenames <- adm1.u5.filenames[grepl("_Admin1_u5_SpaghettiAll_",
@@ -584,17 +513,6 @@ if(length(adm1.u5.filenames) == 0){
   message("Cannot find the Admin-1 U5MR file specified.")
 }
 
-for(nmr.file in adm1.nmr.filenames){
-  cat("\\begin{figure}[!h]\n \\centering\n")
-  cat(paste0("\\includegraphics[width=7.5in]{", res.dir,
-             "/Figures/Summary/NMR/",
-             nmr.file, "}\n"))
-  cat(paste0("\\end{figure}\n"))
-}
-cat("\\clearpage")
-```
-
-```{r adm1spagu5, results = "asis", fig.cap = "Median U5MR estimates by Admin-1 from the BB8 model."}
 for(u5.file in adm1.u5.filenames){
   cat("\\begin{figure}[!h]\n \\centering\n")
   cat(paste0("\\includegraphics[width=7.5in]{", res.dir,
@@ -602,6 +520,7 @@ for(u5.file in adm1.u5.filenames){
              u5.file, "}\n"))
   cat(paste0("\\end{figure}\n"))
 }
+cat("\\clearpage")
 ```
 
 \clearpage
@@ -610,14 +529,6 @@ for(u5.file in adm1.u5.filenames){
 ```{r adm2, results = 'asis'}
 if(exists('poly.layer.adm2')){
   cat("\n## Admin 2 Figures\n")
-  
-  adm2.nmr.filename <- paste0(country, "_adm2_", time.model, "_",
-                              strata.model, "_nmr", bench_str,
-                              "_", "medianmap_20002021.pdf")
-  
-  if(!file.exists(paste0(res.dir, "/Figures/Summary/NMR/", adm2.nmr.filename))){
-    message("Cannot find the Admin-2 NMR file specified.")
-  }
   
   adm2.u5.filename <- paste0(country, "_adm2_", time.model, "_",
                              strata.model, "_u5", bench_str,
@@ -630,12 +541,9 @@ if(exists('poly.layer.adm2')){
   
   cat("\\begin{figure}[!h]\n \\centering\n")
   cat(paste0("\\includegraphics[width=3.5in]{", res.dir,
-             "/Figures/Summary/NMR/",
-             adm2.nmr.filename, "}\n"))
-  cat(paste0("\\includegraphics[width=3.5in]{", res.dir,
              "/Figures/Summary/U5MR/",
              adm2.u5.filename, "}\n"))
-  cat(paste0("\\caption{NMR (left) and U5MR (right) ",
+  cat(paste0("\\caption{U5MR ",
              "results in 2000, 2010, 2015, and 2021 ",
              "from the Admin-2 BB8 model.}\n",
              "\\end{figure}\n",
@@ -643,32 +551,9 @@ if(exists('poly.layer.adm2')){
 }
 ```
 
-```{r adm2spag, results = 'asis',fig.cap = "Median NMR estimates by Admin-2 from the BB8 model."}
+```{r adm2spag, results = 'asis',fig.cap = "Median U5MR estimates by Admin-2 from the BB8 model."}
 if(exists('poly.layer.adm2')){
-  adm2.nmr.filenames <- list.files(paste0(res.dir, "/Figures/Summary/NMR/"))
-  adm2.nmr.filenames <- adm2.nmr.filenames[grepl("_Admin2_nmr_SpaghettiAll_",
-                                                 adm2.nmr.filenames)]
-  if(bench.model == ""){
-    adm2.nmr.filenames <- adm2.nmr.filenames[grepl(time.model, adm2.nmr.filenames) &
-                                               grepl(paste0("_", strata.model,
-                                                            "_"),
-                                                     adm2.nmr.filenames) &
-                                               !grepl("bench", adm2.nmr.filenames)] %>%
-      sort()
-  }else{
-    adm2.nmr.filenames <- adm2.nmr.filenames[grepl(time.model, adm2.nmr.filenames) &
-                                               grepl(paste0("_", strata.model,
-                                                            "_",bench.model,"_"),
-                                                     adm2.nmr.filenames)] %>%
-      sort()
-  }
-  
-  
-  if(length(adm2.nmr.filenames) == 0){
-    message("Cannot find the Admin-2 NMR file specified.")
-  }
-  
-  
+ 
   adm2.u5.filenames <- list.files(paste0(res.dir, "/Figures/Summary/U5MR/"))
   adm2.u5.filenames <- adm2.u5.filenames[grepl("_Admin2_u5_SpaghettiAll_",
                                                adm2.u5.filenames)]
@@ -690,19 +575,8 @@ if(exists('poly.layer.adm2')){
   if(length(adm2.u5.filenames) == 0){
     message("Cannot find the Admin-2 U5MR file specified.")
   }
-  
-  for(nmr.file in adm2.nmr.filenames){
-    cat("\\begin{figure}[!h]\n \\centering\n")
-    cat(paste0("\\includegraphics[width=7.5in]{", res.dir,
-               "/Figures/Summary/NMR/",
-               nmr.file, "}\n"))
-    cat(paste0("\\end{figure}\n"))
-  }
-  cat("\\clearpage")
 }
-```
 
-```{r adm2spagu5, results = "asis", fig.cap = "Median U5MR estimates by Admin-2 from the BB8 model."}
 if(exists('poly.layer.adm2')){
   for(u5.file in adm2.u5.filenames){
     cat("\\begin{figure}[!h]\n \\centering\n")

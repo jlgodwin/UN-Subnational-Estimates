@@ -1023,31 +1023,12 @@ setwd(res.dir)
 #get Benchmark adjustment
 if(!exists('bb.adm1.unstrat.nmr.allsurveys')){
   bb.adm1.unstrat.nmr.allsurveys <- getBB8(mod.dat, country, beg.year=beg.year, end.year=end.proj.year,
-                                           Amat=admin1.mat, admin.level='Admin1',
-                                           stratified=F, weight.strata=NULL,
-                                           outcome='nmr',
-                                           time.model=time_mod, st.time.model=time_mod,
-                                           adj.frame=adj.frame, adj.varnames=adj.varnames,
-                                           nsim = 1000, fit.only=T)
-}
-
-res.natl <- getSmoothed(inla_mod = bb.adm1.unstrat.nmr.allsurveys$fit, 
-                        include_subnational = FALSE,
-                        year_range = beg.year:end.proj.year, 
-                        year_label = beg.year:end.proj.year, nsim = 1000,
-                        CI = 0.9, draws = NULL, save.draws = TRUE, save.draws.est=T)
-
-#get rid of duplicates
-res.natl.est <- res.natl$overall[res.natl$overall$area==1,]
-
-bench.adj <- expand.grid(country = country, years = beg.year:end.proj.year)
-bench.adj$est <- bench.adj$igme <- NA
-
-for(i in 1:nrow(bench.adj)){
-  yr <- bench.adj$years[i]
-  bench.adj$est[i] <- res.natl.est$median[res.natl.est$years.num == yr]
-  bench.adj$igme[i] <- igme.ests.nmr$OBS_VALUE[igme.ests.nmr$year == yr]
-  
+                                Amat=admin1.mat, admin.level='Admin1',
+                                stratified=F, weight.strata=NULL,
+                                outcome='nmr', 
+                                time.model='ar1', st.time.model='ar1',
+                                adj.frame=adj.frame, adj.varnames=adj.varnames,
+                                nsim = 1000)
 }
 
 bench.adj$ratio <- bench.adj$est/bench.adj$igme

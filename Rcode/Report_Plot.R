@@ -7,9 +7,13 @@ rm(list=ls())
 # Country Name & Model Info ####
 # Please capitalize the first letter of the country name and replace " "
 # in the country name to "_" if there is.
+<<<<<<< HEAD
 
 country <- "Mauritania"
 
+=======
+country <- "Senegal"
+>>>>>>> upstream/main
 
 
 ## MIGHT NEED TO BE CHANGED depending on what you fit
@@ -75,6 +79,9 @@ if(exists('poly.label.adm2')){
   message("If your country does not use GADM shapefiles, ", 
           "you will need to specify this manually.\n")
 }
+if(country=='Sierra_Leone'){
+  adm1_on_adm2 <- paste0('poly.adm2@data$district_2')
+}
 
 if(!dir.exists(paste0(res.dir,  '/Figures/Summary'))){
   dir.create(paste0(res.dir, '/Figures/Summary'))
@@ -105,7 +112,7 @@ if(country == "Pakistan"){
                                   setdiff(admin2.names$GADM,admin2.names_excluding_disputed$GADM)))
   disputed_areas_internal <- c(setdiff(admin1.names$Internal,admin1.names_excluding_disputed$Internal),
                                setdiff(admin2.names$Internal,admin2.names_excluding_disputed$Internal))
-   
+  
   admin1.names <- admin1.names_excluding_disputed
   admin2.names <- admin2.names_excluding_disputed
 }
@@ -178,12 +185,14 @@ if(((end.year-beg.year+1) %% 3) == 0){
 
 period.years <- paste(beg.period.years, end.period.years, sep = "-")
 
-beg.proj.years <- seq(end.year+1,2021,3)
-end.proj.years <- beg.proj.years+2
-pane.years <- (c((end.period.years + beg.period.years)/2, (end.proj.years+beg.proj.years)/2))
-pane.years <- pane.years[pane.years<=end.proj.year]
-est.period.idx <- 1:length(beg.period.years)
-pred.period.idx <- (length(beg.period.years)+1):(length(beg.period.years)+length(beg.proj.years))
+if(end.year==end.proj.year){
+  pane.years <- (end.period.years+beg.period.years)/2
+}else{
+  beg.proj.years <- seq(end.year+1,2021,3)
+  end.proj.years <- beg.proj.years+2
+  pane.years <- (c((end.period.years + beg.period.years)/2, (end.proj.years+beg.proj.years)/2))
+  pane.years <- pane.years[pane.years<=end.proj.year]
+}
 
 ## Load Polygon files ####
 setwd(data.dir)
@@ -204,17 +213,6 @@ if(country=='Malawi'){
   polyfile_merge <- merge(poly.adm2@data,adm1_adm2_link,by.x='NAME_1',by.y='Admin.2')
   polyfile_merge$DHSREGEN <- polyfile_merge$Admin.1
   poly.adm2@data <- polyfile_merge[,!names(polyfile_merge) == 'Admin.1']
-}
-
-if(country=='Uganda'){
-  poly.adm1.poly <- SpatialPolygons(poly.adm1@polygons)
-  poly.adm1 <- unionSpatialPolygons(poly.adm1.poly,
-                                    IDs = match(poly.adm1@data$ADM1_EN,
-                                                unique(poly.adm1@data$ADM1_EN)))
-  proj4string(poly.adm1) <- proj4string(poly.adm2)
-  merge.dat <- poly.adm2@data %>% group_by(ADM1_EN) %>% summarise(n = n(), 
-                                                                  ADM1_PCODE = unique(ADM1_PCODE))
-  poly.adm1 <- SpatialPolygonsDataFrame(poly.adm1, merge.dat)
 }
 
 if(country=='Pakistan'){
@@ -770,21 +768,23 @@ if(country=='Pakistan'){
     load(file = paste0('Betabinomial/U5MR/', u5.filename))
     
     ##Load benchmarks
-    nmr.bench.file <- gsub(paste0(country, "_res_"), "", 
-                           nmr.filename)
-    nmr.bench.file <- gsub("_allsurveys", "", nmr.bench.file)
-    nmr.bench.file <- gsub("_bench", "_benchmarks", nmr.bench.file)
-    
-    u5.bench.file <- gsub(paste0(country, "_res_"), "", 
-                          u5.filename)
-    u5.bench.file <- gsub("_crisis", "", u5.bench.file)
-    u5.bench.file <- gsub("_allsurveys", "", u5.bench.file)
-    u5.bench.file <- gsub("_bench", "_benchmarks", u5.bench.file)
-    
-    load(file = paste0('Betabinomial/NMR/', nmr.bench.file))
-    adm1.nmr.benchmarks <- bench.adj
-    load(file = paste0("Betabinomial/U5MR/", u5.bench.file))
-    adm1.u5.benchmarks <- bench.adj
+    if(bench.model=='bench'){
+      nmr.bench.file <- gsub(paste0(country, "_res_"), "", 
+                             nmr.filename)
+      nmr.bench.file <- gsub("_allsurveys", "", nmr.bench.file)
+      nmr.bench.file <- gsub("_bench", "_benchmarks", nmr.bench.file)
+      
+      u5.bench.file <- gsub(paste0(country, "_res_"), "", 
+                            u5.filename)
+      u5.bench.file <- gsub("_crisis", "", u5.bench.file)
+      u5.bench.file <- gsub("_allsurveys", "", u5.bench.file)
+      u5.bench.file <- gsub("_bench", "_benchmarks", u5.bench.file)
+      
+      load(file = paste0('Betabinomial/NMR/', nmr.bench.file))
+      adm1.nmr.benchmarks <- bench.adj
+      load(file = paste0("Betabinomial/U5MR/", u5.bench.file))
+      adm1.u5.benchmarks <- bench.adj 
+    }
     
     if(bench.model == ""){
       admin1.strat.nmr.BB8 <- bb.res.adm1.strat.nmr$overall
@@ -1058,21 +1058,23 @@ if(exists('poly.layer.adm2')){
     load(file = paste0('Betabinomial/U5MR/', u5.filename))
     
     ##Load benchmarks
-    nmr.bench.file <- gsub(paste0(country, "_res_"), "", 
-                           nmr.filename)
-    nmr.bench.file <- gsub("_allsurveys", "", nmr.bench.file)
-    nmr.bench.file <- gsub("_bench", "_benchmarks", nmr.bench.file)
-    
-    u5.bench.file <- gsub(paste0(country, "_res_"), "", 
-                          u5.filename)
-    u5.bench.file <- gsub("_crisis", "", u5.bench.file)
-    u5.bench.file <- gsub("_allsurveys", "", u5.bench.file)
-    u5.bench.file <- gsub("_bench", "_benchmarks", u5.bench.file)
-    
-    load(file = paste0('Betabinomial/NMR/', nmr.bench.file))
-    adm2.nmr.benchmarks <- bench.adj
-    load(file = paste0("Betabinomial/U5MR/", u5.bench.file))
-    adm2.u5.benchmarks <- bench.adj
+    if(bench.model=='bench'){
+      nmr.bench.file <- gsub(paste0(country, "_res_"), "", 
+                             nmr.filename)
+      nmr.bench.file <- gsub("_allsurveys", "", nmr.bench.file)
+      nmr.bench.file <- gsub("_bench", "_benchmarks", nmr.bench.file)
+      
+      u5.bench.file <- gsub(paste0(country, "_res_"), "", 
+                            u5.filename)
+      u5.bench.file <- gsub("_crisis", "", u5.bench.file)
+      u5.bench.file <- gsub("_allsurveys", "", u5.bench.file)
+      u5.bench.file <- gsub("_bench", "_benchmarks", u5.bench.file)
+      
+      load(file = paste0('Betabinomial/NMR/', nmr.bench.file))
+      adm2.nmr.benchmarks <- bench.adj
+      load(file = paste0("Betabinomial/U5MR/", u5.bench.file))
+      adm2.u5.benchmarks <- bench.adj
+    }
     
     if(exists('bb.res.adm2.unstrat.nmr.allsurveys')){
       bb.res.adm2.unstrat.nmr <- bb.res.adm2.unstrat.nmr.allsurveys
@@ -1104,22 +1106,23 @@ if(exists('poly.layer.adm2')){
     load(file = paste0('Betabinomial/U5MR/', u5.filename))
     
     ##Load benchmarks
-    nmr.bench.file <- gsub(paste0(country, "_res_"), "", 
-                           nmr.filename)
-    nmr.bench.file <- gsub("_allsurveys", "", nmr.bench.file)
-    nmr.bench.file <- gsub("_bench", "_benchmarks", nmr.bench.file)
-    
-    u5.bench.file <- gsub(paste0(country, "_res_"), "", 
-                          u5.filename)
-    u5.bench.file <- gsub("_crisis", "", u5.bench.file)
-    u5.bench.file <- gsub("_allsurveys", "", u5.bench.file)
-    u5.bench.file <- gsub("_bench", "_benchmarks", u5.bench.file)
-    
-    load(file = paste0('Betabinomial/NMR/', nmr.bench.file))
-    adm2.nmr.benchmarks <- bench.adj
-    load(file = paste0("Betabinomial/U5MR/", u5.bench.file))
-    adm2.u5.benchmarks <- bench.adj
-    
+    if(bench.model=='bench'){
+      nmr.bench.file <- gsub(paste0(country, "_res_"), "", 
+                             nmr.filename)
+      nmr.bench.file <- gsub("_allsurveys", "", nmr.bench.file)
+      nmr.bench.file <- gsub("_bench", "_benchmarks", nmr.bench.file)
+      
+      u5.bench.file <- gsub(paste0(country, "_res_"), "", 
+                            u5.filename)
+      u5.bench.file <- gsub("_crisis", "", u5.bench.file)
+      u5.bench.file <- gsub("_allsurveys", "", u5.bench.file)
+      u5.bench.file <- gsub("_bench", "_benchmarks", u5.bench.file)
+      
+      load(file = paste0('Betabinomial/NMR/', nmr.bench.file))
+      adm2.nmr.benchmarks <- bench.adj
+      load(file = paste0("Betabinomial/U5MR/", u5.bench.file))
+      adm2.u5.benchmarks <- bench.adj
+    }
     
     if(bench.model == ""){
       admin2.strat.nmr.BB8 <- bb.res.adm2.strat.nmr$overall
@@ -2014,7 +2017,7 @@ for(outcome in c("nmr", "u5")){
     
     # create plotting area names (just admin 1 name if admin = 1,
     # or 'admin2,\n admin1' if admin = 2)
-    admin_name_dt$nameToPlot <- eval(str2lang(poly.label.adm1))
+    admin_name_dt$nameToPlot <- unique(eval(str2lang(poly.label.adm1)))
     
     # create data to plot
     data_plot_dt_year <- 
