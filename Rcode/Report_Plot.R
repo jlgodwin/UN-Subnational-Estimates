@@ -7,13 +7,8 @@ rm(list=ls())
 # Country Name & Model Info ####
 # Please capitalize the first letter of the country name and replace " "
 # in the country name to "_" if there is.
-<<<<<<< HEAD
 
-country <- "Mauritania"
-
-=======
 country <- "Senegal"
->>>>>>> upstream/main
 
 
 ## MIGHT NEED TO BE CHANGED depending on what you fit
