@@ -8,7 +8,7 @@ rm(list = ls())
 # Please capitalize the first letter of the country name and replace " " in the country name to "_" if there is.
 country <- 'Haiti'
 # Specify straification of final U5MR model (which was benchmarked)
-mod_label <- c('strat_u5_bench','unstrat_u5_allsurveys_bench')[1]
+mod_label <- c('ar1_strat_u5_bench','ar1_unstrat_u5_allsurveys_bench')[1]
 
 # Load libraries and info ----------------------------------------------------------
 library(tidyverse)
@@ -52,8 +52,12 @@ load(paste0(res.dir,"/Betabinomial/U5MR/", country, "_res_adm1_",mod_label,".rda
 load(paste0(res.dir,"/Betabinomial/U5MR/", country, "_res_adm2_", mod_label, ".rda"))
 
 # simplify names of objects above
-res_adm1_u5 <- eval(str2lang(paste0('bb.res.adm1.',str_replace_all(mod_label,'_','.'),'$overall')))
-res_adm2_u5 <- eval(str2lang(paste0('bb.res.adm2.',str_replace_all(mod_label,'_','.'),'$overall')))
+obj_mod_label <- str_replace_all(mod_label,'_','.')
+obj_mod_label <- str_replace_all(obj_mod_label, "ar1.", "")
+res_adm1_u5 <- eval(str2lang(paste0('bb.res.adm1.',
+                                    obj_mod_label,'$overall')))
+res_adm2_u5 <- eval(str2lang(paste0('bb.res.adm2.',
+                                    obj_mod_label,'$overall')))
 
 # load admin1.names and admin2.names (map from area id to name)
 load(paste0(data.dir,'/',poly.path,'/', country, '_Amat_Names.rda'))
@@ -119,7 +123,8 @@ pop$pop_1_5 <- pop$prop_1_5 * pop$nat_pop_1_5
 
 # final columns: country, level (i.e. admin1, admin2), gadm (area name),
 # region (area code), years, pop_0_1, pop_1_5
-pop <- pop[, c("country", "level", "gadm", "region", "years", "pop_0_1", "pop_1_5")]
+pop <- pop[, c("country", "level", "gadm", "region", "years",
+               "pop_0_1", "pop_1_5")]
 
 
 # utilities ----------------------------------------------------------------
@@ -130,12 +135,12 @@ pop <- pop[, c("country", "level", "gadm", "region", "years", "pop_0_1", "pop_1_
 # - ed_1_5: excess deaths age 1-4 years
 # - pop_0_1: population age 0 years
 # - pop_1_5: population age 1-4 years
-get_ed_5q0 <- function (df, nax_1_5) {
+get_ed_5q0 <- function (df) {
   df <- df %>%
     mutate(ed_1m0 = ed_0_1 / pop_0_1,
            ed_4m1 = ed_1_5 / pop_1_5) %>%
     mutate(ed_1q0 = ed_1m0 / (1 + (1 - (0.3)) * ed_1m0),
-           ed_4q1 = 4 * ed_4m1 / (1 + (4 - 4 * (nax_1_5)) * ed_4m1)) %>%
+           ed_4q1 = 4 * ed_4m1 / (1 + (4 - 4 * (0.4)) * ed_4m1)) %>%
     mutate(ed_5q0 = 1 - (1 - ed_1q0) * (1 - ed_4q1))
   return(df)
 }
@@ -185,33 +190,43 @@ if (country == "Haiti") {
   # admin1
   deaths_adm1 <- data.frame(
     country = "Haiti", level = "admin1",
-    gadm = admin1.names$GADM, years = 2010
+    gadm = admin1.names$GADM,
+    region = admin1.names$Internal,
+    years = 2010
   )
   deaths_adm1 <- deaths_adm1 %>%
     mutate(ed_0_1 = ifelse(gadm == "Ouest", nat_ed_0_1, 0),
-           ed_1_5 = ifelse(gadm == "Ouest", nat_ed_1_5, 0))
+           ed_1_5 = ifelse(gadm == "Ouest", nat_ed_1_5, 0)) %>% 
+    mutate(ed_0_1 = unlist(ed_0_1),
+           ed_1_5 = unlist(ed_1_5))
   
   # admin2
   deaths_adm2 <- data.frame(
     country = "Haiti", level = "admin2",
-    gadm = admin2.names$GADM
+    gadm = admin2.names$GADM,
+    region = admin2.names$Internal
   )
   gadm <- rgdal::readOGR(dsn = paste0(data.dir,'/',poly.path),encoding = "UTF-8", use_iconv = TRUE,
                          layer = as.character(poly.layer.adm2))@data[, c("NAME_1", "NAME_2")] # load the shape file of admin-1 regions
   deaths_adm2 <- merge(deaths_adm2, gadm, by.x = "gadm", by.y = "NAME_2")
   deaths_adm2 <- deaths_adm2 %>%
     mutate(ed_0_1 = ifelse(NAME_1 == "Ouest", nat_ed_0_1, 0),
-           ed_1_5 = ifelse(NAME_1 == "Ouest", nat_ed_1_5, 0))
-  pop_adm2 <- pop %>% filter(level == "admin2")
-  deaths_adm2 <- merge(deaths_adm2, pop_adm2, by = "gadm")
+           ed_1_5 = ifelse(NAME_1 == "Ouest", nat_ed_1_5, 0)) %>% 
+    mutate(ed_0_1 = unlist(ed_0_1),
+           ed_1_5 = unlist(ed_1_5))
+  pop_adm2 <- pop %>% filter(level == "admin2") 
+  deaths_adm2 <- merge(deaths_adm2, pop_adm2, by = "region")
   deaths_adm2 <- deaths_adm2 %>%
-    group_by(NAME_1) %>%
+    ungroup() %>% 
+    group_by(region, gadm.x, country.x, level.x, years) %>%
     summarise(prop_pop_0_1 = pop_0_1 / sum(pop_0_1),
               prop_pop_1_5 = pop_1_5 / sum(pop_1_5),
               ed_0_1,
               ed_1_5) %>%
     mutate(ed_0_1 = ed_0_1 * prop_pop_0_1,
            ed_1_5 = ed_1_5 * prop_pop_1_5)
+  
+  names(deaths_adm2) <- gsub(".x", "", names(deaths_adm2))
   deaths_adm2 <- deaths_adm2 %>%
     dplyr::select(country, level, gadm, years, ed_0_1, ed_1_5)
   
@@ -240,7 +255,9 @@ deaths_adm1 <- deaths %>%
   mutate(ed_0_1 = `Crisis d0`*(ed_0_1_orig/sum(ed_0_1_orig)),
          ed_1_5 = `Crisis d1-4`*(ed_1_5_orig/sum(ed_1_5_orig)))
 pop_adm1 <- pop %>% filter(level == "admin1")
-df <- merge(deaths_adm1, pop_adm1, by = c("gadm", "years"))
+df <- merge(deaths_adm1, pop_adm1,
+            by = c("gadm", "years"))
+names(df) <- gsub(".x", "", names(df))
 df <- get_ed_5q0(df) # convert deaths to qx
 df <- merge(df, admin1.names, by.x = "region", by.y = "Internal", all=T)
 if (nrow(df[is.na(df$GADM) | is.na(df$gadm),]) > 0) {
@@ -271,6 +288,7 @@ deaths_adm2 <- deaths %>%
          ed_1_5 = `Crisis d1-4`*(ed_1_5_orig/sum(ed_1_5_orig)))
 pop_adm2 <- pop %>% filter(level == "admin2")
 df <- merge(deaths_adm2, pop_adm2, by = c("gadm", "years"))
+names(df) <- gsub(".x", "", names(df))
 df <- get_ed_5q0(df) # convert deaths to qx
 df <- df %>% dplyr::select(region, years, ed_5q0)
 res_adm2_u5_crisis <- merge(res_adm2_u5, df, by = c("region", "years"), all=T)
