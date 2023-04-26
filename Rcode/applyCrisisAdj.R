@@ -274,6 +274,47 @@ res_adm1_u5_crisis <- res_adm1_u5_crisis %>%
 save(res_adm1_u5_crisis, file=paste0(res.dir,"/Betabinomial/U5MR/", country,
                                 "_res_adm1_", mod_label,"_crisis.rda"))
 
+## IGME Compare ####
+
+## U5MR ####
+setwd(home.dir)
+igme.ests.u5.raw <- read.csv('./Data/IGME/igme2022_u5.csv')
+igme.ests.u5 <- igme.ests.u5.raw[igme.ests.u5.raw$ISO.Code==gadm.abbrev,]
+igme.ests.u5 <- data.frame(t(igme.ests.u5[,10:ncol(igme.ests.u5)]))
+names(igme.ests.u5) <- c('LOWER_BOUND','OBS_VALUE','UPPER_BOUND')
+igme.ests.u5$year <-  as.numeric(stringr::str_remove(row.names(igme.ests.u5),'X')) - 0.5
+igme.ests.u5 <- igme.ests.u5[igme.ests.u5$year %in% 2000:2021,]
+rownames(igme.ests.u5) <- NULL
+igme.ests.u5$OBS_VALUE <- igme.ests.u5$OBS_VALUE/1000
+igme.ests.u5$LOWER_BOUND <- igme.ests.u5$LOWER_BOUND/1000
+igme.ests.u5$UPPER_BOUND <- igme.ests.u5$UPPER_BOUND/1000
+
+igme_2023 <-  data.frame(region = "IGME 2023",
+                         years = 2000:2021,
+                         time = 1:22, area = 0,
+                         median = NA,
+                         upper = NA, lower = NA, is.yearly = FALSE)
+igme_2023[, c("median", "upper", "lower")] <-
+  igme.ests.u5[, c(2, 3, 1)]
+
+plot_tmp <- rbind.data.frame(res_adm1_u5_crisis,
+                             igme_2023)
+
+cols <- rainbow(nrow(admin1.names))
+
+plot_u5 <- plot_tmp %>% 
+  ungroup() %>% 
+  mutate(years = as.numeric(as.character(years))) %>% 
+  ggplot(aes(x = years, y = median)) +
+  geom_line(aes(color = region), size = 1) + 
+  scale_colour_manual(name = "Estimate",
+                      values = c(cols, "black")) +
+  theme_classic() +
+  ggtitle(country)
+
+setwd(res.dir)
+ggsave(filename = "./Figures/IGMECompare_PostHoc.png", plot_u5)
+
 # admin2 u5mr
 deaths_adm2 <- deaths %>% 
   filter(level == "admin2") %>%

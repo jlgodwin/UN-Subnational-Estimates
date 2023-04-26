@@ -44,6 +44,10 @@ library(tidyverse)
 library(Rfast)
 
 
+## Functions ####
+
+logit <- function(p){ log(p/(1-p))}
+expit <- function(x){exp(x)/(1 + exp(x))}
 # extract file location of this script
 code.path <- rstudioapi::getActiveDocumentContext()$path
 code.path.splitted <- strsplit(code.path, "/")[[1]]
@@ -688,6 +692,37 @@ all.res.bench <- admin1.nmr.res.bench %>%
             upper = quantile(draws, 0.975),
             lower = quantile(draws, 0.025))
 
+
+
+igme_2023 <-  data.frame(outcome = "u5",
+                         level = "National",
+                         region = "IGME 2023",
+                         years = 2000:2021,
+                         GADM = country,
+                         median = NA,
+                         upper = NA, lower = NA)
+igme_2023[, c("median", "upper", "lower")] <-
+  igme.ests.u5[, c(2, 3, 1)]
+
+plot_tmp <- rbind.data.frame(all.res.bench %>%
+                               filter(outcome == "u5" & level == "Admin1") %>% 
+                               select(-variance, -mean),
+                             igme_2023)
+
+cols <- rainbow(nrow(admin1.names))
+
+plot_u5 <- plot_tmp %>% 
+  ungroup() %>% 
+  mutate(years = as.numeric(as.character(years))) %>% 
+  ggplot(aes(x = years, y = median)) +
+  geom_line(aes(color = region), size = 1) + 
+  scale_colour_manual(name = "Estimate",
+                      values = c(cols, "black")) +
+  theme_classic() +
+  ggtitle(country)
+
+
+ggsave(filename = "./Figures/IGMECompare_PostHoc.png", plot_u5)
 
 # Overwrite old results object ####
 
