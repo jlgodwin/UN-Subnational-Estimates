@@ -6,9 +6,9 @@
 rm(list = ls())
 # ENTER COUNTRY OF INTEREST -----------------------------------------------
 # Please capitalize the first letter of the country name and replace " " in the country name to "_" if there is.
-country <- 'Haiti'
+country <- 'Rwanda'
 # Specify straification of final U5MR model (which was benchmarked)
-mod_label <- c('ar1_strat_u5_bench','ar1_unstrat_u5_allsurveys_bench')[1]
+mod_label <- c('strat_u5_bench','unstrat_u5_allsurveys_bench')[1]
 
 # Load libraries and info ----------------------------------------------------------
 library(tidyverse)

@@ -3,7 +3,7 @@ rm(list=ls())
 # Country Name & Model Info ####
 # Please capitalize the first letter of the country name and replace " "
 # in the country name to "_" if there is.
-country <- "Haiti"
+country <- "Rwanda"
 
 
 ## MIGHT NEED TO BE CHANGED depending on what you fit
@@ -590,27 +590,31 @@ admin2.u5.draws <- do.call(rbind.data.frame, admin2.u5.draws.list) %>%
 # Aggregate to posterior national draws ###
 
 ## NMR ####
-admin1.nmr.draws.agg <- admin1.nmr.draws %>% 
+admin1.nmr.draws.agg <- admin1.nmr.draws %>%
+  ungroup() %>% 
   group_by(years, idx) %>% 
-  summarize(draws = sum(proportion*draws),
+  dplyr::summarize(draws = sum(proportion*draws),
             proportion = sum(proportion))
 
 
 admin2.nmr.draws.agg <- admin2.nmr.draws %>% 
+  ungroup() %>% 
   group_by(years, idx) %>% 
-  summarize(draws = sum(proportion*draws),
+  dplyr::summarize(draws = sum(proportion*draws),
             proportion = sum(proportion))
 
 ## U5MR ####
 admin1.u5.draws.agg <- admin1.u5.draws %>% 
+  ungroup() %>% 
   group_by(years, idx) %>% 
-  summarize(draws = sum(proportion*draws),
+  dplyr::summarize(draws = sum(proportion*draws),
             proportion = sum(proportion))
 
 
 admin2.u5.draws.agg <- admin2.u5.draws %>% 
+  ungroup() %>% 
   group_by(years, idx) %>% 
-  summarize(draws = sum(proportion*draws),
+  dplyr::summarize(draws = sum(proportion*draws),
             proportion = sum(proportion))
 
 # Get benchmark ratios ####
@@ -619,7 +623,7 @@ admin2.u5.draws.agg <- admin2.u5.draws %>%
 admin1.nmr.bench <- admin1.nmr.draws.agg %>% 
   ungroup() %>% 
   group_by(years) %>% 
-  summarize(median = median(draws)) %>% 
+  dplyr::summarize(median = median(draws)) %>% 
   left_join(igme.ests.nmr.nocrisis,
             by = c("years" = "year")) %>% 
   mutate(ratio = median/OBS_VALUE)
@@ -627,7 +631,7 @@ admin1.nmr.bench <- admin1.nmr.draws.agg %>%
 admin2.nmr.bench <- admin2.nmr.draws.agg %>% 
   ungroup() %>% 
   group_by(years) %>% 
-  summarize(median = median(draws)) %>% 
+  dplyr::summarize(median = median(draws)) %>% 
   left_join(igme.ests.nmr.nocrisis,
             by = c("years" = "year")) %>% 
   mutate(ratio = median/OBS_VALUE)
@@ -637,7 +641,7 @@ admin2.nmr.bench <- admin2.nmr.draws.agg %>%
 admin1.u5.bench <- admin1.u5.draws.agg %>% 
   ungroup() %>% 
   group_by(years) %>% 
-  summarize(median = median(draws)) %>% 
+  dplyr::summarize(median = median(draws)) %>% 
   left_join(igme.ests.u5.nocrisis,
             by = c("years" = "year")) %>% 
   mutate(ratio = median/OBS_VALUE)
@@ -645,7 +649,7 @@ admin1.u5.bench <- admin1.u5.draws.agg %>%
 admin2.u5.bench <- admin2.u5.draws.agg %>% 
   ungroup() %>% 
   group_by(years) %>% 
-  summarize(median = median(draws)) %>% 
+  dplyr::summarize(median = median(draws)) %>% 
   left_join(igme.ests.u5.nocrisis,
             by = c("years" = "year")) %>% 
   mutate(ratio = median/OBS_VALUE)
@@ -654,26 +658,26 @@ admin2.u5.bench <- admin2.u5.draws.agg %>%
 
 admin1.nmr.res.bench <- admin1.nmr.draws %>% 
   left_join(admin1.nmr.bench %>% 
-              select(years, ratio),
+              dplyr::select(years, ratio),
             by = c("years" = "years")) %>% 
   mutate(outcome = "nmr", level = "Admin1")
 
 admin2.nmr.res.bench <- admin2.nmr.draws %>% 
   left_join(admin2.nmr.bench %>% 
-              select(years, ratio),
+              dplyr::select(years, ratio),
             by = c("years" = "years")) %>% 
   mutate(outcome = "nmr", level = "Admin2")
 
 
 admin1.u5.res.bench <- admin1.u5.draws %>% 
   left_join(admin1.nmr.bench %>% 
-              select(years, ratio),
+              dplyr::select(years, ratio),
             by = c("years" = "years")) %>% 
   mutate(outcome = "u5", level = "Admin1")
 
 admin2.u5.res.bench <- admin2.u5.draws %>% 
   left_join(admin2.u5.bench %>% 
-              select(years, ratio),
+              dplyr::select(years, ratio),
             by = c("years" = "years")) %>% 
   mutate(outcome = "u5", level = "Admin2")
 
@@ -686,7 +690,7 @@ all.res.bench <- admin1.nmr.res.bench %>%
   group_by(outcome, level, region, years) %>% 
   mutate(draws = draws/ratio) %>% 
   group_by(outcome, level, region, years, GADM) %>% 
-  summarize(variance = var(draws),
+  dplyr::summarize(variance = var(draws),
             median = median(draws),
             mean = mean(draws),
             upper = quantile(draws, 0.975),
@@ -706,7 +710,7 @@ igme_2023[, c("median", "upper", "lower")] <-
 
 plot_tmp <- rbind.data.frame(all.res.bench %>%
                                filter(outcome == "u5" & level == "Admin1") %>% 
-                               select(-variance, -mean),
+                               dplyr::select(-variance, -mean),
                              igme_2023)
 
 cols <- rainbow(nrow(admin1.names))
@@ -739,7 +743,7 @@ if(strata.model == "strat"){
     rename("years.num" = "years") %>% 
     rename("years" = "years_old") %>%
     ungroup() %>% 
-    select(-contains("_new"), -contains("_old"),
+    dplyr::select(-contains("_new"), -contains("_old"),
            -outcome, -level, -GADM) %>% 
     as.data.frame()
   bb.res.adm1.strat.nmr$overall <- bb.res.adm1.strat.nmr$overall[, res_names]
@@ -752,7 +756,7 @@ if(strata.model == "strat"){
     rename("years.num" = "years") %>% 
     rename("years" = "years_old") %>%
     ungroup() %>% 
-    select(-contains("_new"), -contains("_old"),
+    dplyr::select(-contains("_new"), -contains("_old"),
            -outcome, -level, -GADM) %>% 
     as.data.frame()
   bb.res.adm2.strat.nmr$overall <- bb.res.adm2.strat.nmr$overall[, res_names]
@@ -765,7 +769,7 @@ if(strata.model == "strat"){
     rename("years.num" = "years") %>% 
     rename("years" = "years_old") %>%
     ungroup() %>% 
-    select(-contains("_new"), -contains("_old"),
+    dplyr::select(-contains("_new"), -contains("_old"),
            -outcome, -level, -GADM) %>% 
     as.data.frame()
   bb.res.adm1.unstrat.nmr$overall <- bb.res.adm1.unstrat.nmr$overall[, res_names]
@@ -778,7 +782,7 @@ if(strata.model == "strat"){
     rename("years.num" = "years") %>% 
     rename("years" = "years_old") %>%
     ungroup() %>% 
-    select(-contains("_new"), -contains("_old"),
+    dplyr::select(-contains("_new"), -contains("_old"),
            -outcome, -level, -GADM) %>% 
     as.data.frame()
   bb.res.adm2.unstrat.nmr$overall <- bb.res.adm2.unstrat.nmr$overall[, res_names]
@@ -797,7 +801,7 @@ if(strata.model == "strat"){
     rename("years.num" = "years") %>% 
     rename("years" = "years_old") %>%
     ungroup() %>% 
-    select(-contains("_new"), -contains("_old"),
+    dplyr::select(-contains("_new"), -contains("_old"),
            -outcome, -level, -GADM) %>% 
     as.data.frame()
   bb.res.adm1.strat.u5$overall <- bb.res.adm1.strat.u5$overall[, res_names]
@@ -810,7 +814,7 @@ if(strata.model == "strat"){
     rename("years.num" = "years") %>% 
     rename("years" = "years_old") %>%
     ungroup() %>% 
-    select(-contains("_new"), -contains("_old"),
+    dplyr::select(-contains("_new"), -contains("_old"),
            -outcome, -level, -GADM) %>% 
     as.data.frame()
   bb.res.adm2.strat.u5$overall <- bb.res.adm2.strat.u5$overall[, res_names]
@@ -823,7 +827,7 @@ if(strata.model == "strat"){
     rename("years.num" = "years") %>% 
     rename("years" = "years_old") %>%
     ungroup() %>% 
-    select(-contains("_new"), -contains("_old"),
+    dplyr::select(-contains("_new"), -contains("_old"),
            -outcome, -level, -GADM) %>% 
     as.data.frame()
   bb.res.adm1.unstrat.u5$overall <- bb.res.adm1.unstrat.u5$overall[, res_names]
@@ -836,7 +840,7 @@ if(strata.model == "strat"){
     rename("years.num" = "years") %>% 
     rename("years" = "years_old") %>%
     ungroup() %>% 
-    select(-contains("_new"), -contains("_old"),
+    dplyr::select(-contains("_new"), -contains("_old"),
            -outcome, -level, -GADM) %>% 
     as.data.frame()
   bb.res.adm2.unstrat.u5$overall <- bb.res.adm2.unstrat.u5$overall[, res_names]
