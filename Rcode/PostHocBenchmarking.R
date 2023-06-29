@@ -3,7 +3,7 @@ rm(list=ls())
 # Country Name & Model Info ####
 # Please capitalize the first letter of the country name and replace " "
 # in the country name to "_" if there is.
-country <- "Rwanda"
+country <- "Ghana"
 
 
 ## MIGHT NEED TO BE CHANGED depending on what you fit
@@ -589,6 +589,7 @@ admin2.u5.draws <- do.call(rbind.data.frame, admin2.u5.draws.list) %>%
 
 # Aggregate to posterior national draws ###
 
+
 ## NMR ####
 admin1.nmr.draws.agg <- admin1.nmr.draws %>%
   ungroup() %>% 
@@ -682,20 +683,31 @@ admin2.u5.res.bench <- admin2.u5.draws %>%
   mutate(outcome = "u5", level = "Admin2")
 
 
-
-all.res.bench <- admin1.nmr.res.bench %>%
-  bind_rows(admin1.u5.res.bench,
-            admin2.nmr.res.bench,
-            admin2.u5.res.bench) %>% 
-  group_by(outcome, level, region, years) %>% 
-  mutate(draws = draws/ratio) %>% 
-  group_by(outcome, level, region, years, GADM) %>% 
-  dplyr::summarize(variance = var(draws),
-            median = median(draws),
-            mean = mean(draws),
-            upper = quantile(draws, 0.975),
-            lower = quantile(draws, 0.025))
-
+if(exists("admin2.u5.res.bench")){
+  all.res.bench <- admin1.nmr.res.bench %>%
+    bind_rows(admin1.u5.res.bench,
+              admin2.nmr.res.bench,
+              admin2.u5.res.bench) %>% 
+    group_by(outcome, level, region, years) %>% 
+    mutate(draws = draws/ratio) %>% 
+    group_by(outcome, level, region, years, GADM) %>% 
+    dplyr::summarize(variance = var(draws),
+                     median = median(draws),
+                     mean = mean(draws),
+                     upper = quantile(draws, 0.975),
+                     lower = quantile(draws, 0.025))
+}else{
+  all.res.bench <- admin1.nmr.res.bench %>%
+    bind_rows(admin1.u5.res.bench) %>% 
+    group_by(outcome, level, region, years) %>% 
+    mutate(draws = draws/ratio) %>% 
+    group_by(outcome, level, region, years, GADM) %>% 
+    dplyr::summarize(variance = var(draws),
+                     median = median(draws),
+                     mean = mean(draws),
+                     upper = quantile(draws, 0.975),
+                     lower = quantile(draws, 0.025))
+}
 
 
 igme_2023 <-  data.frame(outcome = "u5",
@@ -726,7 +738,7 @@ plot_u5 <- plot_tmp %>%
   ggtitle(country)
 
 
-ggsave(filename = "./Figures/IGMECompare_PostHoc.png", plot_u5)
+ggsave(filename = "./Figures/IGMECompare_PostHoc.pdf", plot_u5)
 
 # Overwrite old results object ####
 
