@@ -136,7 +136,7 @@ pop <- pop[, c("country", "level", "gadm", "region", "years",
 # - pop_0_1: population age 0 years
 # - pop_1_5: population age 1-4 years
 get_ed_5q0 <- function (df) {
-  df <- df %>%
+  df <- df %>% ungroup() %>% 
     mutate(ed_1m0 = ed_0_1 / pop_0_1,
            ed_4m1 = ed_1_5 / pop_1_5) %>%
     mutate(ed_1q0 = ed_1m0 / (1 + (1 - (0.3)) * ed_1m0),
