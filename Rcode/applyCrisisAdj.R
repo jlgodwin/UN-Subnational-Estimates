@@ -6,9 +6,9 @@
 rm(list = ls())
 # ENTER COUNTRY OF INTEREST -----------------------------------------------
 # Please capitalize the first letter of the country name and replace " " in the country name to "_" if there is.
-country <- 'Haiti'
+country <- 'Myanmar'
 # Specify straification of final U5MR model (which was benchmarked)
-mod_label <- c('ar1_strat_u5_bench','ar1_unstrat_u5_allsurveys_bench')[1]
+mod_label <- c('strat_u5_bench','unstrat_u5_allsurveys_bench')[1]
 
 # Load libraries and info ----------------------------------------------------------
 library(tidyverse)
@@ -22,7 +22,7 @@ home.dir <- paste(code.path.splitted[1: (length(code.path.splitted)-2)], collaps
 #data.dir <- paste0(home.dir,'/Data/',country) # set the directory to store the data
 data.dir <- paste0("R://Project/STAB/", country)
 res.dir <- paste0(home.dir,'/Results/',country) # set the directory to store the results (e.g. fitted R objects, figures, tables in .csv etc.)
-info.name <- paste0(country, "_general_info.Rdata")
+info.name <- paste0(gsub(" ", "_", country), "_general_info.Rdata")
 load(file = paste0(home.dir,'/Info/',info.name, sep='')) # load the country info
 
 # Load data and results ------------------------------------------------------------------
@@ -172,11 +172,13 @@ if (country == "Liberia") {
     dplyr::mutate(ed_0_1= ed_0_1 * prop_pop_0_1,
            ed_1_5 = ed_1_5 * prop_pop_1_5) %>% ungroup()
   deaths_adm2 <- deaths_adm2 %>%
-    dplyr::select(country.x, level.x, region, gadm.x, years, ed_0_1, ed_1_5) %>% rename(country=country.x,level=level.x,gadm=gadm.x)
+    dplyr::select(country.x, level.x, region, gadm.x, years, ed_0_1, ed_1_5) %>%
+    rename(country=country.x,level=level.x,gadm=gadm.x)
   
   # combine
   deaths <- merge(deaths,admin1.names,by.x='gadm',by.y='GADM') %>% 
-    select(country,level,Internal.x,gadm,years,ed_0_1,ed_1_5) %>% rename(region=Internal.x)
+    select(country,level,Internal,gadm,years,ed_0_1,ed_1_5) %>%
+    rename(region=Internal)
   deaths <- rbind(deaths, deaths_adm2)
 }
 

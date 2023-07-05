@@ -1,0 +1,44 @@
+----------------------------------
+Cluster-level model
+  Main temporal model:        ar1
+  Additional linear trends:   stratum-age-specific
+  Spatial effect:             bym2
+  Interaction temporal model: ar1
+  Interaction type:           4
+  Interaction random slopes:  yes
+  Number of age groups: 1
+  Stratification: no, strata variable not in the input
+  Survey effect: yes
+----------------------------------
+Fixed Effects
+                    mean    sd 0.025quant 0.5quant 0.975quant   mode kld
+(Intercept)       -3.292 0.052     -3.396   -3.292     -3.189 -3.292   0
+time.slope.group1 -0.435 0.217     -0.848   -0.439      0.021 -0.444   0
+
+Slope fixed effect index:
+time.slope.group1: 0
+----------------------------------
+Random Effects
+           Name             Model
+1   time.struct       AR(p) model
+2 time.unstruct         IID model
+3 region.struct        BYM2 model
+4    region.int Besags ICAR model
+5   st.slope.id         IID model
+6     survey.id         IID model
+----------------------------------
+Model hyperparameters
+                                                     mean        sd 0.025quant 0.5quant 0.975quant    mode
+overdispersion for the betabinomial observations    0.023     0.004      0.015    0.022      0.032   0.022
+Precision for time.struct                        1157.382  4689.261      5.491  254.747   7910.494   5.331
+PACF1 for time.struct                               0.659     0.394     -0.463    0.820      0.996   0.996
+Precision for time.unstruct                      2355.121 10126.281     62.241  608.844  15283.376 140.554
+Precision for region.struct                        30.685    21.527      7.543   25.046     87.555  16.989
+Phi for region.struct                               0.224     0.212      0.007    0.151      0.773   0.014
+Precision for region.int                           14.297     8.587      3.984   12.289     36.544   8.986
+Group PACF1 for region.int                          0.896     0.072      0.707    0.914      0.979   0.946
+Precision for st.slope.id                         734.700  6900.719      6.852   88.713   4819.966  14.501
+NULL
+                                           [,1]
+log marginal-likelihood (integration) -4284.581
+log marginal-likelihood (Gaussian)    -4278.438

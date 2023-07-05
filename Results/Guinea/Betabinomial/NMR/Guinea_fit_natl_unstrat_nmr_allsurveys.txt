@@ -1,0 +1,33 @@
+----------------------------------
+Cluster-level model
+  Main temporal model:        ar1
+  Additional linear trends:   stratum-age-specific
+  Interaction random slopes:  yes
+  Number of age groups: 1
+  Stratification: no, strata variable not in the input
+  Survey effect: yes
+----------------------------------
+Fixed Effects
+                    mean    sd 0.025quant 0.5quant 0.975quant   mode   kld
+(Intercept)       -3.321 0.044     -3.407   -3.321     -3.234 -3.320 0.000
+time.slope.group1 -0.317 0.195     -0.690   -0.320      0.078 -0.323 0.001
+
+Slope fixed effect index:
+time.slope.group1: 0
+----------------------------------
+Random Effects
+           Name       Model
+1   time.struct AR(p) model
+2 time.unstruct   IID model
+3     survey.id   IID model
+----------------------------------
+Model hyperparameters
+                                                     mean        sd 0.025quant 0.5quant 0.975quant    mode
+overdispersion for the betabinomial observations    0.024     0.004      0.016    0.024      0.032   0.023
+Precision for time.struct                        1608.613  7737.637      5.082  296.428  11241.811   3.796
+PACF1 for time.struct                               0.659     0.401     -0.482    0.826      0.996   0.997
+Precision for time.unstruct                      2597.310 12402.404     66.766  615.336  16964.813 146.287
+NULL
+                                           [,1]
+log marginal-likelihood (integration) -4857.602
+log marginal-likelihood (Gaussian)    -4855.461

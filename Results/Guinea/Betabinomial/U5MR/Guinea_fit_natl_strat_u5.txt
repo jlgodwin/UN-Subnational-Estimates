@@ -1,0 +1,57 @@
+----------------------------------
+Cluster-level model
+  Main temporal model:        ar1
+  Additional linear trends:   stratum-age-specific
+  Interaction random slopes:  yes
+  Number of age groups: 6
+  Stratification: yes
+  Number of age group fixed effect intercept per stratum: 6
+  Number of age-specific trends per stratum: 3
+  Strata-specific temporal trends: yes
+  Survey effect: yes
+----------------------------------
+Fixed Effects
+                           mean    sd 0.025quant 0.5quant 0.975quant   mode kld
+time.slope.group1        -0.379 0.266     -0.901   -0.379      0.143 -0.379   0
+time.slope.group2        -0.393 0.313     -1.006   -0.393      0.221 -0.393   0
+time.slope.group3        -1.163 0.255     -1.662   -1.163     -0.663 -1.163   0
+time.slope.group4        -0.363 0.145     -0.647   -0.363     -0.076 -0.364   0
+time.slope.group5        -0.189 0.148     -0.478   -0.189      0.103 -0.190   0
+time.slope.group6        -0.721 0.127     -0.969   -0.722     -0.471 -0.723   0
+age.intercept0:urban     -3.640 0.066     -3.769   -3.640     -3.510 -3.640   0
+age.intercept1-11:urban  -6.330 0.078     -6.483   -6.330     -6.177 -6.330   0
+age.intercept12-23:urban -6.858 0.093     -7.040   -6.858     -6.676 -6.858   0
+age.intercept24-35:urban -7.210 0.110     -7.425   -7.210     -6.995 -7.210   0
+age.intercept36-47:urban -7.641 0.137     -7.909   -7.641     -7.372 -7.641   0
+age.intercept48-59:urban -7.908 0.160     -8.221   -7.908     -7.595 -7.908   0
+age.intercept0:rural     -3.243 0.036     -3.313   -3.243     -3.173 -3.243   0
+age.intercept1-11:rural  -5.614 0.036     -5.684   -5.614     -5.543 -5.614   0
+age.intercept12-23:rural -6.298 0.045     -6.387   -6.298     -6.209 -6.298   0
+age.intercept24-35:rural -6.400 0.048     -6.495   -6.400     -6.306 -6.400   0
+age.intercept36-47:rural -6.795 0.059     -6.910   -6.795     -6.679 -6.795   0
+age.intercept48-59:rural -7.355 0.079     -7.509   -7.355     -7.200 -7.355   0
+
+Slope fixed effect index:
+time.slope.group1: 0:urban
+time.slope.group2: 1-11:urban
+time.slope.group3: 12-23:urban, 24-35:urban, 36-47:urban, 48-59:urban
+time.slope.group4: 0:rural
+time.slope.group5: 1-11:rural
+time.slope.group6: 12-23:rural, 24-35:rural, 36-47:rural, 48-59:rural
+----------------------------------
+Random Effects
+           Name       Model
+1   time.struct AR(p) model
+2 time.unstruct   IID model
+3     survey.id   IID model
+----------------------------------
+Model hyperparameters
+                                                     mean       sd 0.025quant 0.5quant 0.975quant    mode
+overdispersion for the betabinomial observations    0.001    0.000      0.000    0.001      0.001   0.001
+Precision for time.struct                        2545.042 6683.599    127.513  980.249  14853.236 297.564
+PACF1 for time.struct                              -0.531    0.351     -0.942   -0.629      0.373  -0.837
+Precision for time.unstruct                      2770.508 6725.859    159.581 1134.155  15742.011 369.394
+NULL
+                                           [,1]
+log marginal-likelihood (integration) -15692.80
+log marginal-likelihood (Gaussian)    -15690.68
