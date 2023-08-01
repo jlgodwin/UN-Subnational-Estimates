@@ -8,7 +8,7 @@ rm(list = ls())
 # Please capitalize the first letter of the country name and replace " " in the country name to "_" if there is.
 country <- 'Myanmar'
 # Specify straification of final U5MR model (which was benchmarked)
-mod_label <- c('strat_u5_bench','unstrat_u5_allsurveys_bench')[1]
+mod_label <- c('strat_u5_bench','unstrat_u5_allsurveys_bench')[2]
 
 # Load libraries and info ----------------------------------------------------------
 library(tidyverse)
@@ -279,21 +279,36 @@ res_adm1_u5_crisis <- res_adm1_u5_crisis %>%
 adm1_ed5q0 <- res_adm1_u5_crisis %>% 
   filter(ed_5q0 != 0)
 
-results_draws_idx <- lapply(bb.res.adm1.strat.u5.bench$draws.est.overall,
+if(grepl("unstrat", mod_label)){
+  results_draws_idx <- lapply(bb.res.adm1.unstrat.u5.allsurveys.bench$draws.est.overall,
                               function(draws_list){
                                 data.frame(years = draws_list$years,
                                            region = draws_list$region)
                               }) %>% 
-          do.call(rbind.data.frame, .)
+    do.call(rbind.data.frame, .)
+}else{
+  results_draws_idx <- lapply(bb.res.adm1.strat.u5.bench$draws.est.overall,
+                              function(draws_list){
+                                data.frame(years = draws_list$years,
+                                           region = draws_list$region)
+                              }) %>% 
+    do.call(rbind.data.frame, .)
+}
 
 
 for(row in 1:nrow(adm1_ed5q0)){
   update_idx <- which(results_draws_idx$years == adm1_ed5q0$years[row] &
                         results_draws_idx$region == adm1_ed5q0$region[row])
   
-  bb.res.adm1.strat.u5.bench$draws.est.overall[[update_idx]]$draws <- 
-    bb.res.adm1.strat.u5.bench$draws.est.overall[[update_idx]]$draws +
-    adm1_ed5q0$ed_5q0[row]
+  if(grepl("unstrat", mod_label)){
+    bb.res.adm1.unstrat.u5.allsurveys.bench$draws.est.overall[[update_idx]]$draws <- 
+      bb.res.adm1.unstrat.u5.allsurveys.bench$draws.est.overall[[update_idx]]$draws +
+      adm1_ed5q0$ed_5q0[row]
+  }else{
+    bb.res.adm1.strat.u5.bench$draws.est.overall[[update_idx]]$draws <- 
+      bb.res.adm1.strat.u5.bench$draws.est.overall[[update_idx]]$draws +
+      adm1_ed5q0$ed_5q0[row]
+  }
 }
 
 res_adm1_u5_crisis <- res_adm1_u5_crisis %>%
@@ -302,10 +317,18 @@ res_adm1_u5_crisis <- res_adm1_u5_crisis %>%
 save(res_adm1_u5_crisis, file=paste0(res.dir,"/Betabinomial/U5MR/", country,
                                 "_res_adm1_", mod_label,"_crisis.rda"))
 
-save(bb.res.adm1.strat.u5.bench, file = paste0(res.dir, "/Betabinomial/U5MR/",
-                                               country, "_res_adm1_",
-                                               mod_label, "_crisis_draws.rda"))
-
+if(grepl("unstrat", mod_label)){
+  save(bb.res.adm1.unstrat.u5.allsurveys.bench,
+       file = paste0(res.dir, "/Betabinomial/U5MR/",
+                     country, "_res_adm1_",
+                     mod_label, "_crisis_draws.rda"))
+  
+}else{
+  save(bb.res.adm1.strat.u5.bench,
+       file = paste0(res.dir, "/Betabinomial/U5MR/",
+                     country, "_res_adm1_",
+                     mod_label, "_crisis_draws.rda"))
+}  
 ## IGME Compare ####
 
 ## U5MR ####
@@ -376,29 +399,54 @@ res_adm2_u5_crisis <- res_adm2_u5_crisis %>%
 adm2_ed5q0 <- res_adm2_u5_crisis %>% 
   filter(ed_5q0 != 0)
 
-results_draws_idx <- lapply(bb.res.adm2.strat.u5.bench$draws.est.overall,
-                            function(draws_list){
-                              data.frame(years = draws_list$years,
-                                         region = draws_list$region)
-                            }) %>% 
-  do.call(rbind.data.frame, .)
-
+if(grepl("unstrat", mod_label)){
+  results_draws_idx <-
+    lapply(bb.res.adm2.unstrat.u5.allsurveys.bench$draws.est.overall,
+           function(draws_list){
+             data.frame(years = draws_list$years,
+                        region = draws_list$region)
+           }) %>% 
+    do.call(rbind.data.frame, .)  
+}else{
+  results_draws_idx <-
+    lapply(bb.res.adm2.strat.u5.bench$draws.est.overall,
+           function(draws_list){
+             data.frame(years = draws_list$years,
+                        region = draws_list$region)
+           }) %>% 
+    do.call(rbind.data.frame, .)
+}  
 
 for(row in 1:nrow(adm2_ed5q0)){
   update_idx <- which(results_draws_idx$years == adm2_ed5q0$years[row] &
                         results_draws_idx$region == adm2_ed5q0$region[row])
   
-  bb.res.adm2.strat.u5.bench$draws.est.overall[[update_idx]]$draws <- 
-    bb.res.adm2.strat.u5.bench$draws.est.overall[[update_idx]]$draws +
-    adm2_ed5q0$ed_5q0[row]
+  if(grepl("unstrat", mod_label)){
+    bb.res.adm2.unstrat.u5.allsurveys.bench$draws.est.overall[[update_idx]]$draws <- 
+      bb.res.adm2.unstrat.u5.allsurveys.bench$draws.est.overall[[update_idx]]$draws +
+      adm2_ed5q0$ed_5q0[row]
+  }else{
+    bb.res.adm2.strat.u5.bench$draws.est.overall[[update_idx]]$draws <- 
+      bb.res.adm2.strat.u5.bench$draws.est.overall[[update_idx]]$draws +
+      adm2_ed5q0$ed_5q0[row]
+  }
 }
+
 res_adm2_u5_crisis <- res_adm2_u5_crisis %>%
   dplyr::select(c(region,years,time,area,median,upper,lower,is.yearly))
 save(res_adm2_u5_crisis,  file=paste0(res.dir,"/Betabinomial/U5MR/", country,
                                       "_res_adm2_", mod_label,"_crisis.rda"))
 
-save(bb.res.adm2.strat.u5.bench, file = paste0(res.dir, "/Betabinomial/U5MR/",
-                                               country, "_res_adm2_",
-                                               mod_label, "_crisis_draws.rda"))
-
-
+if(grepl("unstrat", mod_label)){
+  save(bb.res.adm2.unstrat.u5.allsurveys.bench,
+       file = paste0(res.dir, "/Betabinomial/U5MR/",
+                     country, "_res_adm2_",
+                     mod_label, "_crisis_draws.rda"))
+  
+}else{
+  save(bb.res.adm2.strat.u5.bench,
+       file = paste0(res.dir, "/Betabinomial/U5MR/",
+                     country, "_res_adm2_",
+                     mod_label, "_crisis_draws.rda"))
+}  
+  
