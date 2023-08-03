@@ -5,6 +5,8 @@
 ##################################################################
 rm(list = ls())
 
+library(readOGR)
+library(dplyr)
 ################################################################
 #########   set parameters
 ################################################################
@@ -17,18 +19,37 @@ gadm.abbrev <- "UGA"
 doHIVAdj <- T
 
 ### please fill in the path to country shape files ####
-poly.path <- paste0("shapeFiles")
+poly.path <- paste0("shapeFiles/alt_shapeFiles")
 
 
 ##### explain how these may need to be changed
-poly.layer.adm0 <- paste('gadm36', gadm.abbrev,'0', sep = "_") # specify the name of the national shape file
-poly.layer.adm1 <- paste('uga_admbnda_adm2_2020') # specify the name of the admin1 shape file
-poly.layer.adm2 <- paste('uga_admbnda_adm2_2020') # specify the name of the admin2 shape file
+poly.layer.adm0 <- paste('gadm41', gadm.abbrev,'0', sep = "_") # specify the name of the national shape file
+poly.layer.adm1 <- paste('UDHS Regions 2019') # specify the name of the admin1 shape file
+poly.layer.adm2 <- paste('uganda_districts') # specify the name of the admin2 shape file
 
 
-poly.label.adm1 <- "poly.adm1@data$ADM1_EN"
-poly.label.adm2 <- "poly.adm2@data$ADM2_EN"
+poly.label.adm1 <- "poly.adm1@data$Name"
+poly.label.adm2 <- "poly.adm2@data$District"
 
+##### Modify case of shapeFiles name variable
+adm1 <- readOGR(dsn = paste0("R:/Project/STAB/",
+                             country, "/", poly.path),
+                layer = poly.layer.adm1)
+shape <- readOGR(dsn = paste0("R:/Project/STAB/",
+                              country, "/", poly.path),
+                 layer = poly.layer.adm2)
+shape <- spTransform(shape, CRS(proj4string(adm1)))
+shape@data <- shape@data %>% 
+  mutate(District = paste0(str_sub(District, 1, 1),
+                           tolower(str_sub(District, 2)))) %>% 
+  select(OBJECTID, District) %>% 
+  as.data.frame()
+
+writeOGR(shape, dsn = paste0("R:/Project/STAB/",
+                             country, "/shapeFiles/alt_shapeFiles"),
+         layer = poly.layer.adm2,
+         driver = "ESRI Shapefile",
+         overwrite_layer = TRUE)
 ##################################################################
 ##################################################################
 ##################################################################

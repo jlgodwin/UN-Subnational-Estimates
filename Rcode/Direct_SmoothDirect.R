@@ -1,15 +1,10 @@
 rm(list = ls())
 # ENTER COUNTRY OF INTEREST -----------------------------------------------
-<<<<<<< HEAD
+
 
 # Please capitalize the first letter of the country name and replace " " 
 # in the country name to "_" if there is.
-country <- "Senegal"
-
-=======
-# Please capitalize the first letter of the country name and replace " " in the country name to "_" if there is.
-country <- 'Uganda'
->>>>>>> upstream/main
+country <- "Uganda"
 
 # Setup
 # Load libraries and info ----------------------------------------------------------
@@ -426,7 +421,9 @@ if(doHIVAdj){
     }
     
     # warning if HIV adjustment has not been calculated for that year
-    if(nrow(adj.frame)==0){message(paste0('HIV Adjustment for ',country,' ',survey,' survey has not been calculated. Please calculate the HIV adjustment before proceeding.'))}
+    if(nrow(adj.frame)==0){message(paste0('HIV Adjustment for ',country,' ',survey,
+                                          ' survey has not been calculated.',
+                                          'Please calculate the HIV adjustment before proceeding.'))}
     
     # adjustment for yearly u5mr
     tmp.adj <- SUMMER::getAdjusted(direct.natl.yearly.u5[direct.natl.yearly.u5$surveyYears == survey,],
@@ -672,13 +669,8 @@ if(doHIVAdj){
 
 # Smoothed direct estimates  ------------------------------------------------------
 
-<<<<<<< HEAD
 time.model <- c('rw2','ar1')[2]
 
-=======
-  time.model <- c('rw2','ar1')[1]
-  
->>>>>>> upstream/main
 ## load in appropriate direct estimates  ------------------------------------------------------
   setwd(paste0(res.dir,'/Direct'))
   if(doHIVAdj){

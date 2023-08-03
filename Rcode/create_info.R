@@ -10,10 +10,10 @@ rm(list = ls())
 ################################################################
 
 # Files info (For those lines with ### xxx ### above, please fill in as commented)
-country <- "Senegal"
+country <- "Ghana"
 
 ### please fill in the country abbreviation in all upper case of gadm files ### (e.g. fill in SEN for gadm36_SEN_3.shp)
-gadm.abbrev <- "GIN"
+gadm.abbrev <- "GHA"
 doHIVAdj <- F
 
 ### please fill in the name of the folder containing the DHS data and the name of the DHS data file inside, separated by "/" ###
