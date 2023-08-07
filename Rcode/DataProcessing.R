@@ -34,7 +34,7 @@ set_rdhs_config(email = "jlg0003@uw.edu",
                 project = "African Mortality Estimation Project")
 
 update_rdhs_config(email = "jlg0003@uw.edu", password = TRUE,
-                project = "African Mortality Estimation Project")
+                   project = "African Mortality Estimation Project")
 
 
 # Load polygon files ----------------------------------------------------------
@@ -90,7 +90,7 @@ if(exists("poly.adm2")){  # create the adjacency matrix for admin2 regions.
   admin2.mat <- nb2mat(admin2.mat, zero.policy = TRUE)
   colnames(admin2.mat) <- rownames(admin2.mat) <- paste0("admin2_", 1:dim(admin2.mat)[1])
   admin2.names <- data.frame(GADM = eval(str2lang(poly.label.adm2)),
-                              Internal = rownames(admin2.mat))
+                             Internal = rownames(admin2.mat))
 }else{
   message("There is no Admin2 polygon file.")
 }
@@ -189,8 +189,8 @@ dhs_survey_ids <- as.numeric(unique(potential_surveys$SurveyNum)[
              return(TRUE)
            }else{
              return(F)
-             }
-           })])
+           }
+         })])
 
 surveys <- potential_surveys %>% 
   filter(SurveyNum %in% dhs_survey_ids) %>%
@@ -207,178 +207,178 @@ unique(surveys$CountryName)
 
 for(survey_year in dhs_survey_years){
   
-    dhs.svy.ind <- which(dhs_survey_years==survey_year)
-    message('Processing DHS data for ', country,' ', survey_year,'\n')
-    
-    data.paths.tmp <- get_datasets(surveys[surveys$SurveyYear == 
-                                             survey_year,]$FileName,
-                                   clear_cache = T)
-    
-    raw.dat.tmp <- readRDS(paste0(data.paths.tmp[2]))
+  dhs.svy.ind <- which(dhs_survey_years==survey_year)
+  message('Processing DHS data for ', country,' ', survey_year,'\n')
   
-    # convert some variables to factors
-    alive <- attr(raw.dat.tmp$b5, which = "labels")
-    names(alive) <- tolower(names(alive))
-    raw.dat.tmp$b5 <- ifelse(raw.dat.tmp$b5 == alive["yes"][[1]], "yes", "no")
-    raw.dat.tmp$b5 <- factor(raw.dat.tmp$b5, levels = c("yes", "no"))
-    
-    strat <- attr(raw.dat.tmp$v025,which='labels')
-    names(strat) <- tolower(names(strat))
-    raw.dat.tmp$v025 <- ifelse(raw.dat.tmp$v025 == strat["urban"][[1]],
-                               'urban','rural')
-    raw.dat.tmp$v025 <- factor(raw.dat.tmp$v025, levels = c('urban','rural'))
-    
-    if(country=='Ethiopia'){
-      cmc.adjust <- 92
-    }else if(country=='Nepal'){
-      cmc.adjust <- -681
-    }else{cmc.adjust <- 0}
-    
-    if(country=='Pakistan' & survey_year==2017){
-      raw.dat.tmp[raw.dat.tmp$v005==0,]$v005 <- raw.dat.tmp[raw.dat.tmp$v005==0,]$sv005
-    }
-    
-    # read DHS data
-    dat.tmp <- getBirths(data=raw.dat.tmp,
-                     surveyyear = survey_year,
-                     year.cut = seq(beg.year, survey_year + 1, 1),
-                     cmc.adjust = cmc.adjust,compact = T)
-    
-
-    # retrieve the some columns of the full data
-    dat.tmp <- dat.tmp[ ,c("v001", "v024", "time", "total",
-                       "age", "v005", "v025", "strata", "died")]
-
-    # specify the name of DHS GPS file, which contains the GPS coordinates of the sampling cluster where the data is sampled
-    points <- readRDS(paste0(data.paths.tmp[1]))
-    
-    # detect points in the DHS GPS file with mis-specified coordinates and remove them if any
-    wrong.points <- which(points@data$LATNUM == 0.0 &
-                            points@data$LONGNUM == 0.0)
-    if(!is.null(dim(wrong.points))){
-      message("There are wrong GPS points: (Longitude, Latitude) = (0, 0)")
-    }
-
-    # remove wrong points in the data if any
-    dat.tmp <- dat.tmp[!(dat.tmp$v001 %in% points@data$DHSCLUST[wrong.points]),]
-    points@data$DHSCLUST[wrong.points] %in% unique(dat.tmp$v001)
-
-    # add the column for GPS coordinate in the data
-   dat.tmp$LONGNUM <- dat.tmp$LATNUM <- NA
-    for(i in 1:dim(points)[1]){
-     dat.tmp$LATNUM[dat.tmp$v001 == points@data$DHSCLUST[i]] <- 
-       points@data$LATNUM[i] # assign latitude to DHS cluster location
-     dat.tmp$LONGNUM[dat.tmp$v001 == points@data$DHSCLUST[i]] <-
-       points@data$LONGNUM[i] # assign longitude to DHS cluster location
-   }
-
-   # remove missing points in the data if any
-   miss <- which(dat.tmp$LATNUM == 0 & dat.tmp$LONGNUM == 0)
-    if(length(miss != 0)){
-      dat.tmp <- dat.tmp[-miss,]
-    }
-
-    message("\n Assigned LAT & LONG")
-
-
-    # assign admin regions based on coordinates and polygon files
-    adm1.ind <- exists("poly.adm1")
-    adm2.ind <- exists("poly.adm2")
-
-    points.frame <- as.data.frame(dat.tmp[,c("LONGNUM", "LATNUM")]) # retrieve GPS coordinates where data is sampled.
-    points.frame <- SpatialPoints(points.frame) # convert the GPS coordinates into "sp" object.
-    if(adm2.ind){
-      poly.over.adm2 <- SpatialPolygons(poly.adm2@polygons)
-      proj4string(points.frame) <- proj4string(poly.over.adm2) <- 
+  data.paths.tmp <- get_datasets(surveys[surveys$SurveyYear == 
+                                           survey_year,]$FileName,
+                                 clear_cache = T)
+  
+  raw.dat.tmp <- readRDS(paste0(data.paths.tmp[2]))
+  
+  # convert some variables to factors
+  alive <- attr(raw.dat.tmp$b5, which = "labels")
+  names(alive) <- tolower(names(alive))
+  raw.dat.tmp$b5 <- ifelse(base::as.numeric(raw.dat.tmp$b5) == alive["yes"][[1]], "yes", "no")
+  raw.dat.tmp$b5 <- factor(raw.dat.tmp$b5, levels = c("yes", "no"))
+  
+  strat <- attr(raw.dat.tmp$v025,which='labels')
+  names(strat) <- tolower(names(strat))
+  raw.dat.tmp$v025 <- ifelse(base::as.numeric(raw.dat.tmp$v025) == strat["urban"][[1]],
+                             'urban','rural')
+  raw.dat.tmp$v025 <- factor(raw.dat.tmp$v025, levels = c('urban','rural'))
+  
+  if(country=='Ethiopia'){
+    cmc.adjust <- 92
+  }else if(country=='Nepal'){
+    cmc.adjust <- -681
+  }else{cmc.adjust <- 0}
+  
+  if(country=='Pakistan' & survey_year==2017){
+    raw.dat.tmp[raw.dat.tmp$v005==0,]$v005 <- raw.dat.tmp[raw.dat.tmp$v005==0,]$sv005
+  }
+  
+  # read DHS data
+  dat.tmp <- getBirths(data=raw.dat.tmp,
+                       surveyyear = survey_year,
+                       year.cut = seq(beg.year, survey_year + 1, 1),
+                       cmc.adjust = cmc.adjust,compact = T)
+  
+  
+  # retrieve the some columns of the full data
+  dat.tmp <- dat.tmp[ ,c("v001", "v024", "time", "total",
+                         "age", "v005", "v025", "strata", "died")]
+  
+  # specify the name of DHS GPS file, which contains the GPS coordinates of the sampling cluster where the data is sampled
+  points <- readRDS(paste0(data.paths.tmp[1]))
+  
+  # detect points in the DHS GPS file with mis-specified coordinates and remove them if any
+  wrong.points <- which(points@data$LATNUM == 0.0 &
+                          points@data$LONGNUM == 0.0)
+  if(!is.null(dim(wrong.points))){
+    message("There are wrong GPS points: (Longitude, Latitude) = (0, 0)")
+  }
+  
+  # remove wrong points in the data if any
+  dat.tmp <- dat.tmp[!(dat.tmp$v001 %in% points@data$DHSCLUST[wrong.points]),]
+  points@data$DHSCLUST[wrong.points] %in% unique(dat.tmp$v001)
+  
+  # add the column for GPS coordinate in the data
+  dat.tmp$LONGNUM <- dat.tmp$LATNUM <- NA
+  for(i in 1:dim(points)[1]){
+    dat.tmp$LATNUM[dat.tmp$v001 == points@data$DHSCLUST[i]] <- 
+      points@data$LATNUM[i] # assign latitude to DHS cluster location
+    dat.tmp$LONGNUM[dat.tmp$v001 == points@data$DHSCLUST[i]] <-
+      points@data$LONGNUM[i] # assign longitude to DHS cluster location
+  }
+  
+  # remove missing points in the data if any
+  miss <- which(dat.tmp$LATNUM == 0 & dat.tmp$LONGNUM == 0)
+  if(length(miss != 0)){
+    dat.tmp <- dat.tmp[-miss,]
+  }
+  
+  message("\n Assigned LAT & LONG")
+  
+  
+  # assign admin regions based on coordinates and polygon files
+  adm1.ind <- exists("poly.adm1")
+  adm2.ind <- exists("poly.adm2")
+  
+  points.frame <- as.data.frame(dat.tmp[,c("LONGNUM", "LATNUM")]) # retrieve GPS coordinates where data is sampled.
+  points.frame <- SpatialPoints(points.frame) # convert the GPS coordinates into "sp" object.
+  if(adm2.ind){
+    poly.over.adm2 <- SpatialPolygons(poly.adm2@polygons)
+    proj4string(points.frame) <- proj4string(poly.over.adm2) <- 
       proj4string(poly.adm2)  <- 
       proj4string(poly.adm1)  
-      admin2.key <- over(points.frame, poly.over.adm2)
-      miss.frame.adm2 <- unique(points.frame@coords[which(is.na(admin2.key)),])
-  
-      if(dim(miss.frame.adm2)[1] != 0){
-        miss.poly.adm2 <- dist2Line( miss.frame.adm2, poly.over.adm2)
+    admin2.key <- over(points.frame, poly.over.adm2)
+    miss.frame.adm2 <- unique(points.frame@coords[which(is.na(admin2.key)),])
     
-        for(i in 1:dim(miss.poly.adm2)[1]){
-          long.ids <- which(points.frame@coords[,c("LONGNUM")] %in% miss.frame.adm2[i,1])
-          lat.ids <- which(points.frame@coords[,c("LATNUM")] %in% miss.frame.adm2[i,2])
-          ids <- intersect(long.ids, lat.ids)
-          admin2.key[ids] <- rep(miss.poly.adm2[i, 'ID'], length(ids))
-        }
+    if(dim(miss.frame.adm2)[1] != 0){
+      miss.poly.adm2 <- dist2Line( miss.frame.adm2, poly.over.adm2)
+      
+      for(i in 1:dim(miss.poly.adm2)[1]){
+        long.ids <- which(points.frame@coords[,c("LONGNUM")] %in% miss.frame.adm2[i,1])
+        lat.ids <- which(points.frame@coords[,c("LATNUM")] %in% miss.frame.adm2[i,2])
+        ids <- intersect(long.ids, lat.ids)
+        admin2.key[ids] <- rep(miss.poly.adm2[i, 'ID'], length(ids))
       }
-  
-      dat.tmp$admin2 <- admin2.key
-      dat.tmp$admin2.char <- paste0("admin2_", admin2.key)
-      dat.tmp$admin2.name <- as.character(eval(str2lang(poly.label.adm2)))[admin2.key]
-    }else{
-      dat.tmp$admin2 <- dat.tmp$admin2.name <- NA
-      message("There is no Admin2 polygon to assign points to.")
-    }
-
-    if(adm1.ind){
-      poly.over.adm1 <- SpatialPolygons(poly.adm1@polygons)
-      proj4string(points.frame) <- proj4string(poly.over.adm1) <- 
-      proj4string(poly.adm1) 
-      admin1.key <- over(points.frame, poly.over.adm1)
-      miss.frame.adm1 <- unique(points.frame@coords[which(is.na(admin1.key)),])
-  
-      if(dim(miss.frame.adm1)[1] != 0){
-        miss.poly.adm1 <- dist2Line( miss.frame.adm1, poly.over.adm1)
-    
-        for(i in 1:dim(miss.poly.adm1)[1]){
-          long.ids <- which(points.frame@coords[,c("LONGNUM")] %in% miss.frame.adm1[i,1])
-          lat.ids <- which(points.frame@coords[,c("LATNUM")] %in% miss.frame.adm1[i,2])
-          ids <- intersect(long.ids, lat.ids)
-          admin1.key[ids] <- rep(miss.poly.adm1[i, 'ID'], length(ids))
-        }
-      }
-  
-      dat.tmp$admin1 <- admin1.key
-      dat.tmp$admin1.char <- paste0("admin1_", admin1.key)
-      dat.tmp$admin1.name <- as.character(eval(str2lang(poly.label.adm1)))[admin1.key]
-    }else{
-      dat.tmp$admin1 <- dat.tmp$admin1.name <- NA
-      message("There is no Admin1 polygon to assign points to.")
-    }  
-
-    if(FALSE){
-      check <- dat.tmp$strata
-      check <- gsub(" - rural", "", check)
-      check <- gsub(" - urban", "", check)
-      inconsist <- which(check != tolower(dat.tmp$admin1.name))
-      table(check[inconsist], dat.tmp$admin1.name[inconsist])
-      unique(dat.tmp[which(check == "neno" & dat.tmp$admin1.name == "Balaka"), "v001"])
-    }
-
-    # finish preparing data ###
-    if(adm2.ind){
-      dat.tmp <- dat.tmp[,c("v001", "age", "time", "total", "died", "v005", 
-                            "v025", "LONGNUM", "LATNUM","strata",
-                            "admin1", "admin2", "admin1.char", "admin2.char",
-                            "admin1.name", "admin2.name")]
-      colnames(dat.tmp) <- c("cluster", "age", "years", "total",
-                             "Y", "v005", "urban", "LONGNUM", "LATNUM","strata",
-                             "admin1", "admin2", "admin1.char", "admin2.char", 
-                             "admin1.name", "admin2.name")
-    }else{
-      dat.tmp <- dat.tmp[,c("v001", "age", "time", "total", "died", "v005", "v025", 
-                            "LONGNUM", "LATNUM","strata",
-                            "admin1", "admin1.char", "admin1.name")]
-      colnames(dat.tmp) <- c("cluster", "age", "years", "total", "Y", "v005",
-                             "urban", "LONGNUM", "LATNUM","strata",
-                             "admin1", "admin1.char", "admin1.name")
     }
     
-    dat.tmp$survey <- raw.dat.tmp$survey_year <-survey_year
-    dat.tmp$survey.type <- 'DHS'
-  
-    if(survey_year==dhs_survey_years[1]){
-      mod.dat <- dat.tmp
-      raw.dat <- raw.dat.tmp[,c("caseid", "b5",'b7','survey_year')]
-    }else{mod.dat <- rbind(mod.dat,dat.tmp)
-          raw.dat <- rbind(raw.dat,raw.dat.tmp[,c("caseid", 
-                                                  "b5",'b7','survey_year')])}
-  
+    dat.tmp$admin2 <- admin2.key
+    dat.tmp$admin2.char <- paste0("admin2_", admin2.key)
+    dat.tmp$admin2.name <- as.character(eval(str2lang(poly.label.adm2)))[admin2.key]
+  }else{
+    dat.tmp$admin2 <- dat.tmp$admin2.name <- NA
+    message("There is no Admin2 polygon to assign points to.")
   }
+  
+  if(adm1.ind){
+    poly.over.adm1 <- SpatialPolygons(poly.adm1@polygons)
+    proj4string(points.frame) <- proj4string(poly.over.adm1) <- 
+      proj4string(poly.adm1) 
+    admin1.key <- over(points.frame, poly.over.adm1)
+    miss.frame.adm1 <- unique(points.frame@coords[which(is.na(admin1.key)),])
+    
+    if(dim(miss.frame.adm1)[1] != 0){
+      miss.poly.adm1 <- dist2Line( miss.frame.adm1, poly.over.adm1)
+      
+      for(i in 1:dim(miss.poly.adm1)[1]){
+        long.ids <- which(points.frame@coords[,c("LONGNUM")] %in% miss.frame.adm1[i,1])
+        lat.ids <- which(points.frame@coords[,c("LATNUM")] %in% miss.frame.adm1[i,2])
+        ids <- intersect(long.ids, lat.ids)
+        admin1.key[ids] <- rep(miss.poly.adm1[i, 'ID'], length(ids))
+      }
+    }
+    
+    dat.tmp$admin1 <- admin1.key
+    dat.tmp$admin1.char <- paste0("admin1_", admin1.key)
+    dat.tmp$admin1.name <- as.character(eval(str2lang(poly.label.adm1)))[admin1.key]
+  }else{
+    dat.tmp$admin1 <- dat.tmp$admin1.name <- NA
+    message("There is no Admin1 polygon to assign points to.")
+  }  
+  
+  if(FALSE){
+    check <- dat.tmp$strata
+    check <- gsub(" - rural", "", check)
+    check <- gsub(" - urban", "", check)
+    inconsist <- which(check != tolower(dat.tmp$admin1.name))
+    table(check[inconsist], dat.tmp$admin1.name[inconsist])
+    unique(dat.tmp[which(check == "neno" & dat.tmp$admin1.name == "Balaka"), "v001"])
+  }
+  
+  # finish preparing data ###
+  if(adm2.ind){
+    dat.tmp <- dat.tmp[,c("v001", "age", "time", "total", "died", "v005", 
+                          "v025", "LONGNUM", "LATNUM","strata",
+                          "admin1", "admin2", "admin1.char", "admin2.char",
+                          "admin1.name", "admin2.name")]
+    colnames(dat.tmp) <- c("cluster", "age", "years", "total",
+                           "Y", "v005", "urban", "LONGNUM", "LATNUM","strata",
+                           "admin1", "admin2", "admin1.char", "admin2.char", 
+                           "admin1.name", "admin2.name")
+  }else{
+    dat.tmp <- dat.tmp[,c("v001", "age", "time", "total", "died", "v005", "v025", 
+                          "LONGNUM", "LATNUM","strata",
+                          "admin1", "admin1.char", "admin1.name")]
+    colnames(dat.tmp) <- c("cluster", "age", "years", "total", "Y", "v005",
+                           "urban", "LONGNUM", "LATNUM","strata",
+                           "admin1", "admin1.char", "admin1.name")
+  }
+  
+  dat.tmp$survey <- raw.dat.tmp$survey_year <-survey_year
+  dat.tmp$survey.type <- 'DHS'
+  
+  if(survey_year==dhs_survey_years[1]){
+    mod.dat <- dat.tmp
+    raw.dat <- raw.dat.tmp[,c("caseid", "b5",'b7','survey_year')]
+  }else{mod.dat <- rbind(mod.dat,dat.tmp)
+  raw.dat <- rbind(raw.dat,raw.dat.tmp[,c("caseid", 
+                                          "b5",'b7','survey_year')])}
+  
+}
 
 # Process data for each MICS survey year ----------------------------------------------------------
 if(dir.exists(paste0(home.dir,'/Data/MICS/',country))){
@@ -389,42 +389,42 @@ if(dir.exists(paste0(home.dir,'/Data/MICS/',country))){
                                                      paste0(home.dir,
                                                             '/Data/MICS/',
                                                             country)
-                                                     )))]
+                                                   )))]
   
   #make admin key
   if(adm2.ind){
     admin.key <- mod.dat %>% dplyr::select(admin1,admin2,admin1.char,
                                            admin2.char,admin1.name,
                                            admin2.name,strata) %>% distinct()
-  
-  for(k in 1:length(mics_files)){
     
-    load(file=paste0(home.dir,'/Data/MICS/',country,'/',mics_files[k]))
-    
-    #match admin area codes
-    dat.tmp$admin1 <- dat.tmp$admin2 <-dat.tmp$strata <- NA
-    dat.tmp$admin1.char <- dat.tmp$admin2.char <- admin1.name <- ''
-    for(perm in 1:nrow(admin.key)){
-      perm.ind <- dat.tmp$admin2.name==admin.key$admin2.name[perm]
-      dat.tmp$admin1.name[perm.ind] <- admin.key$admin1.name[perm]
-      dat.tmp$admin1[perm.ind] <- admin.key$admin1[perm]
-      dat.tmp$admin1.char[perm.ind] <- admin.key$admin1.char[perm]
-      dat.tmp$admin2[perm.ind] <- admin.key$admin2[perm]
-      dat.tmp$admin2.char[perm.ind] <- admin.key$admin2.char[perm]
-      dat.tmp$strata[perm.ind] <- admin.key$strata[perm]
-    }
-    
-    #prepare to merge with DHS data
-    dat.tmp$LONGNUM <- dat.tmp$LATNUM <- NA
-    dat.tmp$survey.type <- 'MICS'
-    dat.tmp <- dat.tmp[,c("cluster",'age','years','total','Y','v005','urban',
-                          "LONGNUM","LATNUM",'strata','admin1','admin2',
-                          'admin1.char','admin2.char',
-                          'admin1.name','admin2.name',
-                          'survey','survey.type')]
-    
-    #add to prepared data
-    mod.dat <- rbind(mod.dat,dat.tmp)
+    for(k in 1:length(mics_files)){
+      
+      load(file=paste0(home.dir,'/Data/MICS/',country,'/',mics_files[k]))
+      
+      #match admin area codes
+      dat.tmp$admin1 <- dat.tmp$admin2 <-dat.tmp$strata <- NA
+      dat.tmp$admin1.char <- dat.tmp$admin2.char <- admin1.name <- ''
+      for(perm in 1:nrow(admin.key)){
+        perm.ind <- dat.tmp$admin2.name==admin.key$admin2.name[perm]
+        dat.tmp$admin1.name[perm.ind] <- admin.key$admin1.name[perm]
+        dat.tmp$admin1[perm.ind] <- admin.key$admin1[perm]
+        dat.tmp$admin1.char[perm.ind] <- admin.key$admin1.char[perm]
+        dat.tmp$admin2[perm.ind] <- admin.key$admin2[perm]
+        dat.tmp$admin2.char[perm.ind] <- admin.key$admin2.char[perm]
+        dat.tmp$strata[perm.ind] <- admin.key$strata[perm]
+      }
+      
+      #prepare to merge with DHS data
+      dat.tmp$LONGNUM <- dat.tmp$LATNUM <- NA
+      dat.tmp$survey.type <- 'MICS'
+      dat.tmp <- dat.tmp[,c("cluster",'age','years','total','Y','v005','urban',
+                            "LONGNUM","LATNUM",'strata','admin1','admin2',
+                            'admin1.char','admin2.char',
+                            'admin1.name','admin2.name',
+                            'survey','survey.type')]
+      
+      #add to prepared data
+      mod.dat <- rbind(mod.dat,dat.tmp)
     }
   }else{
     admin.key <- mod.dat %>%
@@ -470,7 +470,7 @@ survey_years <- sort(unique(mod.dat$survey))
 mod.dat$survey.id<- unlist(sapply(1:nrow(mod.dat),
                                   function(x){
                                     which(mod.dat$survey[x] ==survey_years)
-                                    }))
+                                  }))
 
 # Use raw data to calculate age band intercept priors for benchmarking ----------------------------------------------------------
 

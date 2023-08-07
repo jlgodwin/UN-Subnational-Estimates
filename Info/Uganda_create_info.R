@@ -50,6 +50,12 @@ writeOGR(shape, dsn = paste0("R:/Project/STAB/",
          layer = poly.layer.adm2,
          driver = "ESRI Shapefile",
          overwrite_layer = TRUE)
+
+writeOGR(adm1[-4,], dsn = paste0("R:/Project/STAB/",
+                             country, "/shapeFiles/alt_shapeFiles"),
+         layer = poly.layer.adm1,
+         driver = "ESRI Shapefile",
+         overwrite_layer = TRUE)
 ##################################################################
 ##################################################################
 ##################################################################
