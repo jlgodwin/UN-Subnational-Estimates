@@ -2,9 +2,9 @@ rm(list = ls())
 # ENTER COUNTRY OF INTEREST AND YEAR INCLUDED IN SAME SAMPLING FRAME  -----------------------------------------------
 # Please capitalize the first letter of the country name and replace " " in the country name to "_" if there is.
 
-country <- "Senegal"
-survey_years <- 2015:2019
-frame_year <- 2013
+country <- "Uganda"
+survey_years <- 2016
+frame_year <- 2014
 
 
 # Load libraries and info ----------------------------------------------------------
