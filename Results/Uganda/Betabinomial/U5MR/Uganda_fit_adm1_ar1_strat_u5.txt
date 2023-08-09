@@ -1,0 +1,69 @@
+----------------------------------
+Cluster-level model
+  Main temporal model:        ar1
+  Additional linear trends:   stratum-age-specific
+  Spatial effect:             bym2
+  Interaction temporal model: ar1
+  Interaction type:           4
+  Interaction random slopes:  yes
+  Number of age groups: 6
+  Stratification: yes
+  Number of age group fixed effect per stratum: 6
+  Number of age-specific trends per stratum: 3
+  Strata-specific temporal trends: yes
+  Survey effect: no, only one survey
+----------------------------------
+Fixed Effects
+                           mean    sd 0.025quant 0.5quant 0.975quant   mode kld
+time.slope.group1        -0.045 0.343     -0.717   -0.045      0.629 -0.045   0
+time.slope.group2        -1.800 0.373     -2.531   -1.800     -1.068 -1.801   0
+time.slope.group3        -1.637 0.382     -2.386   -1.637     -0.887 -1.638   0
+time.slope.group4        -0.190 0.199     -0.581   -0.190      0.200 -0.190   0
+time.slope.group5        -2.126 0.195     -2.507   -2.126     -1.741 -2.127   0
+time.slope.group6        -1.782 0.189     -2.154   -1.783     -1.408 -1.783   0
+age.intercept0:urban     -3.488 0.083     -3.652   -3.488     -3.324 -3.488   0
+age.intercept1-11:urban  -6.267 0.101     -6.464   -6.267     -6.069 -6.267   0
+age.intercept12-23:urban -7.127 0.134     -7.390   -7.127     -6.863 -7.127   0
+age.intercept24-35:urban -7.625 0.168     -7.954   -7.625     -7.296 -7.625   0
+age.intercept36-47:urban -7.986 0.201     -8.381   -7.986     -7.591 -7.986   0
+age.intercept48-59:urban -8.389 0.249     -8.878   -8.389     -7.900 -8.389   0
+age.intercept0:rural     -3.608 0.053     -3.714   -3.608     -3.503 -3.607   0
+age.intercept1-11:rural  -6.061 0.056     -6.171   -6.061     -5.950 -6.060   0
+age.intercept12-23:rural -6.760 0.063     -6.884   -6.760     -6.636 -6.760   0
+age.intercept24-35:rural -7.148 0.071     -7.288   -7.148     -7.009 -7.148   0
+age.intercept36-47:rural -7.618 0.084     -7.784   -7.618     -7.452 -7.618   0
+age.intercept48-59:rural -8.135 0.105     -8.342   -8.135     -7.928 -8.135   0
+----------------------------------
+Random Effects
+           Name             Model
+1   time.struct       AR(p) model
+2 time.unstruct         IID model
+3 region.struct        BYM2 model
+4    region.int Besags ICAR model
+5   st.slope.id         IID model
+----------------------------------
+Model hyperparameters
+                                                     mean        sd 0.025quant
+overdispersion for the betabinomial observations    0.001     0.000      0.000
+Precision for time.struct                        7566.248 34911.766    191.539
+PACF1 for time.struct                              -0.479     0.324     -0.925
+Precision for time.unstruct                       305.963   328.295     51.726
+Precision for region.struct                        52.926    30.818     15.016
+Phi for region.struct                               0.242     0.211      0.011
+Precision for region.int                          980.642  3495.183     35.476
+Group PACF1 for region.int                          0.902     0.190      0.306
+Precision for st.slope.id                           8.276     4.794      2.354
+                                                 0.5quant 0.975quant    mode
+overdispersion for the betabinomial observations    0.001      0.001   0.000
+Precision for time.struct                        1850.286  49560.831 426.501
+PACF1 for time.struct                              -0.539      0.279  -0.748
+Precision for time.unstruct                       208.241   1159.690 114.239
+Precision for region.struct                        45.951    132.187  34.057
+Phi for region.struct                               0.176      0.773   0.026
+Precision for region.int                          300.977   6214.613  80.190
+Group PACF1 for region.int                          0.973      1.000   1.000
+Precision for st.slope.id                           7.197     20.592   5.346
+NULL
+                                           [,1]
+log marginal-likelihood (integration) -13709.98
+log marginal-likelihood (Gaussian)    -13703.60

@@ -1,0 +1,55 @@
+----------------------------------
+Cluster-level model
+  Main temporal model:        ar1
+  Additional linear trends:   stratum-age-specific
+  Spatial effect:             bym2
+  Interaction temporal model: ar1
+  Interaction type:           4
+  Interaction random slopes:  yes
+  Number of age groups: 1
+  Stratification: yes
+  Number of age group fixed effect per stratum: 1
+  Number of age-specific trends per stratum: 1
+  Strata-specific temporal trends: yes
+  Survey effect: no, only one survey
+----------------------------------
+Fixed Effects
+                       mean    sd 0.025quant 0.5quant 0.975quant   mode kld
+time.slope.group1    -0.012 0.381     -0.763   -0.011      0.734 -0.010   0
+time.slope.group2    -0.098 0.223     -0.533   -0.099      0.348 -0.102   0
+age.intercept0:urban -3.556 0.092     -3.737   -3.556     -3.376 -3.556   0
+age.intercept0:rural -3.625 0.051     -3.725   -3.625     -3.524 -3.626   0
+----------------------------------
+Random Effects
+           Name             Model
+1   time.struct       AR(p) model
+2 time.unstruct         IID model
+3 region.struct        BYM2 model
+4    region.int Besags ICAR model
+5   st.slope.id         IID model
+----------------------------------
+Model hyperparameters
+                                                    mean       sd 0.025quant
+overdispersion for the betabinomial observations   0.024    0.005      0.016
+Precision for time.struct                        339.965  567.205     16.669
+PACF1 for time.struct                              0.082    0.552     -0.902
+Precision for time.unstruct                      259.099  376.242     19.814
+Precision for region.struct                       32.181   22.789      6.592
+Phi for region.struct                              0.279    0.220      0.022
+Precision for region.int                          20.183   13.169      5.475
+Group PACF1 for region.int                         0.944    0.058      0.784
+Precision for st.slope.id                        663.982 6254.234      8.900
+                                                 0.5quant 0.975quant   mode
+overdispersion for the betabinomial observations    0.024      0.035  0.024
+Precision for time.struct                         173.930   1728.052 43.160
+PACF1 for time.struct                               0.130      0.919  0.744
+Precision for time.unstruct                       147.714   1201.585 51.742
+Precision for region.struct                        26.409     92.275 16.864
+Phi for region.struct                               0.217      0.816  0.061
+Precision for region.int                           16.842     54.884 11.928
+Group PACF1 for region.int                          0.962      0.991  0.980
+Precision for st.slope.id                          83.321   4449.329 15.739
+NULL
+                                           [,1]
+log marginal-likelihood (integration) -4779.410
+log marginal-likelihood (Gaussian)    -4772.281

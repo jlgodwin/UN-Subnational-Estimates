@@ -3,7 +3,7 @@ rm(list = ls())
 # Please capitalize the first letter of the country name and replace " " in the country name to "_" if there is.
 
 
-country <- 'Senegal'
+country <- 'Uganda'
 
 
 ## Libraries -----------------------------------------------
@@ -219,7 +219,7 @@ if(dir.exists(paths = paste0(res.dir,'/UR/'))){
 ## Fit BB8 models w surveys from same sampling frame  -----------------------------------------------
 setwd(paste0(res.dir))
 
-time_mod <- c("rw2", "ar1")[1]
+time_mod <- c("rw2", "ar1")[2]
 
 if(!dir.exists("Betabinomial/")){
   dir.create("Betabinomial/")
