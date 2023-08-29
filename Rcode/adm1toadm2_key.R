@@ -6,6 +6,7 @@ library(rgdal)
 library(spdep)
 library(maptools)
 library(tidyverse)
+library(readxl)
 
 # extract file location of this script
 code.path <- rstudioapi::getActiveDocumentContext()$path
@@ -341,45 +342,71 @@ rm(poly.adm1, admin1.mat,admin1.names,
    poly.label.adm2,poly.layer.adm2)
 ## Uganda ---------------------------
 country <- 'Uganda'
-poly.path <- paste0(home.dir,"/Data/shapeFiles_alt/Uganda/shapeFiles")
+# poly.path <- paste0(home.dir,"/Data/shapeFiles_alt/Uganda/shapeFiles")
+poly.path <- paste0("R:/Project/STAB/Uganda/shapeFiles/alt_shapeFiles/")
 
 poly.adm2 <- readOGR(dsn = poly.path,encoding = "UTF-8", use_iconv = TRUE,
-                     layer = "uga_admbnda_adm2_2020") # load the shape file of admin-1 regions
-poly.adm1 <- poly.adm2
-poly.adm1.poly <- SpatialPolygons(poly.adm1@polygons)
-poly.adm1 <- unionSpatialPolygons(poly.adm1.poly,
-                                  IDs = match(poly.adm1@data$ADM1_EN,
-                                              unique(poly.adm1@data$ADM1_EN)))
+                     # layer = "uga_admbnda_adm2_2020") # load the shape file of admin-1 regions
+                     layer = "uganda_districts") # Shapefiles used for 8/9/2023 estimates 
+poly.adm1 <- readOGR(dsn = poly.path, encoding = "UTF-8", use_iconv = TRUE,
+                     layer = "UDHS Regions 2019")
+# poly.adm1.poly <- SpatialPolygons(poly.adm1@polygons)
+# poly.adm1 <- unionSpatialPolygons(poly.adm1.poly,
+#                                   IDs = match(poly.adm1@data$ADM1_EN,
+#                                               unique(poly.adm1@data$ADM1_EN)))
 proj4string(poly.adm1) <- proj4string(poly.adm2)
-merge.dat <- poly.adm2@data %>% group_by(ADM1_EN) %>% summarise(n = n(), 
-                                                                ADM1_PCODE = unique(ADM1_PCODE))
-poly.adm1 <- SpatialPolygonsDataFrame(poly.adm1, merge.dat)
+# merge.dat <- poly.adm2@data %>% group_by(ADM1_EN) %>% summarise(n = n(), 
+#                                                                 ADM1_PCODE = unique(ADM1_PCODE))
+# poly.adm1 <- SpatialPolygonsDataFrame(poly.adm1, merge.dat)
 
 # create the adjacency matrix for admin1 regions.
 admin1.mat <- poly2nb(SpatialPolygons(poly.adm1@polygons))
 admin1.mat <- nb2mat(admin1.mat, zero.policy = TRUE)
 colnames(admin1.mat) <- rownames(admin1.mat) <- paste0("admin1_", 1:dim(admin1.mat)[1])
-admin1.names <- data.frame(admin1.name = poly.adm1@data$ADM1_EN,
-                           admin1.char = rownames(admin1.mat))
+admin1.names <- data.frame(# admin1.name = poly.adm1@data$ADM1_EN,
+  admin1.name = poly.adm1@data$Name,                       
+  admin1.char = rownames(admin1.mat))
 
 if(exists("poly.adm2")){  # create the adjacency matrix for admin2 regions.
   admin2.mat <- poly2nb(SpatialPolygons(poly.adm2@polygons))
   admin2.mat <- nb2mat(admin2.mat, zero.policy = TRUE)
   colnames(admin2.mat) <- rownames(admin2.mat) <- paste0("admin2_", 1:dim(admin2.mat)[1])
-  admin2.names <- data.frame(admin2.name = poly.adm2@data$ADM2_EN,
-                             admin2.char = rownames(admin2.mat),
-                             admin1.name = poly.adm2@data$ADM1_EN)
+  admin2.names <- 
+    data.frame(admin2.name =
+                 paste0(str_sub(poly.adm2@data$District, 1, 1),
+                        tolower(str_sub(poly.adm2@data$District, 2))),
+               admin2.char = paste0("admin2_", rownames(admin2.mat)),
+               # admin1.name = poly.adm2@data$ADM1_EN)
+               admin1.name = NA)
 }
 
-adm_link_tmp <- merge(admin1.names,admin2.names,by='admin1.name')
-adm_link <- rbind(adm_link,data.frame(country, adm_link_tmp))
+setwd(home.dir)
+adm_link <- read_xlsx("Data/Admin1_Admin2_Key.xlsx")
+
+uganda_new <- 
+  bind_rows(data.frame(country = country,
+                       admin1.name = admin1.names$admin1.name,
+                       admin1.char = admin1.names$admin1.char,
+                       admin2.name = NA,
+                       admin2.char = NA),
+            admin2.names %>% 
+              mutate(country = country,
+                     admin1.char = NA) %>% 
+              relocate("country", .before = "admin1.name") %>% 
+              relocate(c("admin2.name", "admin2.char"),
+                       .after = "admin1.char")) %>% 
+  as.data.frame()
+
+adm_link <- adm_link %>% 
+  filter(country != "Uganda") %>% 
+  bind_rows(uganda_new) %>% 
+  arrange(country, admin1.char, admin2.char)
+
+# adm_link_tmp <- merge(admin1.names,admin2.names,by='admin1.name')
+# adm_link <- rbind(adm_link,data.frame(country, adm_link_tmp))
 
 rm(poly.adm1,poly.adm2,admin1.names,admin2.names,admin1.mat,admin2.mat)
 
 
-
-
-
-
 ## write into excel sheet ------------------------
-openxlsx::write.xlsx(adm_link, file='Admin1_Admin2_Key.xlsx')
+openxlsx::write.xlsx(adm_link, file='Data/Admin1_Admin2_Key.xlsx')

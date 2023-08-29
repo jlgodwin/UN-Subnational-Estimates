@@ -2,7 +2,7 @@ rm(list=ls())
 
 # ENTER COUNTRY OF INTEREST AND FINAL ESTIMATE INFO -----------------------------------------------
 # Please capitalize the first letter of the country name and replace " " in the country name to "_" if there is.
-country <- "Mauritania"
+country <- "Uganda"
 # Please specify which model(s) to get diagnostic plots for
 models<- c('natl_unstrat_nmr','adm1_unstrat_nmr','adm2_unstrat_nmr',
             'natl_strat_nmr','adm1_strat_nmr','adm2_strat_nmr',
@@ -11,11 +11,11 @@ models<- c('natl_unstrat_nmr','adm1_unstrat_nmr','adm2_unstrat_nmr',
             'natl_strat_u5','adm1_strat_u5','adm2_strat_u5',
             'natl_unstrat_u5_allsurveys','adm1_unstrat_u5_allsurveys','adm2_unstrat_u5_allsurveys')[c(1, 4, 10, 13)]
 
-time.model <- c("rw2", "ar1")[1]
+time.model <- c("rw2", "ar1")[2]
 
 models <- gsub("natl_strat", paste0("natl_", time.model, "_strat"), models)
 models <- gsub("natl_unstrat", paste0("natl_", time.model, "_unstrat"), models)
-
+models <- models[c(2,4)]
 #### Load libraries and info ----------------------------------------------------------
 
 # Libraries

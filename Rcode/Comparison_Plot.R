@@ -9,7 +9,7 @@ logit <- function(x){
 
 # ENTER COUNTRY OF INTEREST AND FINAL ESTIMATE INFO -----------------------------------------------
 # Please capitalize the first letter of the country name and replace " " in the country name to "_" if there is.
-country <- "Senegal"
+country <- "Uganda"
 
 
 ## Setup -----------------------------------------------
@@ -94,7 +94,7 @@ if(exists('poly.layer.adm2')){
 #### Parameters ####
 
 ## MIGHT NEED TO BE CHANGED depending on what you fit
-time.model <- c('rw2','ar1')[1]
+time.model <- c('rw2','ar1')[2]
 
 load(paste0(data.dir, '/', country, '_cluster_dat_1frame.rda'), envir = .GlobalEnv)
 end.year.1frame <- max(mod.dat$survey)
@@ -866,7 +866,7 @@ methods <- c("natl.sd.frame","sd.adm1.to.natl.frame","sd.adm1.yl.to.natl.frame",
              "BB8.adm1.strat.bench.to.natl.frame",'BB8.adm1.unstrat.allsurveys.bench.to.natl.frame',
              "BB8.adm2.unstrat.to.natl.frame","BB8.adm2.strat.to.natl.frame",'BB8.adm2.unstrat.allsurveys.to.natl.frame',
              "BB8.adm2.strat.bench.to.natl.frame",'BB8.adm2.unstrat.allsurveys.bench.to.natl.frame',
-             "igme.frame")[c(1:5,6:7, 9:19)]
+             "igme.frame")
 methods.include <- which(sapply(methods,exists))
 
 natl.all <- data.frame()
@@ -978,7 +978,7 @@ dev.off()
 methods.use <- c("natl.sd.yearly","natl.bb.unstrat","natl.bb.strat","natl.bb.unstrat.allsurveys",
                  "aggre.adm1.unstrat.BB8","aggre.adm1.strat.BB8","aggre.adm1.unstrat.allsurveys.BB8",
                  "aggre.adm2.unstrat.BB8","aggre.adm2.strat.BB8", "aggre.adm2.unstrat.allsurveys.BB8",
-                 "igme")[c(1:3,5:6,8:10,11)]
+                 "igme")[c(1:3,6,9,11)]
 
 ##IF you have made a comparison plot before that you don't want to overwrite, make sure to change the name of the  PDF!
 pdf(paste0(res.dir, "/Figures/Summary/NMR/",

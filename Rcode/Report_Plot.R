@@ -7,7 +7,7 @@ rm(list=ls())
 # Country Name & Model Info ####
 # Please capitalize the first letter of the country name and replace " "
 # in the country name to "_" if there is.
-country <- "Rwanda"
+country <- "Uganda"
 
 
 ## MIGHT NEED TO BE CHANGED depending on what you fit
@@ -66,9 +66,10 @@ load(file = paste0(home.dir, '/Info/', info.name, sep = '')) # load the country 
 ## what is the equivalent of poly.label.adm2 that
 ## has the column name of admin1 names in the admin2 shapefile
 if(exists('poly.label.adm2')){
-  adm1_on_adm2 <- paste0(strsplit(poly.label.adm2, "\\$")[[1]][1], "$",
-                         strsplit(poly.label.adm1, "\\$")[[1]][2])
-  message("If your country does not use GADM shapefiles, ", 
+  # adm1_on_adm2 <- paste0(strsplit(poly.label.adm2, "\\$")[[1]][1], "$",
+  #                        strsplit(poly.label.adm1, "\\$")[[1]][2])
+adm1_on_adm2 <- poly.label.adm2
+    message("If your country does not use GADM shapefiles, ", 
           "you will need to specify this manually.\n")
 }
 if(country=='Sierra_Leone'){

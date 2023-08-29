@@ -74,8 +74,8 @@ if(debugging == TRUE){
 
 # set the directory that stores the data
 
-
-data.dir <- paste0(home.dir,'/Data/', country) 
+data.dir <- paste0("R://Project/STAB/", country)
+# data.dir <- paste0(home.dir,'/Data/', country) 
 # set the directory to store the results (e.g. fitted R objects, figures, tables in .csv etc.)
 
 res.dir <- paste0(home.dir,'/Results/', country)
