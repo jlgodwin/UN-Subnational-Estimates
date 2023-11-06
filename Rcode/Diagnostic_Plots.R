@@ -2,7 +2,7 @@ rm(list=ls())
 
 # ENTER COUNTRY OF INTEREST AND FINAL ESTIMATE INFO -----------------------------------------------
 # Please capitalize the first letter of the country name and replace " " in the country name to "_" if there is.
-country <- "Uganda"
+country <- "Rwanda"
 # Please specify which model(s) to get diagnostic plots for
 models<- c('natl_unstrat_nmr','adm1_unstrat_nmr','adm2_unstrat_nmr',
             'natl_strat_nmr','adm1_strat_nmr','adm2_strat_nmr',
@@ -52,9 +52,9 @@ n_years <- end.proj.year - beg.year + 1
 # get info about each model
 models.dat <- data.frame(label=models,
                          admin_level = sapply(1:length(models),function(i){str_split(models,'_')[[i]][1]}),
-                         time = sapply(1:length(models),function(i){str_split(models,'_')[[i]][2]}),
-                         strat = sapply(1:length(models),function(i){str_split(models,'_')[[i]][3]}),
-                         outcome = sapply(1:length(models),function(i){str_split(models,'_')[[i]][4]}))
+                         #time = sapply(1:length(models),function(i){str_split(models,'_')[[i]][2]}),
+                         strat = sapply(1:length(models),function(i){str_split(models,'_')[[i]][2]}),
+                         outcome = sapply(1:length(models),function(i){str_split(models,'_')[[i]][[3]]}))
 
 #### Load admin names  ------------------------------------------------------
 setwd(data.dir)

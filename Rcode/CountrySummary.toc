@@ -2,6 +2,6 @@
 \contentsline {section}{\numberline {2}National Data Summaries and Results}{1}{section.2}%
 \contentsline {subsection}{\numberline {2.1}Survey data}{1}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Figures}{3}{subsection.2.2}%
-\contentsline {section}{\numberline {3}Subnational Results}{4}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Admin 1 Figures}{4}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Admin 2 Figures}{7}{subsection.3.2}%
+\contentsline {section}{\numberline {3}Subnational Results}{5}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Admin 1 Figures}{5}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Admin 2 Figures}{8}{subsection.3.2}%
