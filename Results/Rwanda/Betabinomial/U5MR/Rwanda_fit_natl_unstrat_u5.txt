@@ -1,0 +1,42 @@
+----------------------------------
+Cluster-level model
+  Main temporal model:        ar1
+  Additional linear trends:   stratum-age-specific
+  Interaction random slopes:  yes
+  Number of age groups: 6
+  Stratification: no, strata variable not in the input
+  Survey effect: yes
+----------------------------------
+Fixed Effects
+                     mean    sd 0.025quant 0.5quant 0.975quant   mode kld
+time.slope.group1  -0.941 0.329     -1.599   -0.942     -0.283 -0.942   0
+time.slope.group2  -1.802 0.340     -2.451   -1.813     -1.095 -1.833   0
+time.slope.group3  -2.432 0.341     -3.098   -2.437     -1.737 -2.448   0
+age.intercept0     -3.672 0.034     -3.739   -3.672     -3.604 -3.672   0
+age.intercept1-11  -6.262 0.040     -6.341   -6.262     -6.183 -6.263   0
+age.intercept12-23 -7.140 0.049     -7.236   -7.140     -7.043 -7.140   0
+age.intercept24-35 -7.568 0.056     -7.679   -7.568     -7.457 -7.568   0
+age.intercept36-47 -7.758 0.061     -7.878   -7.758     -7.638 -7.758   0
+age.intercept48-59 -8.060 0.070     -8.198   -8.060     -7.922 -8.060   0
+
+Slope fixed effect index:
+time.slope.group1: 0
+time.slope.group2: 1-11
+time.slope.group3: 12-23, 24-35, 36-47, 48-59
+----------------------------------
+Random Effects
+           Name       Model
+1   time.struct AR(p) model
+2 time.unstruct   IID model
+3     survey.id   IID model
+----------------------------------
+Model hyperparameters
+                                                     mean        sd 0.025quant 0.5quant 0.975quant    mode
+overdispersion for the betabinomial observations    0.001     0.000      0.001    0.001      0.002   0.001
+Precision for time.struct                          26.330    15.513      5.917   23.303     64.519  15.961
+PACF1 for time.struct                               0.821     0.098      0.586    0.837      0.959   0.883
+Precision for time.unstruct                      8093.010 47381.606    138.660 1651.762  53511.309 313.232
+NULL
+                                           [,1]
+log marginal-likelihood (integration) -21404.01
+log marginal-likelihood (Gaussian)    -21401.91
