@@ -1,0 +1,50 @@
+----------------------------------
+Cluster-level model
+  Main temporal model:        ar1
+  Additional linear trends:   stratum-age-specific
+  Spatial effect:             bym2
+  Interaction temporal model: ar1
+  Interaction type:           4
+  Interaction random slopes:  yes
+  Number of age groups: 1
+  Stratification: yes
+  Number of age group fixed effect intercept per stratum: 1
+  Number of age-specific trends per stratum: 1
+  Strata-specific temporal trends: yes
+  Survey effect: yes
+----------------------------------
+Fixed Effects
+                       mean    sd 0.025quant 0.5quant 0.975quant   mode kld
+time.slope.group1    -1.286 0.309     -1.861   -1.296     -0.657 -1.312   0
+time.slope.group2    -1.411 0.491     -2.365   -1.414     -0.442 -1.418   0
+age.intercept0:rural -3.720 0.081     -3.879   -3.721     -3.558 -3.723   0
+age.intercept0:urban -3.951 0.134     -4.213   -3.952     -3.684 -3.954   0
+
+Slope fixed effect index:
+time.slope.group1: 0:rural
+time.slope.group2: 0:urban
+----------------------------------
+Random Effects
+           Name             Model
+1   time.struct       AR(p) model
+2 time.unstruct         IID model
+3 region.struct        BYM2 model
+4    region.int Besags ICAR model
+5   st.slope.id         IID model
+6     survey.id         IID model
+----------------------------------
+Model hyperparameters
+                                                     mean        sd 0.025quant 0.5quant 0.975quant   mode
+overdispersion for the betabinomial observations    0.032     0.006      0.022    0.032      0.044  0.032
+Precision for time.struct                         331.721   873.088      8.145  119.611   1973.958 18.692
+PACF1 for time.struct                               0.359     0.422     -0.598    0.445      0.927  0.766
+Precision for time.unstruct                      1141.801  4061.144     24.421  332.018   7276.067 55.849
+Precision for region.struct                       803.849  3310.501     10.492  200.488   5229.552 21.503
+Phi for region.struct                               0.349     0.258      0.020    0.290      0.897  0.047
+Precision for region.int                         1142.674  5759.265     11.623  241.187   7606.739 22.975
+Group PACF1 for region.int                          0.853     0.255      0.022    0.959      1.000  1.000
+Precision for st.slope.id                        1607.985 24814.943      7.371  144.225  10024.734 15.084
+NULL
+                                           [,1]
+log marginal-likelihood (integration) -3870.842
+log marginal-likelihood (Gaussian)    -3864.283
